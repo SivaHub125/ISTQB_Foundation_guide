@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Ch5 - Test Management | Study Cards</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f5f3ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #0f0f23;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover, nav a.active { background: var(--primary); color: white; }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 2rem 2rem;
+        }
+
+        /* Header */
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-header p {
+            color: #a5b4fc;
+            margin-bottom: 1rem;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-group label {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn {
+            padding: 0.4rem 0.8rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Card Display */
+        .card-container {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-number {
+            color: var(--warning);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-front {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-question {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .klevel {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .k1 { background: rgba(16, 185, 129, 0.3); color: var(--success); }
+        .k2 { background: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+        .k3 { background: rgba(245, 158, 11, 0.3); color: var(--warning); }
+
+        .reveal-hint {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .card-back {
+            display: none;
+        }
+
+        .card-back.active {
+            display: block;
+        }
+
+        .card-back.active ~ .card-front {
+            display: none;
+        }
+
+        .card-answer {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-back h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .card-back p {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-back ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-back li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Card Actions */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-reveal {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-reveal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-review {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-review:hover {
+            background: rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-review.marked {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-understood {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-understood:hover {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-understood.marked {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Progress */
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+        }
+
+        .progress-text {
+            color: #a5b4fc;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        .stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #a5b4fc;
+        }
+
+        .stat-item {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 80px 1rem 1rem; }
+            .chapter-header h1 { font-size: 1.5rem; }
+            .card-container { padding: 1.5rem; min-height: 300px; }
+            .card-question { font-size: 1.3rem; }
+            .card-actions { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="istqb-index.html">Hub</a></li>
+            <li><a href="istqb-cards-ch1.html">Ch1: Fundamentals</a></li>
+            <li><a href="istqb-cards-ch2.html">Ch2: SDLC</a></li>
+            <li><a href="istqb-cards-ch3.html">Ch3: Static Testing</a></li>
+            <li><a href="istqb-cards-ch4.html">Ch4: Test Design</a></li>
+            <li><a href="istqb-cards-ch5.html" class="active">Ch5: Management</a></li>
+            <li><a href="istqb-cards-ch6.html">Ch6: Tools</a></li>
+            <li><a href="istqb-resources.html">Resources</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="chapter-header">
+            <h1>📋 Test Management</h1>
+            <p>Planning, resource management, scheduling, risk assessment, and communication</p>
+        </div>
+
+        <div class="progress-info">
+            <span class="progress-text">Chapter Progress</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <span class="stat-item"><span id="reviewed">0</span>/35</span>
+                <span class="stat-item" id="understood-stat" style="display:none;"><span id="understood">0</span> ✓</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="filter-group">
+                <label>Filter by K-Level:</label>
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="K1">K1 (Remember)</button>
+                <button class="filter-btn" data-filter="K2">K2 (Understand)</button>
+                <button class="filter-btn" data-filter="K3">K3 (Apply)</button>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" onclick="previousCard()">← Previous</button>
+            <span style="color: #a5b4fc; font-weight: 600;"><span id="cardNum">1</span> of <span id="totalCards">35</span></span>
+            <button class="nav-btn" id="nextBtn" onclick="nextCard()">Next →</button>
+        </div>
+
+        <div class="card-container" id="cardContainer" onclick="revealCard()">
+            <div class="card-number" id="cardNumber">Card 1 of 35</div>
+            <div class="card-front" id="cardFront">
+                <div class="card-question" id="question">What is Test Planning?</div>
+                <span class="klevel" id="klevel">K1</span>
+                <div class="reveal-hint">👆 Click to reveal answer</div>
+            </div>
+            <div class="card-back" id="cardBack">
+                <h3>Answer</h3>
+                <div class="card-answer" id="answer"></div>
+            </div>
+            <div class="card-actions">
+                <button class="action-btn btn-reveal" onclick="revealCard(event)">
+                    <span id="revealBtnText">Reveal Answer</span>
+                </button>
+                <button class="action-btn btn-review" id="markReviewBtn" onclick="toggleReview(event)">
+                    📌 Mark for Review
+                </button>
+                <button class="action-btn btn-understood" id="markUnderstoodBtn" onclick="toggleUnderstood(event)">
+                    ✓ Mark Understood
+                </button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="istqb-index.html" style="color: #a5b4fc; text-decoration: none; font-size: 0.9rem;">← Back to Hub</a>
+        </div>
+    </div>
+
+    <script>
+        const CARDS = [
+            {
+                q: "What is Test Planning?",
+                a: "Test planning is the activity of establishing or updating a test strategy, test plan, and other test documentation to support testing. It defines test objectives, scope, approach, resource allocation, schedule, and budget.",
+                level: "K1"
+            },
+            {
+                q: "What are the main objectives of a Test Plan?",
+                a: "Main objectives include: 1) Define scope of testing, 2) Identify test levels and types, 3) Allocate resources, 4) Define test environment and tools, 5) Set exit criteria, 6) Define risks and mitigation, 7) Plan communication and reporting.",
+                level: "K2"
+            },
+            {
+                q: "What should a Test Plan document contain?",
+                a: "A test plan should include: 1) Introduction and objectives, 2) Scope and constraints, 3) Test approach and strategy, 4) Resource and environment, 5) Schedule and budget, 6) Risks and contingencies, 7) Exit criteria, 8) Deliverables, 9) Communication plan.",
+                level: "K2"
+            },
+            {
+                q: "Define Test Monitoring and Control",
+                a: "Test monitoring tracks the progress of testing against planned objectives. Test control implements corrective and preventive actions to keep testing on track. Together they ensure testing meets planned timescales, budget, and quality.",
+                level: "K1"
+            },
+            {
+                q: "What are Test Metrics used for?",
+                a: "Test metrics measure: 1) Test progress (tests run, passed, failed), 2) Test coverage (code, requirements), 3) Defect metrics (found, fixed, severity), 4) Resource utilization, 5) Schedule adherence. Metrics inform management decisions and identify issues early.",
+                level: "K2"
+            },
+            {
+                q: "What is a Test Summary Report?",
+                a: "A test summary report summarizes testing completion and results. It includes: 1) Test execution results, 2) Coverage achieved, 3) Defects found and fixed, 4) Recommendations, 5) Risks remaining, 6) Lessons learned.",
+                level: "K1"
+            },
+            {
+                q: "How do you estimate testing effort?",
+                a: "Testing effort estimation methods include: 1) Expert judgment, 2) Historical data from similar projects, 3) Metrics-based (per test case, per requirement), 4) Parametric models, 5) Work breakdown structure. Estimate includes test design, execution, and reporting time.",
+                level: "K2"
+            },
+            {
+                q: "What factors affect Test Scheduling?",
+                a: "Scheduling factors include: 1) Scope and complexity, 2) Resource availability, 3) Test environment setup, 4) Development schedule, 5) Risk levels, 6) Dependencies, 7) Parallel vs. sequential activities, 8) Contingency buffer.",
+                level: "K2"
+            },
+            {
+                q: "What is Risk-Based Testing Strategy?",
+                a: "Risk-based testing prioritizes testing resources on high-risk areas. Risks are identified, analyzed for probability and impact, and ranked. Testing effort allocation reflects risk levels - high-risk items receive more testing attention.",
+                level: "K1"
+            },
+            {
+                q: "How do you perform Risk Analysis for testing?",
+                a: "Risk analysis involves: 1) Identifying risks (technical, schedule, resource, product), 2) Assessing probability and impact, 3) Ranking risks by priority, 4) Planning mitigation or contingency strategies, 5) Monitoring risk realization.",
+                level: "K2"
+            },
+            {
+                q: "What is Test Completion?",
+                a: "Test completion is the final phase where: 1) Test summary reports are created, 2) Coverage is finalized, 3) Defects are closed or documented, 4) Test environment is archived or cleaned up, 5) Lessons learned are documented.",
+                level: "K1"
+            },
+            {
+                q: "What is a Test Strategy?",
+                a: "Test strategy is a high-level document defining the overall approach to testing: 1) Test objectives, 2) Overall scope, 3) Test types and levels, 4) Entry/exit criteria, 5) Resource needs, 6) Risk approach, 7) Industry best practices.",
+                level: "K1"
+            },
+            {
+                q: "How does Test Strategy differ from Test Plan?",
+                a: "Test strategy is higher-level and longer-term, applicable across projects. Test plan is project-specific, detailing how strategy will be implemented for that project. Strategy provides direction; plan provides detailed execution details.",
+                level: "K2"
+            },
+            {
+                q: "What are Test Entry Criteria?",
+                a: "Entry criteria define when testing can begin: 1) Required test data is available, 2) Test environment is ready, 3) Test basis is complete and approved, 4) Test tools are configured, 5) Resources are allocated, 6) Previous phases completed.",
+                level: "K1"
+            },
+            {
+                q: "What are Test Exit Criteria?",
+                a: "Exit criteria define when testing can stop: 1) All planned tests executed, 2) Required coverage achieved, 3) Defect closure rate acceptable, 4) Critical defects resolved, 5) Performance targets met, 6) Acceptance by stakeholders.",
+                level: "K1"
+            },
+            {
+                q: "How do you identify Resource needs for testing?",
+                a: "Resource identification includes: 1) Number of testers (types: manual, automation, management), 2) Skills required (domain, technical, tools), 3) Test environment and infrastructure, 4) Tools and licenses, 5) Training needs, 6) Support personnel.",
+                level: "K2"
+            },
+            {
+                q: "What is a Test Environment?",
+                a: "A test environment is the hardware, software, and network infrastructure on which testing is executed. It should match production environment where possible. Components include OS, databases, middleware, networks, and installed applications.",
+                level: "K1"
+            },
+            {
+                q: "Why is Environment Configuration important?",
+                a: "Environment configuration importance: 1) Ensures tests execute realistically, 2) Reproduces production issues, 3) Prevents false negatives/positives, 4) Validates system integration, 5) Enables performance testing, 6) Supports defect diagnosis.",
+                level: "K2"
+            },
+            {
+                q: "What is Test Data Management?",
+                a: "Test data management ensures appropriate data for testing: 1) Identifying data requirements, 2) Creating/obtaining test data, 3) Maintaining data libraries, 4) Handling sensitive/confidential data, 5) Refreshing data between tests, 6) Ensuring data traceability.",
+                level: "K2"
+            },
+            {
+                q: "Define Defect Management Process",
+                a: "Defect management includes: 1) Recording defects, 2) Classifying by severity/priority, 3) Assigning to developer, 4) Tracking status, 5) Re-testing fixes, 6) Closing resolved defects. Metrics track defect trends and patterns.",
+                level: "K2"
+            },
+            {
+                q: "What is Defect Severity vs. Priority?",
+                a: "Severity measures technical impact (critical, high, medium, low). Priority determines fixing order (based on business impact). A low-severity defect might have high priority (e.g., cosmetic issue on homepage), or high-severity but low priority.",
+                level: "K2"
+            },
+            {
+                q: "How do you manage Test Communication?",
+                a: "Communication includes: 1) Status reports (weekly/daily), 2) Defect reports, 3) Test summaries, 4) Progress metrics, 5) Risk updates, 6) Stakeholder meetings, 7) Documentation, 8) Clear issue escalation paths.",
+                level: "K2"
+            },
+            {
+                q: "What is the Importance of Configuration Management in testing?",
+                a: "Configuration management: 1) Tracks software versions, 2) Maintains test data versions, 3) Controls test environment, 4) Enables reproducibility, 5) Manages baselines, 6) Supports traceability between builds and test results.",
+                level: "K2"
+            },
+            {
+                q: "What is Test Automation Strategy?",
+                a: "Test automation strategy defines: 1) Which tests to automate, 2) Automation tools and frameworks, 3) Test environment for automation, 4) Automation scope (unit, integration, system), 5) ROI targets, 6) Maintenance approach, 7) Skills required.",
+                level: "K2"
+            },
+            {
+                q: "What are benefits of Outsourcing Testing?",
+                a: "Benefits include: 1) Access to specialized expertise, 2) Cost reduction, 3) Scalability, 4) Independent perspective, 5) 24/7 test coverage, 6) Reduced training needs. Challenges include control, communication, and quality assurance.",
+                level: "K2"
+            },
+            {
+                q: "What is Test Transparency and Accountability?",
+                a: "Transparency means: 1) Clear test status reporting, 2) Visible metrics and progress, 3) Open defect visibility, 4) Regular communication. Accountability means: 1) Clear ownership, 2) Performance measurement, 3) Responsibility tracking.",
+                level: "K2"
+            },
+            {
+                q: "How do you handle Test Failure Analysis?",
+                a: "Failure analysis: 1) Determine if actual failure or test issue, 2) Reproduce and document, 3) Classify defect severity, 4) Analyze root cause, 5) Assign for fix, 6) Plan re-testing, 7) Identify process improvements.",
+                level: "K3"
+            },
+            {
+                q: "What is Continuous Integration Testing?",
+                a: "CI testing integrates testing into continuous integration pipeline: 1) Tests run automatically on code commits, 2) Immediate feedback on build quality, 3) Automated regression testing, 4) Fast development cycles, 5) Early defect detection.",
+                level: "K2"
+            },
+            {
+                q: "How do you allocate Test Resources efficiently?",
+                a: "Resource allocation: 1) Analyze scope and complexity, 2) Identify critical areas requiring more resources, 3) Balance automation and manual testing, 4) Consider skill levels and experience, 5) Plan contingency resources.",
+                level: "K3"
+            },
+            {
+                q: "What is the Role of Test Lead?",
+                a: "Test lead responsibilities: 1) Test planning and strategy, 2) Resource management, 3) Test case design and review, 4) Progress monitoring, 5) Defect prioritization, 6) Stakeholder communication, 7) Quality assurance oversight.",
+                level: "K1"
+            },
+            {
+                q: "What are common Test Reporting Metrics?",
+                a: "Common metrics include: 1) Test execution progress (%), 2) Pass/fail rates, 3) Defects found/fixed, 4) Coverage achieved, 5) Test case effectiveness, 6) Schedule variance, 7) Resource utilization.",
+                level: "K2"
+            },
+            {
+                q: "How do you manage Schedule Risks in Testing?",
+                a: "Schedule risk management: 1) Identify risks early, 2) Add contingency buffer (typically 10-20%), 3) Prioritize test execution, 4) Automate where possible, 5) Parallelize independent activities, 6) Reduce scope if necessary.",
+                level: "K3"
+            },
+            {
+                q: "What is Lessons Learned documentation?",
+                a: "Lessons learned capture: 1) What went well, 2) What could improve, 3) Successes and failures, 4) Process improvements, 5) Tool effectiveness, 6) Resource performance. Used for continuous improvement in future projects.",
+                level: "K2"
+            },
+            {
+                q: "What is the Purpose of Test Completion Activities?",
+                a: "Test completion ensures: 1) All testing objectives met, 2) Results documented and analyzed, 3) Deliverables finalized, 4) Environment cleaned up, 5) Lessons learned captured, 6) Test artifacts archived for future reference.",
+                level: "K2"
+            },
+            {
+                q: "What is Test Traceability?",
+                a: "Test traceability links requirements to test cases to defects to results. Bidirectional traceability: 1) Forward - each requirement has corresponding test cases, 2) Backward - each test case relates to requirements. Ensures all requirements are tested.",
+                level: "K2"
+            }
+        ];
+
+        let currentIndex = 0;
+        let filteredCards = [...CARDS];
+        let cardProgress = {};
+        const CHAPTER = 'ch5';
+
+        // Initialize card progress
+        function initProgress() {
+            const saved = localStorage.getItem(`istqb-progress-${CHAPTER}`);
+            if (saved) {
+                cardProgress = JSON.parse(saved);
+            } else {
+                CARDS.forEach((_, i) => {
+                    cardProgress[i] = { studied: false, reviewed: false, understood: false };
+                });
+            }
+            updateProgressDisplay();
+        }
+
+        // Load and display current card
+        function loadCard() {
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            
+            document.getElementById('question').textContent = card.q;
+            document.getElementById('answer').textContent = card.a;
+            document.getElementById('klevel').textContent = card.level;
+            document.getElementById('klevel').className = `klevel ${card.level}`;
+            document.getElementById('cardNum').textContent = currentIndex + 1;
+            document.getElementById('totalCards').textContent = filteredCards.length;
+            document.getElementById('cardNumber').textContent = `Card ${currentIndex + 1} of ${filteredCards.length}`;
+
+            // Reset card back
+            const cardBack = document.getElementById('cardBack');
+            const cardFront = document.getElementById('cardFront');
+            cardBack.classList.remove('active');
+            cardFront.classList.remove('hidden');
+            document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+
+            // Update button states
+            const progress = cardProgress[originalIndex] || {};
+            document.getElementById('markReviewBtn').classList.toggle('marked', progress.reviewed);
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked', progress.understood);
+
+            // Update navigation
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === filteredCards.length - 1;
+
+            updateProgressDisplay();
+        }
+
+        // Reveal answer
+        function revealCard(e) {
+            if (e) e.stopPropagation();
+            const cardBack = document.getElementById('cardBack');
+            const cardFront = document.getElementById('cardFront');
+            
+            if (cardBack.classList.contains('active')) {
+                cardBack.classList.remove('active');
+                cardFront.classList.remove('hidden');
+                document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+            } else {
+                cardBack.classList.add('active');
+                cardFront.classList.add('hidden');
+                document.getElementById('revealBtnText').textContent = 'Hide Answer';
+                markStudied();
+            }
+        }
+
+        // Mark as studied
+        function markStudied() {
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].studied = true;
+            saveProgress();
+        }
+
+        // Toggle mark for review
+        function toggleReview(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].reviewed = !cardProgress[originalIndex].reviewed;
+            document.getElementById('markReviewBtn').classList.toggle('marked');
+            saveProgress();
+        }
+
+        // Toggle mark understood
+        function toggleUnderstood(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].understood = !cardProgress[originalIndex].understood;
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked');
+            saveProgress();
+            updateProgressDisplay();
+        }
+
+        // Navigation
+        function nextCard() {
+            if (currentIndex < filteredCards.length - 1) {
+                currentIndex++;
+                loadCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard();
+            }
+        }
+
+        // Save progress
+        function saveProgress() {
+            localStorage.setItem(`istqb-progress-${CHAPTER}`, JSON.stringify(cardProgress));
+            // Also update global progress
+            let allProgress = JSON.parse(localStorage.getItem('istqb-progress') || '{}');
+            allProgress[CHAPTER] = { cards: Object.values(cardProgress) };
+            localStorage.setItem('istqb-progress', JSON.stringify(allProgress));
+        }
+
+        // Update progress display
+        function updateProgressDisplay() {
+            const reviewed = Object.values(cardProgress).filter(p => p.studied).length;
+            const understood = Object.values(cardProgress).filter(p => p.understood).length;
+            document.getElementById('reviewed').textContent = reviewed;
+            document.getElementById('understood').textContent = understood;
+            const percent = Math.round((reviewed / CARDS.length) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+
+            if (understood > 0) {
+                document.getElementById('understood-stat').style.display = 'inline-block';
+            }
+        }
+
+        // Filter by K-level
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                const filter = e.target.dataset.filter;
+                if (filter === 'all') {
+                    filteredCards = [...CARDS];
+                } else {
+                    filteredCards = CARDS.filter(c => c.level === filter);
+                }
+                
+                currentIndex = 0;
+                loadCard();
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ') {
+                e.preventDefault();
+                revealCard();
+            }
+        });
+
+        // Initialize
+        initProgress();
+        loadCard();
+    </script>
+</body>
+</html>

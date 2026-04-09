@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Ch6 - Testing Tools | Study Cards</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f5f3ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #0f0f23;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover, nav a.active { background: var(--primary); color: white; }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 2rem 2rem;
+        }
+
+        /* Header */
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-header p {
+            color: #a5b4fc;
+            margin-bottom: 1rem;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-group label {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn {
+            padding: 0.4rem 0.8rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Card Display */
+        .card-container {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-number {
+            color: var(--warning);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-front {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-question {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .klevel {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .k1 { background: rgba(16, 185, 129, 0.3); color: var(--success); }
+        .k2 { background: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+        .k3 { background: rgba(245, 158, 11, 0.3); color: var(--warning); }
+
+        .reveal-hint {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .card-back {
+            display: none;
+        }
+
+        .card-back.active {
+            display: block;
+        }
+
+        .card-back.active ~ .card-front {
+            display: none;
+        }
+
+        .card-answer {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-back h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .card-back p {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-back ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-back li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Card Actions */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-reveal {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-reveal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-review {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-review:hover {
+            background: rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-review.marked {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-understood {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-understood:hover {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-understood.marked {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Progress */
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+        }
+
+        .progress-text {
+            color: #a5b4fc;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        .stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #a5b4fc;
+        }
+
+        .stat-item {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 80px 1rem 1rem; }
+            .chapter-header h1 { font-size: 1.5rem; }
+            .card-container { padding: 1.5rem; min-height: 300px; }
+            .card-question { font-size: 1.3rem; }
+            .card-actions { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="istqb-index.html">Hub</a></li>
+            <li><a href="istqb-cards-ch1.html">Ch1: Fundamentals</a></li>
+            <li><a href="istqb-cards-ch2.html">Ch2: SDLC</a></li>
+            <li><a href="istqb-cards-ch3.html">Ch3: Static Testing</a></li>
+            <li><a href="istqb-cards-ch4.html">Ch4: Test Design</a></li>
+            <li><a href="istqb-cards-ch5.html">Ch5: Management</a></li>
+            <li><a href="istqb-cards-ch6.html" class="active">Ch6: Tools</a></li>
+            <li><a href="istqb-resources.html">Resources</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="chapter-header">
+            <h1>🛠️ Testing Tools</h1>
+            <p>Tool types, selection criteria, benefits, risks, and implementation</p>
+        </div>
+
+        <div class="progress-info">
+            <span class="progress-text">Chapter Progress</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <span class="stat-item"><span id="reviewed">0</span>/32</span>
+                <span class="stat-item" id="understood-stat" style="display:none;"><span id="understood">0</span> ✓</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="filter-group">
+                <label>Filter by K-Level:</label>
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="K1">K1 (Remember)</button>
+                <button class="filter-btn" data-filter="K2">K2 (Understand)</button>
+                <button class="filter-btn" data-filter="K3">K3 (Apply)</button>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" onclick="previousCard()">← Previous</button>
+            <span style="color: #a5b4fc; font-weight: 600;"><span id="cardNum">1</span> of <span id="totalCards">32</span></span>
+            <button class="nav-btn" id="nextBtn" onclick="nextCard()">Next →</button>
+        </div>
+
+        <div class="card-container" id="cardContainer" onclick="revealCard()">
+            <div class="card-number" id="cardNumber">Card 1 of 32</div>
+            <div class="card-front" id="cardFront">
+                <div class="card-question" id="question">What are Test Tools?</div>
+                <span class="klevel" id="klevel">K1</span>
+                <div class="reveal-hint">👆 Click to reveal answer</div>
+            </div>
+            <div class="card-back" id="cardBack">
+                <h3>Answer</h3>
+                <div class="card-answer" id="answer"></div>
+            </div>
+            <div class="card-actions">
+                <button class="action-btn btn-reveal" onclick="revealCard(event)">
+                    <span id="revealBtnText">Reveal Answer</span>
+                </button>
+                <button class="action-btn btn-review" id="markReviewBtn" onclick="toggleReview(event)">
+                    📌 Mark for Review
+                </button>
+                <button class="action-btn btn-understood" id="markUnderstoodBtn" onclick="toggleUnderstood(event)">
+                    ✓ Mark Understood
+                </button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="istqb-index.html" style="color: #a5b4fc; text-decoration: none; font-size: 0.9rem;">← Back to Hub</a>
+        </div>
+    </div>
+
+    <script>
+        const CARDS = [
+            {
+                q: "What are Test Tools?",
+                a: "Test tools are software programs that support testing activities. They automate or assist in manual tasks like test execution, data management, monitoring, and reporting. Tools increase efficiency and repeatability of testing.",
+                level: "K1"
+            },
+            {
+                q: "What are the main categories of Test Tools?",
+                a: "Main categories include: 1) Test execution tools, 2) Test management tools, 3) Static analysis tools, 4) Performance testing tools, 5) Test data generation tools, 6) Monitoring and logging tools, 7) Defect management tools.",
+                level: "K1"
+            },
+            {
+                q: "What are Test Execution Tools?",
+                a: "Test execution tools automate test case execution. Types include: 1) Record/playback tools, 2) Data-driven tools, 3) Keyword-driven tools, 4) Behavior-driven development (BDD) tools. They record user actions and replay them automatically.",
+                level: "K1"
+            },
+            {
+                q: "Define Record and Playback Testing",
+                a: "Record/playback tools record user interactions with the application (clicks, inputs) and replay them automatically. Limitations include: fragility to UI changes, difficulty with dynamic content, limited error handling, and maintenance overhead.",
+                level: "K1"
+            },
+            {
+                q: "What are Data-Driven Test Tools?",
+                a: "Data-driven tools execute the same test case with multiple data sets. Test logic remains constant while input data varies. Useful for testing parameter variations and boundary values. Reduces test case duplication.",
+                level: "K1"
+            },
+            {
+                q: "What are Keyword-Driven Test Tools?",
+                a: "Keyword-driven tools separate test data, keywords, and test logic. Keywords represent test actions. Non-technical people can create tests using keywords. Improves maintainability and reduces script updates when UI changes.",
+                level: "K1"
+            },
+            {
+                q: "What are Test Management Tools?",
+                a: "Test management tools organize and track testing activities: 1) Requirements traceability, 2) Test plan organization, 3) Test execution tracking, 4) Defect management, 5) Test progress reporting, 6) Resource allocation.",
+                level: "K1"
+            },
+            {
+                q: "What are Static Analysis Tools?",
+                a: "Static analysis tools examine code without execution to find defects: 1) Code quality issues, 2) Security vulnerabilities, 3) Performance problems, 4) Coding standard violations. Common tools: SonarQube, Checkmarx, Fortify.",
+                level: "K1"
+            },
+            {
+                q: "What are Performance Testing Tools?",
+                a: "Performance tools simulate user load and measure system behavior: 1) Response time, 2) Throughput, 3) Resource utilization, 4) Scalability, 5) Stability. Examples: LoadRunner, JMeter, NeoLoad. Used for load, stress, and endurance testing.",
+                level: "K1"
+            },
+            {
+                q: "What are Test Data Generation Tools?",
+                a: "Test data tools create realistic test datasets: 1) Generate valid and invalid data, 2) Populate databases, 3) Mask sensitive data, 4) Create edge cases. Ensures diverse data coverage and protects confidential information.",
+                level: "K1"
+            },
+            {
+                q: "What are Monitoring and Logging Tools?",
+                a: "Monitoring tools track system behavior during testing: 1) Log files analysis, 2) System resource monitoring (CPU, memory), 3) Network traffic capture, 4) Application error tracking. Help identify root causes of issues.",
+                level: "K1"
+            },
+            {
+                q: "What are Defect Management Tools?",
+                a: "Defect tools track software issues: 1) Defect creation and reporting, 2) Status tracking, 3) Priority/severity assignment, 4) Assignment to developers, 5) Resolution tracking, 6) Trending and metrics. Examples: Jira, Bugzilla, Azure DevOps.",
+                level: "K1"
+            },
+            {
+                q: "How should tools be selected for a project?",
+                a: "Tool selection criteria: 1) Organizational needs and requirements, 2) Type of testing to automate, 3) Technology stack compatibility, 4) Tool cost (license, training), 5) Ease of use, 6) Support and community, 7) ROI potential.",
+                level: "K2"
+            },
+            {
+                q: "What are the benefits of Test Tools?",
+                a: "Benefits include: 1) Increased test execution speed, 2) Improved consistency and repeatability, 3) Reduced manual effort, 4) Better defect detection, 5) Cost savings long-term, 6) Earlier testing in development, 7) Scalability.",
+                level: "K2"
+            },
+            {
+                q: "What are the risks and limitations of Test Tools?",
+                a: "Risks include: 1) Implementation costs high, 2) Learning curve steep, 3) Fragility to application changes, 4) Inappropriate test design, 5) Over-reliance on automation, 6) False sense of security, 7) Maintenance burden.",
+                level: "K2"
+            },
+            {
+                q: "What are the benefits of Test Automation?",
+                a: "Automation benefits: 1) Faster test execution, 2) Frequent regression testing possible, 3) Repeatable test scenarios, 4) Fewer manual errors, 5) Extended test coverage, 6) Parallel test execution, 7) Cost effective for large suites.",
+                level: "K2"
+            },
+            {
+                q: "What are the risks of Test Automation?",
+                a: "Automation risks: 1) Expensive to implement initially, 2) Requires technical skills, 3) Tests may fail due to environment, not code, 4) Difficult to maintain if not designed well, 5) Cannot find visual/usability defects easily, 6) Limited exploratory testing.",
+                level: "K2"
+            },
+            {
+                q: "When should Test Automation be used?",
+                a: "Automation suitable for: 1) Repetitive test scenarios, 2) Regression testing, 3) High-volume data testing, 4) Performance testing, 5) Continuous integration pipelines, 6) Large test suites. Not suitable for: 1) Ad-hoc testing, 2) One-time tests, 3) GUI-heavy applications with frequent changes.",
+                level: "K2"
+            },
+            {
+                q: "What is the Test Automation Framework?",
+                a: "A test automation framework is a reusable code structure that supports automated tests: 1) Libraries and functions, 2) Test data setup, 3) Logging and reporting, 4) Error handling, 5) Best practices. Frameworks improve maintainability and consistency.",
+                level: "K2"
+            },
+            {
+                q: "What are common Test Automation Frameworks?",
+                a: "Common frameworks: 1) Keyword-driven - keywords represent actions, 2) Data-driven - multiple data sets, 3) Modular - reusable components, 4) BDD - business-readable scenarios, 5) Hybrid - combination approaches. Each has trade-offs in flexibility and maintainability.",
+                level: "K2"
+            },
+            {
+                q: "What is Continuous Integration (CI) and testing?",
+                a: "CI integrates code changes frequently with automated testing: 1) Code committed to repository, 2) Automated build triggered, 3) Automated tests executed, 4) Build passes/fails quickly, 5) Fast feedback. Requires good test automation infrastructure.",
+                level: "K2"
+            },
+            {
+                q: "What are Test Environment Management Tools?",
+                a: "Environment tools manage test infrastructure: 1) Virtual machine/container provisioning, 2) Configuration management, 3) Environment templates, 4) Data management. Enable quick setup/teardown of test environments and consistency.",
+                level: "K2"
+            },
+            {
+                q: "What is Configuration Management in testing context?",
+                a: "Configuration management tracks: 1) Software versions, 2) Test case versions, 3) Test data versions, 4) Environment configurations, 5) Tool versions. Ensures reproducibility and traceability of test execution.",
+                level: "K2"
+            },
+            {
+                q: "What are Behavior-Driven Development (BDD) Tools?",
+                a: "BDD tools use business-readable syntax (Gherkin language): 1) Write tests in plain English, 2) Improve communication between testers and business, 3) Easy to maintain, 4) Executable specifications. Examples: Cucumber, SpecFlow.",
+                level: "K2"
+            },
+            {
+                q: "How do you plan tool implementation in an organization?",
+                a: "Implementation planning: 1) Assess current processes and needs, 2) Define clear objectives and success metrics, 3) Start with pilot project, 4) Allocate resources (people, budget, time), 5) Provide training, 6) Establish best practices and guidelines.",
+                level: "K3"
+            },
+            {
+                q: "What are potential issues when implementing Test Tools?",
+                a: "Implementation issues: 1) Unrealistic expectations, 2) Poor tool selection, 3) Lack of training, 4) Test design problems, 5) Insufficient support, 6) Resistance to change, 7) Over-automating unsuitable tests.",
+                level: "K2"
+            },
+            {
+                q: "What is the role of Test Tool Evaluation?",
+                a: "Tool evaluation: 1) Defines requirements for tool, 2) Creates evaluation criteria, 3) Performs proof-of-concept, 4) Compares options, 5) Assesses fit, 6) Calculates ROI, 7) Recommends tool. Prevents expensive mistakes.",
+                level: "K2"
+            },
+            {
+                q: "What should be considered for Test Tool ROI?",
+                a: "ROI considerations: 1) Tool cost (licenses, setup), 2) Implementation effort, 3) Training time, 4) Maintenance effort, 5) Test execution time saved, 6) Defect detection improvement, 7) Resource cost reduction, 8) Timeline to payback.",
+                level: "K3"
+            },
+            {
+                q: "What is Cloud-Based Testing?",
+                a: "Cloud-based testing delivers testing services via internet: 1) No infrastructure investment needed, 2) On-demand scalability, 3) Access from anywhere, 4) Integration with CI/CD pipelines, 5) Cost based on usage. Examples: BrowserStack, TestProject.",
+                level: "K2"
+            },
+            {
+                q: "What are challenges with Test Tool Maintenance?",
+                a: "Maintenance challenges: 1) Application UI changes break tests, 2) Test code accumulation, 3) Version compatibility, 4) Environment changes, 5) Deprecated APIs, 6) Duplicate test cases. Regular refactoring and good design prevent issues.",
+                level: "K2"
+            },
+            {
+                q: "How should Test Tool Strategy be aligned with business?",
+                a: "Alignment: 1) Understand business objectives and risks, 2) Select tools supporting those objectives, 3) Measure tool effectiveness against business metrics, 4) Communicate ROI to business, 5) Adjust strategy based on business changes.",
+                level: "K3"
+            },
+            {
+                q: "What is Tool Vendor Lock-In risk?",
+                a: "Tool vendor lock-in risk: 1) Proprietary formats make migration difficult, 2) Licenses tied to specific vendor, 3) Scripts not portable to other tools, 4) Training specific to tool. Mitigate by using standard formats, avoiding over-customization.",
+                level: "K2"
+            }
+        ];
+
+        let currentIndex = 0;
+        let filteredCards = [...CARDS];
+        let cardProgress = {};
+        const CHAPTER = 'ch6';
+
+        // Initialize card progress
+        function initProgress() {
+            const saved = localStorage.getItem(`istqb-progress-${CHAPTER}`);
+            if (saved) {
+                cardProgress = JSON.parse(saved);
+            } else {
+                CARDS.forEach((_, i) => {
+                    cardProgress[i] = { studied: false, reviewed: false, understood: false };
+                });
+            }
+            updateProgressDisplay();
+        }
+
+        // Load and display current card
+        function loadCard() {
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            
+            document.getElementById('question').textContent = card.q;
+            document.getElementById('answer').textContent = card.a;
+            document.getElementById('klevel').textContent = card.level;
+            document.getElementById('klevel').className = `klevel ${card.level}`;
+            document.getElementById('cardNum').textContent = currentIndex + 1;
+            document.getElementById('totalCards').textContent = filteredCards.length;
+            document.getElementById('cardNumber').textContent = `Card ${currentIndex + 1} of ${filteredCards.length}`;
+
+            // Reset card back
+            const cardBack = document.getElementById('cardBack');
+            const cardFront = document.getElementById('cardFront');
+            cardBack.classList.remove('active');
+            cardFront.classList.remove('hidden');
+            document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+
+            // Update button states
+            const progress = cardProgress[originalIndex] || {};
+            document.getElementById('markReviewBtn').classList.toggle('marked', progress.reviewed);
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked', progress.understood);
+
+            // Update navigation
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === filteredCards.length - 1;
+
+            updateProgressDisplay();
+        }
+
+        // Reveal answer
+        function revealCard(e) {
+            if (e) e.stopPropagation();
+            const cardBack = document.getElementById('cardBack');
+            const cardFront = document.getElementById('cardFront');
+            
+            if (cardBack.classList.contains('active')) {
+                cardBack.classList.remove('active');
+                cardFront.classList.remove('hidden');
+                document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+            } else {
+                cardBack.classList.add('active');
+                cardFront.classList.add('hidden');
+                document.getElementById('revealBtnText').textContent = 'Hide Answer';
+                markStudied();
+            }
+        }
+
+        // Mark as studied
+        function markStudied() {
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].studied = true;
+            saveProgress();
+        }
+
+        // Toggle mark for review
+        function toggleReview(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].reviewed = !cardProgress[originalIndex].reviewed;
+            document.getElementById('markReviewBtn').classList.toggle('marked');
+            saveProgress();
+        }
+
+        // Toggle mark understood
+        function toggleUnderstood(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].understood = !cardProgress[originalIndex].understood;
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked');
+            saveProgress();
+            updateProgressDisplay();
+        }
+
+        // Navigation
+        function nextCard() {
+            if (currentIndex < filteredCards.length - 1) {
+                currentIndex++;
+                loadCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard();
+            }
+        }
+
+        // Save progress
+        function saveProgress() {
+            localStorage.setItem(`istqb-progress-${CHAPTER}`, JSON.stringify(cardProgress));
+            // Also update global progress
+            let allProgress = JSON.parse(localStorage.getItem('istqb-progress') || '{}');
+            allProgress[CHAPTER] = { cards: Object.values(cardProgress) };
+            localStorage.setItem('istqb-progress', JSON.stringify(allProgress));
+        }
+
+        // Update progress display
+        function updateProgressDisplay() {
+            const reviewed = Object.values(cardProgress).filter(p => p.studied).length;
+            const understood = Object.values(cardProgress).filter(p => p.understood).length;
+            document.getElementById('reviewed').textContent = reviewed;
+            document.getElementById('understood').textContent = understood;
+            const percent = Math.round((reviewed / CARDS.length) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+
+            if (understood > 0) {
+                document.getElementById('understood-stat').style.display = 'inline-block';
+            }
+        }
+
+        // Filter by K-level
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                const filter = e.target.dataset.filter;
+                if (filter === 'all') {
+                    filteredCards = [...CARDS];
+                } else {
+                    filteredCards = CARDS.filter(c => c.level === filter);
+                }
+                
+                currentIndex = 0;
+                loadCard();
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ') {
+                e.preventDefault();
+                revealCard();
+            }
+        });
+
+        // Initialize
+        initProgress();
+        loadCard();
+    </script>
+</body>
+</html>

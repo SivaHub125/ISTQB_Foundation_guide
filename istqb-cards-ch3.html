@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Ch3 - Static Testing | Study Cards</title>
+    <style>
+        :root { --primary: #6366f1; --secondary: #8b5cf6; --accent: #ec4899; --dark: #1e1b4b; --success: #10b981; --warning: #f59e0b; --bg: #0f0f23; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: #e2e8f0; line-height: 1.7; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(15, 15, 35, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; border-bottom: 1px solid rgba(99, 102, 241, 0.2); z-index: 100; }
+        nav ul { display: flex; gap: 0.5rem; list-style: none; justify-content: center; flex-wrap: wrap; }
+        nav a { color: #a5b4fc; text-decoration: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; transition: all 0.3s; }
+        nav a:hover, nav a.active { background: var(--primary); color: white; }
+        .container { max-width: 900px; margin: 0 auto; padding: 100px 2rem 2rem; }
+        .chapter-header { text-align: center; margin-bottom: 2rem; }
+        .chapter-header h1 { font-size: 2rem; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+        .chapter-header p { color: #a5b4fc; margin-bottom: 1rem; }
+        .controls { display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; background: rgba(99, 102, 241, 0.1); padding: 1rem; border-radius: 12px; }
+        .filter-group { display: flex; gap: 0.5rem; align-items: center; }
+        .filter-group label { color: #a5b4fc; font-size: 0.9rem; }
+        .filter-btn { padding: 0.4rem 0.8rem; background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #a5b4fc; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
+        .filter-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .filter-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
+        .card-container { background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05)); border: 2px solid rgba(99, 102, 241, 0.3); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-number { color: var(--warning); font-size: 0.9rem; margin-bottom: 1rem; }
+        .card-front { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .card-question { font-size: 1.8rem; font-weight: 600; color: var(--primary); margin-bottom: 2rem; line-height: 1.4; }
+        .klevel { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-top: 1rem; }
+        .k1 { background: rgba(16, 185, 129, 0.3); color: var(--success); }
+        .k2 { background: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+        .k3 { background: rgba(245, 158, 11, 0.3); color: var(--warning); }
+        .reveal-hint { color: #a5b4fc; font-size: 0.9rem; margin-top: 2rem; text-align: center; opacity: 0.7; }
+        .card-back { display: none; }
+        .card-back.active { display: block; }
+        .card-back.active ~ .card-front { display: none; }
+        .card-answer { font-size: 1.1rem; color: #e2e8f0; line-height: 1.8; margin-bottom: 1.5rem; }
+        .card-back h3 { color: var(--success); margin-bottom: 1rem; font-size: 1.2rem; }
+        .card-back p { margin-bottom: 0.75rem; }
+        .card-back ul { margin-left: 1.5rem; margin-bottom: 1rem; }
+        .card-back li { margin-bottom: 0.5rem; }
+        .card-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-top: 2rem; }
+        .action-btn { padding: 0.75rem 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; }
+        .btn-reveal { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .btn-reveal:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4); }
+        .btn-review { background: rgba(245, 158, 11, 0.2); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.4); }
+        .btn-review:hover { background: rgba(245, 158, 11, 0.3); }
+        .btn-review.marked { background: var(--warning); color: white; }
+        .btn-understood { background: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.4); }
+        .btn-understood:hover { background: rgba(16, 185, 129, 0.3); }
+        .btn-understood.marked { background: var(--success); color: white; }
+        .nav-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
+        .nav-btn { padding: 0.75rem 1.5rem; background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #a5b4fc; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .nav-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding: 1rem; background: rgba(99, 102, 241, 0.1); border-radius: 8px; }
+        .progress-text { color: #a5b4fc; }
+        .progress-bar { height: 6px; background: rgba(99, 102, 241, 0.2); border-radius: 3px; overflow: hidden; flex: 1; margin: 0 1rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.3s; }
+        .stats { display: flex; gap: 1rem; font-size: 0.85rem; color: #a5b4fc; }
+        .stat-item { background: rgba(99, 102, 241, 0.1); padding: 0.4rem 0.8rem; border-radius: 4px; }
+        @media (max-width: 768px) { .container { padding: 80px 1rem 1rem; } .chapter-header h1 { font-size: 1.5rem; } .card-container { padding: 1.5rem; } .card-actions { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="istqb-index.html">Hub</a></li>
+            <li><a href="istqb-cards-ch1.html">Ch1: Fundamentals</a></li>
+            <li><a href="istqb-cards-ch2.html">Ch2: SDLC</a></li>
+            <li><a href="istqb-cards-ch3.html" class="active">Ch3: Static Testing</a></li>
+            <li><a href="istqb-cards-ch4.html">Ch4: Test Design</a></li>
+            <li><a href="istqb-cards-ch5.html">Ch5: Management</a></li>
+            <li><a href="istqb-cards-ch6.html">Ch6: Tools</a></li>
+            <li><a href="istqb-resources.html">Resources</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="chapter-header">
+            <h1>📚 Static Testing</h1>
+            <p>Reviews, analysis, and testing without execution</p>
+        </div>
+        <div class="progress-info">
+            <span class="progress-text">Chapter Progress</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <span class="stat-item"><span id="reviewed">0</span>/28</span>
+                <span class="stat-item" id="understood-stat" style="display:none;"><span id="understood">0</span> ✓</span>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="filter-group">
+                <label>Filter by K-Level:</label>
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="K1">K1</button>
+                <button class="filter-btn" data-filter="K2">K2</button>
+                <button class="filter-btn" data-filter="K3">K3</button>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" onclick="previousCard()">← Previous</button>
+            <span style="color: #a5b4fc; font-weight: 600;"><span id="cardNum">1</span> of <span id="totalCards">28</span></span>
+            <button class="nav-btn" id="nextBtn" onclick="nextCard()">Next →</button>
+        </div>
+        <div class="card-container" id="cardContainer" onclick="revealCard()">
+            <div class="card-number" id="cardNumber">Card 1 of 28</div>
+            <div class="card-front" id="cardFront">
+                <div class="card-question" id="question">What is static testing?</div>
+                <span class="klevel" id="klevel">K1</span>
+                <div class="reveal-hint">👆 Click to reveal answer</div>
+            </div>
+            <div class="card-back" id="cardBack">
+                <h3>Answer</h3>
+                <div class="card-answer" id="answer"></div>
+            </div>
+            <div class="card-actions">
+                <button class="action-btn btn-reveal" onclick="revealCard(event)"><span id="revealBtnText">Reveal Answer</span></button>
+                <button class="action-btn btn-review" id="markReviewBtn" onclick="toggleReview(event)">📌 Mark for Review</button>
+                <button class="action-btn btn-understood" id="markUnderstoodBtn" onclick="toggleUnderstood(event)">✓ Mark Understood</button>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="istqb-index.html" style="color: #a5b4fc; text-decoration: none; font-size: 0.9rem;">← Back to Hub</a>
+        </div>
+    </div>
+    <script>
+        const CARDS = [
+            {q: "What is static testing?", a: "Static testing evaluates work products (requirements, code, designs) without executing them. It includes reviews, inspections, walkthroughs, and static analysis to identify defects early.", level: "K1"},
+            {q: "What are the benefits of static testing?", a: "Early defect detection, finding defects that are difficult to find dynamically, cost-effective, prevents defects from reaching code, identifies improvement opportunities in processes.", level: "K2"},
+            {q: "What is a Review?", a: "A review is a static technique where one or more people examine a work product to find defects or provide feedback. Reviews involve formal or informal assessment of work products.", level: "K1"},
+            {q: "What is an Inspection?", a: "An inspection is a formal, documented, peer review process led by a trained moderator/inspector. It has defined roles, processes, and measurable entry/exit criteria. It's the most formal type of review.", level: "K1"},
+            {q: "What is a Walkthrough?", a: "A walkthrough is a static technique where the author leads a structured review of the work product. It's less formal than inspection, focuses on understanding and finding defects collaboratively.", level: "K1"},
+            {q: "Distinguish between Inspection and Walkthrough", a: "Inspection is formal with defined process, roles, and metrics; led by trained inspector. Walkthrough is informal; led by author; goal is to understand and get feedback. Inspection is more structured.", level: "K2"},
+            {q: "What is Technical Review?", a: "A technical review is a formal evaluation by peers to assess correctness and compliance with standards. It focuses on technical accuracy and adherence to specifications and guidelines.", level: "K1"},
+            {q: "What are the roles in an Inspection?", a: "Moderator (leads process), Author (explains work), Inspector (finds defects), Scribe (records issues), Manager (optional, provides resources). Each role has specific responsibilities.", level: "K2"},
+            {q: "What are the phases of a formal inspection process?", a: "Planning, overview/kick-off, preparation (individual review), inspection meeting (finding defects), rework (author fixes issues), follow-up (verify rework).", level: "K2"},
+            {q: "What is Static Analysis?", a: "Static analysis is the automated process of analyzing code without execution, using tools to find defects like syntactic errors, data flow problems, and code quality issues.", level: "K1"},
+            {q: "What are the benefits of Static Analysis?", a: "Detects defects early without execution, improves code quality, finds issues difficult to test dynamically (buffer overflows, race conditions), automated and scalable.", level: "K2"},
+            {q: "What types of defects can Static Analysis find?", a: "Unreachable code, unused variables, array index out of bounds, type mismatches, potential null pointer exceptions, dead code, code complexity violations.", level: "K2"},
+            {q: "What is Checklist-based Review?", a: "A checklist-based review uses predefined lists of common defects or issues to guide the review process. Reviewers check against the checklist to find defects systematically.", level: "K1"},
+            {q: "What is Scenario-based Review?", a: "Scenario-based review uses realistic scenarios or use cases to evaluate the work product. It simulates how the system will be used to identify potential issues.", level: "K2"},
+            {q: "What is the relationship between static and dynamic testing?", a: "Both are complementary. Static testing finds defects in development. Dynamic testing executes code to find failures. Together they provide comprehensive quality assurance.", level: "K2"},
+            {q: "What defects are better found by static testing?", a: "Early-stage defects (requirements, design), logical inconsistencies, completeness issues, compliance issues, code structure problems, before they cause failures.", level: "K2"},
+            {q: "What defects are better found by dynamic testing?", a: "Integration issues, timing problems, performance issues, user interface defects, failures under specific conditions that only appear during execution.", level: "K2"},
+            {q: "What is the cost-benefit of static testing?", a: "Lower cost than dynamic testing, prevents expensive failures, early detection reduces rework costs, improved product quality, enables high code coverage quickly.", level: "K3"},
+            {q: "How should static testing be integrated into development?", a: "Use reviews for all work products, apply static analysis tools to code, define entrance/exit criteria, use metrics to track effectiveness, make static testing part of definition of done.", level: "K3"},
+            {q: "What metrics are used to measure static testing effectiveness?", a: "Defect density, distribution of defects by type/severity, review coverage percentage, defects found vs. defects escaping to testing, effectiveness per effort.", level: "K2"},
+            {q: "What is peer review?", a: "Peer review is when colleagues at similar level examine each other's work. It provides fresh perspective, increases knowledge sharing, and identifies defects collaboratively.", level: "K1"},
+            {q: "What are the barriers to effective static testing?", a: "Resistance from developers, lack of time/resources, undefined process, lack of expertise, insufficient entry criteria, lack of management support, wrong expectations.", level: "K2"},
+            {q: "How should defects from static testing be recorded?", a: "Document defect type, severity, location, description, recommendation. Use defect tracking system. Track metrics to improve process and predict dynamic testing defects.", level: "K2"},
+            {q: "What is the difference between finding and fixing defects in static testing?", a: "Finding defects is the primary purpose of static testing. Fixing defects is done by the author outside the review. Reviews focus on detection, not resolution.", level: "K1"},
+            {q: "How should static testing be communicated to the team?", a: "Make results visible, explain findings clearly, use metrics to show effectiveness, provide feedback loops, share lessons learned, celebrate improvements, integrate into process.", level: "K3"},
+            {q: "What training is needed for effective static testing?", a: "Reviewers need training in technique, defect types, product domain, communication skills. Moderators need formal training. Continuous improvement based on metrics and feedback.", level: "K2"},
+            {q: "How should tool-based static analysis complement human reviews?", a: "Tools automate finding syntactic defects, code complexity issues. Humans find logic, design, and domain-related defects. Combine both for comprehensive coverage.", level: "K2"},
+            {q: "What is the future of static testing?", a: "Increased automation through AI, integration into IDE and CI/CD, shift-left testing, more real-time feedback, machine learning for defect prediction.", level: "K3"}
+        ];
+
+        let currentIndex = 0, filteredCards = [...CARDS], cardProgress = {}, CHAPTER = 'ch3', TOTAL_CARDS = 28;
+
+        function initProgress() {
+            const saved = localStorage.getItem(`istqb-progress-${CHAPTER}`);
+            if (saved) { cardProgress = JSON.parse(saved); } else { CARDS.forEach((_, i) => { cardProgress[i] = { studied: false, reviewed: false, understood: false }; }); }
+            updateProgressDisplay();
+        }
+
+        function loadCard() {
+            const card = filteredCards[currentIndex], originalIndex = CARDS.indexOf(card);
+            document.getElementById('question').textContent = card.q;
+            document.getElementById('answer').textContent = card.a;
+            document.getElementById('klevel').textContent = card.level;
+            document.getElementById('klevel').className = `klevel ${card.level}`;
+            document.getElementById('cardNum').textContent = currentIndex + 1;
+            document.getElementById('totalCards').textContent = filteredCards.length;
+            document.getElementById('cardNumber').textContent = `Card ${currentIndex + 1} of ${filteredCards.length}`;
+            const cardBack = document.getElementById('cardBack'), cardFront = document.getElementById('cardFront');
+            cardBack.classList.remove('active');
+            cardFront.classList.remove('hidden');
+            document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+            const progress = cardProgress[originalIndex] || {};
+            document.getElementById('markReviewBtn').classList.toggle('marked', progress.reviewed);
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked', progress.understood);
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === filteredCards.length - 1;
+            updateProgressDisplay();
+        }
+
+        function revealCard(e) {
+            if (e) e.stopPropagation();
+            const cardBack = document.getElementById('cardBack'), cardFront = document.getElementById('cardFront');
+            if (cardBack.classList.contains('active')) {
+                cardBack.classList.remove('active');
+                cardFront.classList.remove('hidden');
+                document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+            } else {
+                cardBack.classList.add('active');
+                cardFront.classList.add('hidden');
+                document.getElementById('revealBtnText').textContent = 'Hide Answer';
+                markStudied();
+            }
+        }
+
+        function markStudied() {
+            const card = filteredCards[currentIndex], originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].studied = true;
+            saveProgress();
+        }
+
+        function toggleReview(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex], originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].reviewed = !cardProgress[originalIndex].reviewed;
+            document.getElementById('markReviewBtn').classList.toggle('marked');
+            saveProgress();
+        }
+
+        function toggleUnderstood(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex], originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].understood = !cardProgress[originalIndex].understood;
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked');
+            saveProgress();
+            updateProgressDisplay();
+        }
+
+        function nextCard() { if (currentIndex < filteredCards.length - 1) { currentIndex++; loadCard(); } }
+        function previousCard() { if (currentIndex > 0) { currentIndex--; loadCard(); } }
+
+        function saveProgress() {
+            localStorage.setItem(`istqb-progress-${CHAPTER}`, JSON.stringify(cardProgress));
+            let allProgress = JSON.parse(localStorage.getItem('istqb-progress') || '{}');
+            allProgress[CHAPTER] = { cards: Object.values(cardProgress) };
+            localStorage.setItem('istqb-progress', JSON.stringify(allProgress));
+        }
+
+        function updateProgressDisplay() {
+            const reviewed = Object.values(cardProgress).filter(p => p.studied).length, understood = Object.values(cardProgress).filter(p => p.understood).length;
+            document.getElementById('reviewed').textContent = reviewed;
+            document.getElementById('understood').textContent = understood;
+            const percent = Math.round((reviewed / TOTAL_CARDS) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+            if (understood > 0) document.getElementById('understood-stat').style.display = 'inline-block';
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                const filter = e.target.dataset.filter;
+                filteredCards = filter === 'all' ? [...CARDS] : CARDS.filter(c => c.level === filter);
+                currentIndex = 0;
+                loadCard();
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ') { e.preventDefault(); revealCard(); }
+        });
+
+        initProgress();
+        loadCard();
+    </script>
+</body>
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Ch4 - Test Design Techniques | Study Cards</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f5f3ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #0f0f23;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover, nav a.active { background: var(--primary); color: white; }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 2rem 2rem;
+        }
+
+        /* Header */
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-header p {
+            color: #a5b4fc;
+            margin-bottom: 1rem;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-group label {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn {
+            padding: 0.4rem 0.8rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Card Display */
+        .card-container {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-number {
+            color: var(--warning);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-front {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-question {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .klevel {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .k1 { background: rgba(16, 185, 129, 0.3); color: var(--success); }
+        .k2 { background: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+        .k3 { background: rgba(245, 158, 11, 0.3); color: var(--warning); }
+
+        .reveal-hint {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .card-back {
+            display: none;
+        }
+
+        .card-back.active {
+            display: block;
+        }
+
+        .card-back.active ~ .card-front {
+            display: none;
+        }
+
+        .card-answer {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-back h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .card-back p {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-back ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-back li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Card Actions */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-reveal {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-reveal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-review {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-review:hover {
+            background: rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-review.marked {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-understood {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-understood:hover {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-understood.marked {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Progress */
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+        }
+
+        .progress-text {
+            color: #a5b4fc;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        .stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #a5b4fc;
+        }
+
+        .stat-item {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 80px 1rem 1rem; }
+            .chapter-header h1 { font-size: 1.5rem; }
+            .card-container { padding: 1.5rem; min-height: 300px; }
+            .card-question { font-size: 1.3rem; }
+            .card-actions { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="istqb-index.html">Hub</a></li>
+            <li><a href="istqb-cards-ch1.html">Ch1: Fundamentals</a></li>
+            <li><a href="istqb-cards-ch2.html">Ch2: SDLC</a></li>
+            <li><a href="istqb-cards-ch3.html">Ch3: Static Testing</a></li>
+            <li><a href="istqb-cards-ch4.html" class="active">Ch4: Test Design</a></li>
+            <li><a href="istqb-cards-ch5.html">Ch5: Management</a></li>
+            <li><a href="istqb-cards-ch6.html">Ch6: Tools</a></li>
+            <li><a href="istqb-resources.html">Resources</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="chapter-header">
+            <h1>🎯 Test Design Techniques</h1>
+            <p>Black-box and white-box techniques, boundary analysis, decision tables, and more</p>
+        </div>
+
+        <div class="progress-info">
+            <span class="progress-text">Chapter Progress</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <span class="stat-item"><span id="reviewed">0</span>/42</span>
+                <span class="stat-item" id="understood-stat" style="display:none;"><span id="understood">0</span> ✓</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="filter-group">
+                <label>Filter by K-Level:</label>
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="K1">K1 (Remember)</button>
+                <button class="filter-btn" data-filter="K2">K2 (Understand)</button>
+                <button class="filter-btn" data-filter="K3">K3 (Apply)</button>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" onclick="previousCard()">← Previous</button>
+            <span style="color: #a5b4fc; font-weight: 600;"><span id="cardNum">1</span> of <span id="totalCards">42</span></span>
+            <button class="nav-btn" id="nextBtn" onclick="nextCard()">Next →</button>
+        </div>
+
+        <div class="card-container" id="cardContainer" onclick="revealCard()">
+            <div class="card-number" id="cardNumber">Card 1 of 42</div>
+            <div class="card-front" id="cardFront">
+                <div class="card-question" id="question">What is Equivalence Partitioning?</div>
+                <span class="klevel" id="klevel">K1</span>
+                <div class="reveal-hint">👆 Click to reveal answer</div>
+            </div>
+            <div class="card-back" id="cardBack">
+                <h3>Answer</h3>
+                <div class="card-answer" id="answer"></div>
+            </div>
+            <div class="card-actions">
+                <button class="action-btn btn-reveal" onclick="revealCard(event)">
+                    <span id="revealBtnText">Reveal Answer</span>
+                </button>
+                <button class="action-btn btn-review" id="markReviewBtn" onclick="toggleReview(event)">
+                    📌 Mark for Review
+                </button>
+                <button class="action-btn btn-understood" id="markUnderstoodBtn" onclick="toggleUnderstood(event)">
+                    ✓ Mark Understood
+                </button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="istqb-index.html" style="color: #a5b4fc; text-decoration: none; font-size: 0.9rem;">← Back to Hub</a>
+        </div>
+    </div>
+
+    <script>
+        const CARDS = [
+            {
+                q: "What is Equivalence Partitioning?",
+                a: "Equivalence Partitioning divides input or output data into groups (equivalence classes) where all members are expected to behave identically. One test case from each partition can represent the entire partition. This reduces test cases while maintaining coverage.",
+                level: "K1"
+            },
+            {
+                q: "What is Boundary Value Analysis (BVA)?",
+                a: "Boundary Value Analysis tests at the edges of equivalence partitions. Test cases focus on values just above and below boundaries (upper and lower limits). BVA is based on experience showing defects cluster at partition boundaries.",
+                level: "K1"
+            },
+            {
+                q: "Explain the relationship between Equivalence Partitioning and BVA",
+                a: "Equivalence Partitioning first divides input space into partitions. BVA then selects test values at the boundaries of these partitions. Together they create an efficient test strategy focusing on inputs most likely to reveal defects.",
+                level: "K2"
+            },
+            {
+                q: "Define Decision Table Testing",
+                a: "Decision table testing identifies combinations of input conditions and their corresponding outputs. It systematically explores all possible combinations of conditions to ensure all combinations are tested, especially for complex business rules.",
+                level: "K1"
+            },
+            {
+                q: "What are test conditions in a Decision Table?",
+                a: "Test conditions are the input combinations (premises) in a decision table. Each row represents a unique combination of conditions (true/false or values). Decision tables ensure comprehensive coverage of condition combinations and expected actions.",
+                level: "K2"
+            },
+            {
+                q: "What is State Machine Testing?",
+                a: "State Machine testing models system states and transitions between them. Test cases execute valid transitions between states and verify incorrect transitions are rejected. It's useful for systems with state-dependent behavior.",
+                level: "K1"
+            },
+            {
+                q: "Describe the components of a State Machine",
+                a: "A state machine contains: 1) States - distinct modes or conditions, 2) Transitions - movements between states triggered by events, 3) Events - stimuli causing transitions, 4) Actions - outputs or activities resulting from transitions.",
+                level: "K2"
+            },
+            {
+                q: "What is Pairwise Testing (Orthogonal Arrays)?",
+                a: "Pairwise testing ensures that every possible pair of input parameter values is covered by at least one test case. It significantly reduces test cases compared to exhaustive testing while maintaining good coverage of parameter interactions.",
+                level: "K2"
+            },
+            {
+                q: "Define Black-Box Testing",
+                a: "Black-box testing treats the system as a 'black box' with unknown internals. Tests are based on specifications without knowledge of internal implementation. It focuses on inputs, outputs, and functionality rather than code structure.",
+                level: "K1"
+            },
+            {
+                q: "Define White-Box Testing",
+                a: "White-box testing (or clear-box testing) has knowledge of internal implementation. Tests exercise code paths, statements, branches, and conditions. It's based on the internal structure and logic of the software.",
+                level: "K1"
+            },
+            {
+                q: "Compare Black-Box and White-Box Testing approaches",
+                a: "Black-box tests specification compliance from user perspective; white-box tests implementation correctness. Black-box finds specification mismatches; white-box finds implementation defects. Both are complementary and important for comprehensive testing.",
+                level: "K2"
+            },
+            {
+                q: "What is Code Coverage?",
+                a: "Code coverage measures the extent to which source code has been executed by test cases. Types include: statement coverage, branch coverage, path coverage, and condition coverage. Higher coverage increases confidence but doesn't guarantee quality.",
+                level: "K2"
+            },
+            {
+                q: "Define Statement Coverage",
+                a: "Statement coverage ensures every executable statement in the code has been executed at least once. It's the most basic coverage metric. A statement might be on a path that wasn't exercised, so high statement coverage doesn't guarantee all defects are found.",
+                level: "K2"
+            },
+            {
+                q: "Define Branch Coverage",
+                a: "Branch coverage (decision coverage) ensures every decision in the code takes both true and false outcomes. It tests both directions of conditional statements (if/else). It's stronger than statement coverage as it exercises more code paths.",
+                level: "K2"
+            },
+            {
+                q: "Define Condition Coverage",
+                a: "Condition coverage ensures each condition in a decision expression takes both true and false values. When decisions contain multiple conditions (AND/OR), condition coverage is more thorough than simple branch coverage.",
+                level: "K2"
+            },
+            {
+                q: "What is Path Coverage?",
+                a: "Path coverage exercises all possible paths through a program. In complex code with many conditions, the number of paths can be enormous, making exhaustive path testing impractical. It's the most comprehensive coverage type.",
+                level: "K2"
+            },
+            {
+                q: "Distinguish between Data Flow and Control Flow Testing",
+                a: "Control flow testing exercises different execution paths. Data flow testing tracks how variables are defined and used (def-use chains). Data flow testing focuses on the flow of data values through the program, complementing control flow analysis.",
+                level: "K3"
+            },
+            {
+                q: "What is a Use Case in Test Design?",
+                a: "A use case describes a sequence of interactions between an actor and system to achieve a goal. Use cases define scenarios for system behavior from user perspective. Test cases can be derived from use case flows to verify system functions.",
+                level: "K1"
+            },
+            {
+                q: "How do you test Use Cases?",
+                a: "Test use cases by: 1) Tracing main flow (happy path), 2) Testing alternative flows, 3) Testing exception handling, 4) Testing boundary conditions, 5) Verifying preconditions and postconditions. Each flow path becomes a test case.",
+                level: "K2"
+            },
+            {
+                q: "What is a Test Scenario?",
+                a: "A test scenario is a possible user situation that could occur in production. It represents a realistic sequence of user actions and system responses. Scenarios help ensure testing covers real-world usage patterns.",
+                level: "K1"
+            },
+            {
+                q: "What is Combinatorial Testing?",
+                a: "Combinatorial testing systematically tests combinations of input parameters or configuration options. It reduces test count compared to exhaustive testing while maintaining coverage. Techniques include pairwise, three-way, and n-way testing.",
+                level: "K2"
+            },
+            {
+                q: "What is Cause-Effect Graphing?",
+                a: "Cause-effect graphing is a formal method to identify logical relationships between causes (inputs) and effects (outputs). It creates a graphical representation showing dependencies, helping design test cases that verify these relationships.",
+                level: "K2"
+            },
+            {
+                q: "Explain Error Guessing technique",
+                a: "Error guessing relies on tester intuition and experience to anticipate likely defects. Testers develop test cases based on what could go wrong. While not systematic, it often finds defects that formal techniques miss.",
+                level: "K1"
+            },
+            {
+                q: "What is Exploratory Testing?",
+                a: "Exploratory testing simultaneously designs and executes tests without predefined test cases. Testers explore the system, learning as they go, and immediately adjust testing based on findings. It's valuable for discovering unexpected behaviors.",
+                level: "K1"
+            },
+            {
+                q: "When should Exploratory Testing be used?",
+                a: "Exploratory testing is valuable when: 1) Requirements are unclear or volatile, 2) Time is limited, 3) Formal test documentation is minimal, 4) Testers have high domain knowledge, 5) Unusual scenarios need investigation.",
+                level: "K2"
+            },
+            {
+                q: "What are the benefits of using multiple test design techniques?",
+                a: "Using multiple techniques ensures: 1) Different types of defects are caught, 2) Requirements and code are both verified, 3) Specification gaps are identified, 4) Implementation errors are found, 5) Comprehensive coverage across different dimensions.",
+                level: "K2"
+            },
+            {
+                q: "How do you apply Boundary Value Analysis to strings?",
+                a: "For strings: 1) Empty string, 2) Single character, 3) Very long strings (max length), 4) Strings with special characters at boundaries, 5) Strings with spaces at start/end. BVA applies to any partitioned domain.",
+                level: "K3"
+            },
+            {
+                q: "What are Reduced Decision Tables?",
+                a: "Reduced decision tables simplify by combining rows with identical actions. When multiple condition combinations produce the same result, they can be merged. This reduces test cases while maintaining action coverage but may miss some condition interactions.",
+                level: "K2"
+            },
+            {
+                q: "What is a Transition Path in State Machine Testing?",
+                a: "A transition path is a sequence of state transitions triggered by a series of events. Test cases create paths through states: 1) Valid transitions testing expected flows, 2) Invalid transitions testing error handling, 3) Complex paths testing multi-step sequences.",
+                level: "K2"
+            },
+            {
+                q: "Define Equivalence Class",
+                a: "An equivalence class is a group of input values that are expected to behave identically by the system. Values within a class are treated the same way. Testing one value from each class is theoretically sufficient to represent the entire class.",
+                level: "K1"
+            },
+            {
+                q: "What are invalid equivalence partitions?",
+                a: "Invalid equivalence partitions represent inputs outside valid ranges or of invalid types. Test cases from invalid partitions verify the system correctly rejects these inputs and handles errors appropriately.",
+                level: "K2"
+            },
+            {
+                q: "How do you create test cases from a Decision Table?",
+                a: "From each row in a decision table: 1) Identify condition values, 2) Determine expected actions, 3) Create test case with those inputs, 4) Verify outputs match expected actions. Each row typically produces one or more test cases.",
+                level: "K2"
+            },
+            {
+                q: "What is a Condition in Decision Table Testing?",
+                a: "A condition is an input or event in a decision table representing a circumstance that affects system behavior. Conditions are typically boolean (true/false) or can take discrete values. Their combination determines which actions occur.",
+                level: "K1"
+            },
+            {
+                q: "What are Actions in a Decision Table?",
+                a: "Actions are the expected outputs or behaviors resulting from specific condition combinations. Actions specify what the system should do (outputs, state changes, or operations) for each set of conditions.",
+                level: "K1"
+            },
+            {
+                q: "Explain Coverage Metrics and their limitations",
+                a: "Coverage metrics (statement, branch, path) measure how much code is tested but don't measure quality of tests. High coverage doesn't guarantee all defects are found - test quality matters. Coverage is a useful indicator but not a complete measure of test effectiveness.",
+                level: "K3"
+            },
+            {
+                q: "What is MC/DC Coverage?",
+                a: "Modified Condition/Decision Coverage (MC/DC) requires that each condition independently affects the decision outcome. Each condition must take both true and false values, and independently influence the result. More rigorous than simple condition coverage.",
+                level: "K3"
+            },
+            {
+                q: "How do you select test values for Boundary Value Analysis?",
+                a: "For each boundary: 1) Value at boundary, 2) Value just below boundary, 3) Value just above boundary. Example: If valid range is 0-100, test -1, 0, 1, 99, 100, 101. The 'just above/below' increment depends on data type.",
+                level: "K2"
+            },
+            {
+                q: "What is the difference between One-Factor-At-a-Time (OFAT) and Combinatorial Testing?",
+                a: "OFAT changes one parameter at a time, missing interactions between parameters. Combinatorial testing tests combinations, discovering parameter interactions. Combinatorial is more thorough but requires more test cases than OFAT.",
+                level: "K3"
+            },
+            {
+                q: "Define Testing vs. Technique Selection",
+                a: "Test technique selection depends on: 1) Test level (unit, integration, system), 2) Risk analysis, 3) Available time/resources, 4) System characteristics, 5) Test basis (specifications, code). Different techniques are appropriate for different situations.",
+                level: "K2"
+            },
+            {
+                q: "What are the preconditions and postconditions in use case testing?",
+                a: "Preconditions are the state/setup required before use case execution. Postconditions are the expected state after use case completion. Test cases verify both: 1) Preconditions are met before starting, 2) Postconditions are satisfied after completion.",
+                level: "K2"
+            },
+            {
+                q: "How do you handle dependent test data in test design?",
+                a: "When data dependencies exist: 1) Create test data setup sequences, 2) Use data builders or factories, 3) Document dependencies, 4) Test dependent operations together, 5) Ensure data consistency across related test cases.",
+                level: "K3"
+            },
+            {
+                q: "What is Positive vs. Negative Testing?",
+                a: "Positive testing verifies system behaves correctly with valid inputs (happy path). Negative testing verifies system correctly handles invalid inputs, boundary conditions, and error cases. Both are essential for comprehensive coverage.",
+                level: "K1"
+            }
+        ];
+
+        let currentIndex = 0;
+        let filteredCards = [...CARDS];
+        let cardProgress = {};
+        const CHAPTER = 'ch4';
+
+        // Initialize card progress
+        function initProgress() {
+            const saved = localStorage.getItem(`istqb-progress-${CHAPTER}`);
+            if (saved) {
+                cardProgress = JSON.parse(saved);
+            } else {
+                CARDS.forEach((_, i) => {
+                    cardProgress[i] = { studied: false, reviewed: false, understood: false };
+                });
+            }
+            updateProgressDisplay();
+        }
+
+        // Load and display current card
+        function loadCard() {
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            
+            document.getElementById('question').textContent = card.q;
+            document.getElementById('answer').textContent = card.a;
+            document.getElementById('klevel').textContent = card.level;
+            document.getElementById('klevel').className = `klevel ${card.level}`;
+            document.getElementById('cardNum').textContent = currentIndex + 1;
+            document.getElementById('totalCards').textContent = filteredCards.length;
+            document.getElementById('cardNumber').textContent = `Card ${currentIndex + 1} of ${filteredCards.length}`;
+
+            // Reset card back
+            const cardBack = document.getElementById('cardBack');
+            const cardFront = document.getElementById('cardFront');
+            cardBack.classList.remove('active');
+            cardFront.classList.remove('hidden');
+            document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+
+            // Update button states
+            const progress = cardProgress[originalIndex] || {};
+            document.getElementById('markReviewBtn').classList.toggle('marked', progress.reviewed);
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked', progress.understood);
+
+            // Update navigation
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === filteredCards.length - 1;
+
+            updateProgressDisplay();
+        }
+
+        // Reveal answer
+        function revealCard(e) {
+            if (e) e.stopPropagation();
+            const cardBack = document.getElementById('cardBack');
+            const cardFront = document.getElementById('cardFront');
+            
+            if (cardBack.classList.contains('active')) {
+                cardBack.classList.remove('active');
+                cardFront.classList.remove('hidden');
+                document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+            } else {
+                cardBack.classList.add('active');
+                cardFront.classList.add('hidden');
+                document.getElementById('revealBtnText').textContent = 'Hide Answer';
+                markStudied();
+            }
+        }
+
+        // Mark as studied
+        function markStudied() {
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].studied = true;
+            saveProgress();
+        }
+
+        // Toggle mark for review
+        function toggleReview(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].reviewed = !cardProgress[originalIndex].reviewed;
+            document.getElementById('markReviewBtn').classList.toggle('marked');
+            saveProgress();
+        }
+
+        // Toggle mark understood
+        function toggleUnderstood(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].understood = !cardProgress[originalIndex].understood;
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked');
+            saveProgress();
+            updateProgressDisplay();
+        }
+
+        // Navigation
+        function nextCard() {
+            if (currentIndex < filteredCards.length - 1) {
+                currentIndex++;
+                loadCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard();
+            }
+        }
+
+        // Save progress
+        function saveProgress() {
+            localStorage.setItem(`istqb-progress-${CHAPTER}`, JSON.stringify(cardProgress));
+            // Also update global progress
+            let allProgress = JSON.parse(localStorage.getItem('istqb-progress') || '{}');
+            allProgress[CHAPTER] = { cards: Object.values(cardProgress) };
+            localStorage.setItem('istqb-progress', JSON.stringify(allProgress));
+        }
+
+        // Update progress display
+        function updateProgressDisplay() {
+            const reviewed = Object.values(cardProgress).filter(p => p.studied).length;
+            const understood = Object.values(cardProgress).filter(p => p.understood).length;
+            document.getElementById('reviewed').textContent = reviewed;
+            document.getElementById('understood').textContent = understood;
+            const percent = Math.round((reviewed / CARDS.length) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+
+            if (understood > 0) {
+                document.getElementById('understood-stat').style.display = 'inline-block';
+            }
+        }
+
+        // Filter by K-level
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                const filter = e.target.dataset.filter;
+                if (filter === 'all') {
+                    filteredCards = [...CARDS];
+                } else {
+                    filteredCards = CARDS.filter(c => c.level === filter);
+                }
+                
+                currentIndex = 0;
+                loadCard();
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ') {
+                e.preventDefault();
+                revealCard();
+            }
+        });
+
+        // Initialize
+        initProgress();
+        loadCard();
+    </script>
+</body>
+</html>

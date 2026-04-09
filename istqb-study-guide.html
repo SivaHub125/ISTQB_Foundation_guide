@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Foundation Level - Complete Study Guide v4.0</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f5f3ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #0f0f23;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark) 0%, #312e81 50%, var(--bg) 100%);
+            padding: 3rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .badge { margin-top: 1rem; }
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover { background: var(--primary); color: white; }
+
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .chapter-header h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .chapter-header .timing {
+            color: var(--warning);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: #a5b4fc;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Cards */
+        .card {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card h4 {
+            color: var(--warning);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        /* Grids */
+        .principles-grid, .technique-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .principle-card {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .principle-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .principle-card h4 { color: var(--success); margin-bottom: 0.5rem; font-size: 1rem; }
+        .principle-card p { font-size: 0.9rem; color: #ccc; }
+
+        /* Tables */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 0.75rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            text-align: left;
+        }
+
+        .info-table th { background: var(--primary); color: white; }
+        .info-table tr:nth-child(even) { background: rgba(99, 102, 241, 0.05); }
+
+        /* Key Points */
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .key-point span { font-size: 1.2rem; }
+
+        /* Example Box */
+        .example-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1rem 0;
+        }
+
+        .example-box h5 { color: var(--success); margin-bottom: 0.5rem; }
+
+        /* Diagram */
+        .diagram {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .flow-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .flow-item {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .flow-arrow { font-size: 1.2rem; color: var(--accent); }
+
+        /* Risk Matrix */
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: auto repeat(3, 1fr);
+            gap: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .risk-matrix > div { padding: 0.5rem; text-align: center; border-radius: 6px; }
+        .risk-header { background: var(--primary); color: white; font-weight: 600; }
+        .risk-label { background: rgba(99, 102, 241, 0.2); font-weight: 600; }
+        .risk-low { background: rgba(16, 185, 129, 0.3); }
+        .risk-medium { background: rgba(245, 158, 11, 0.3); }
+        .risk-high { background: rgba(239, 68, 68, 0.3); }
+
+        /* Learning Level */
+        .klevel {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .k1 { background: rgba(16, 185, 129, 0.3); color: var(--success); }
+        .k2 { background: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+        .k3 { background: rgba(245, 158, 11, 0.3); color: var(--warning); }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--dark), var(--bg));
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        footer p { color: #a5b4fc; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            nav a { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+            section { padding: 3rem 1rem; }
+            .info-table { font-size: 0.8rem; }
+            .info-table th, .info-table td { padding: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+        <nav>
+        <ul>
+            <li><a href="#ch1">Fundamentals</a></li>
+            <li><a href="#ch2">SDLC</a></li>
+            <li><a href="#ch3">Static Testing</a></li>
+            <li><a href="#ch4">Test Design</a></li>
+            <li><a href="#ch5">Management</a></li>
+            <li><a href="#ch6">Tools</a></li>
+            <li><a href="istqb-practice.html" class="practice-link" style="background: linear-gradient(135deg, var(--success), #059669); color: white; font-weight: 600; padding: 0.5rem 1rem;">🎯 Practice Quiz →</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <div class="badge">ISTQB® Certified Tester Foundation Level</div>
+        <h1>Complete Study Guide v4.0.1</h1>
+        <p>Based on official ISTQB CTFL Syllabus 2024</p>
+        <p style="margin-top: 1rem; color: #a5b4fc;">Fundamentals • SDLC • Static Testing • Test Design • Management • Tools</p>
+        <div style="margin-top: 2rem;">
+            <a href="istqb-practice.html" class="practice-btn">🎯 Take Practice Quiz</a>
+        </div>
+    </div>
+
+    <style>
+        .practice-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        .practice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+        .practice-link {
+            margin-left: 1rem;
+        }
+    </style>
+
+    <!-- ========== CHAPTER 1: FUNDAMENTALS OF TESTING ========== -->
+    <section id="ch1">
+        <div class="chapter-header">
+            <h2>📚 Fundamentals of Testing</h2>
+        </div>
+
+        <div class="card">
+            <h3>🎯 What is Testing? <span class="klevel k1">K1</span></h3>
+            <p>Software testing assesses software quality and helps reduce the risk of software failure. Testing is a set of activities to <strong>discover defects</strong> and <strong>evaluate quality</strong> of software work products.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                <div class="example-box">
+                    <h5>🔍 Verification</h5>
+                    <p>"Are we building the product right?"<br>Checking against <strong>specified requirements</strong></p>
+                </div>
+                <div class="example-box" style="background: rgba(99, 102, 241, 0.1); border-left-color: var(--primary);">
+                    <h5 style="color: var(--primary);">✅ Validation</h5>
+                    <p>"Are we building the right product?"<br>Checking against <strong>user needs</strong></p>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <div class="key-point"><span>🔄</span><div><strong>Dynamic Testing:</strong> Execution of software</div></div>
+                <div class="key-point"><span>📋</span><div><strong>Static Testing:</strong> No execution (reviews + static analysis)</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🎯 Test Objectives <span class="klevel k1">K1</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>📄</span><div>Evaluate work products (requirements, designs, code)</div></div>
+                <div class="key-point"><span>💥</span><div>Cause failures and find defects</div></div>
+                <div class="key-point"><span>📊</span><div>Ensure required coverage of test object</div></div>
+                <div class="key-point"><span>⚠️</span><div>Reduce risk of inadequate software quality</div></div>
+                <div class="key-point"><span>✅</span><div>Verify specified requirements fulfilled</div></div>
+                <div class="key-point"><span>⚖️</span><div>Verify contractual, legal, regulatory compliance</div></div>
+                <div class="key-point"><span>📣</span><div>Provide information to stakeholders</div></div>
+                <div class="key-point"><span>🤝</span><div>Build confidence in quality</div></div>
+                <div class="key-point"><span>🏁</span><div>Validate completeness and expected behavior</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🔧 Testing vs Debugging <span class="klevel k2">K2</span></h3>
+            <table class="info-table">
+                <tr><th>Aspect</th><th>Testing</th><th>Debugging</th></tr>
+                <tr><td>Purpose</td><td>Find defects, evaluate quality</td><td>Find causes, fix defects</td></tr>
+                <tr><td>Done By</td><td>Testers</td><td>Developers</td></tr>
+                <tr><td>Result</td><td>Defect reports</td><td>Fixed code</td></tr>
+            </table>
+            <h4>Debugging Process (Dynamic Testing triggers failure)</h4>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">🔁 Reproduce</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🔬 Diagnose</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🔨 Fix</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✅ Confirm</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>⚠️ Why is Testing Necessary? <span class="klevel k2">K2</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>💰</span><div>Cost-effective defect detection</div></div>
+                <div class="key-point"><span>📈</span><div>Evaluate quality at various SDLC phases</div></div>
+                <div class="key-point"><span>🚦</span><div>Support release decisions</div></div>
+                <div class="key-point"><span>👥</span><div>User representation on project</div></div>
+                <div class="key-point"><span>📋</span><div>Meet contractual/legal requirements</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Testing vs QA <span class="klevel k1">K1</span></h3>
+            <table class="info-table">
+                <tr><th></th><th>Testing</th><th>QA (Quality Assurance)</th></tr>
+                <tr><td>Approach</td><td>Product-oriented, corrective</td><td>Process-oriented, preventive</td></tr>
+                <tr><td>Focus</td><td>Finding defects</td><td>Following good processes</td></tr>
+                <tr><td>Responsibility</td><td>Testers</td><td>Everyone on project</td></tr>
+                <tr><td>Part of</td><td>Quality Control</td><td>Quality Management</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>Errors, Defects, Failures, Root Causes <span class="klevel k2">K2</span></h3>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">😵 Error</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🐛 Defect</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">💥 Failure</div>
+                </div>
+            </div>
+            <table class="info-table">
+                <tr><th>Term</th><th>Definition</th></tr>
+                <tr><td><strong>Error</strong></td><td>Mistake made by human (time pressure, complexity, fatigue)</td></tr>
+                <tr><td><strong>Defect</strong></td><td>Flaw in code/document that causes incorrect behavior</td></tr>
+                <tr><td><strong>Failure</strong></td><td>Observable incorrect system behavior (may not occur every time)</td></tr>
+                <tr><td><strong>Root Cause</strong></td><td>Fundamental reason for the error (found via root cause analysis)</td></tr>
+            </table>
+            <div class="example-box" style="background: rgba(239, 68, 68, 0.1); border-left-color: var(--accent);">
+                <h5 style="color: var(--accent);">⚠️ Note</h5>
+                <p>Failures can also be caused by environmental conditions (radiation, electromagnetic fields).</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📐 Seven Testing Principles <span class="klevel k2">K2</span></h3>
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">1️⃣</div>
+                    <h4>Presence, Not Absence</h4>
+                    <p>Testing shows defects are present, not that there are none</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">2️⃣</div>
+                    <h4>Exhaustive Testing Impossible</h4>
+                    <p>Risk-based approach is practical</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">3️⃣</div>
+                    <h4>Early Testing Saves Money</h4>
+                    <p>Find defects early in SDLC</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">4️⃣</div>
+                    <h4>Defect Clustering</h4>
+                    <p>Most defects in few modules (Pareto principle)</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">5️⃣</div>
+                    <h4>Tests Wear Out</h4>
+                    <p>Repeated tests become less effective (Pesticide Paradox)</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">6️⃣</div>
+                    <h4>Context Dependent</h4>
+                    <p>No single universal approach</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">7️⃣</div>
+                    <h4>Absence-of-Defects Fallacy</h4>
+                    <p>Bug-free ≠ success; must meet user needs</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Test Activities and Tasks <span class="klevel k2">K2</span></h3>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">📋 Planning</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📊 Monitoring</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✏️ Analysis</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📐 Design</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🔧 Implementation</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">▶️ Execution</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✅ Completion</div>
+                </div>
+            </div>
+            <div class="key-points">
+                <div class="key-point"><span>📋</span><div><strong>Planning:</strong> Define objectives, select approach</div></div>
+                <div class="key-point"><span>📊</span><div><strong>Monitoring:</strong> Check progress against plan</div></div>
+                <div class="key-point"><span>✏️</span><div><strong>Analysis:</strong> "What to test?" - Identify testable features</div></div>
+                <div class="key-point"><span>📐</span><div><strong>Design:</strong> "How to test?" - Elaborate test cases</div></div>
+                <div class="key-point"><span>🔧</span><div><strong>Implementation:</strong> Create testware, test data, scripts</div></div>
+                <div class="key-point"><span>▶️</span><div><strong>Execution:</strong> Run tests, report results</div></div>
+                <div class="key-point"><span>✅</span><div><strong>Completion:</strong> Collect results, evaluate exit criteria</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📦 Testware <span class="klevel k2">K2</span></h3>
+            <p>Testware is the set of work products created and maintained to support testing activities:</p>
+            <table class="info-table">
+                <tr><th>Type</th><th>Examples</th></tr>
+                <tr><td>Test Plans</td><td>Master test plan, level-specific plans</td></tr>
+                <tr><td>Test Cases</td><td>Functional, integration, system test cases</td></tr>
+                <tr><td>Test Data</td><td>Input data, expected results, database snapshots</td></tr>
+                <tr><td>Test Scripts</td><td>Manual test procedures, automated scripts</td></tr>
+                <tr><td>Test Environment</td><td>Hardware, software, tools, configurations</td></tr>
+                <tr><td>Reports</td><td>Test logs, defect reports, test summary reports</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🔗 Traceability <span class="klevel k2">K2</span></h3>
+            <p>Traceability connects test basis to testware and helps ensure coverage and impact analysis.</p>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">📄 Requirements</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📋 Test Conditions</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✏️ Test Cases</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">▶️ Test Execution</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✅ Results</div>
+                </div>
+            </div>
+            <div class="key-points">
+                <div class="key-point"><span>✓</span><div>Ensure all requirements have test coverage</div></div>
+                <div class="key-point"><span>📍</span><div>Impact analysis when requirements change</div></div>
+                <div class="key-point"><span>🐛</span><div>Track which tests cover which defects</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>👥 Test Roles <span class="klevel k2">K2</span></h3>
+            <table class="info-table">
+                <tr><th>Role</th><th>Responsibilities</th></tr>
+                <tr><td><strong>Test Manager</strong></td><td>Overall test management, planning, reporting</td></tr>
+                <tr><td><strong>Test Analyst</strong></td><td>Test analysis, design test cases, specify test data</td></tr>
+                <tr><td><strong>Test Engineer</strong></td><td>Implement and execute tests, automation</td></tr>
+                <tr><td><strong>Test Leader</strong></td><td>Coordinate test team, manage test activities</td></tr>
+                <tr><td><strong>Developer (peer testing)</strong></td><td>Unit testing, code reviews</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🎯 Essential Skills <span class="klevel k2">K2</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>🧠</span><div><strong>Analytical skills</strong> - Break down complex systems</div></div>
+                <div class="key-point"><span>🔍</span><div><strong>Attention to detail</strong> - Find anomalies</div></div>
+                <div class="key-point"><span>💬</span><div><strong>Communication</strong> - Clear defect reporting</div></div>
+                <div class="key-point"><span>🔄</span><div><strong>Critical thinking</strong> - Challenge assumptions</div></div>
+                <div class="key-point"><span>📐</span><div><strong>Technical understanding</strong> - Know the system</div></div>
+                <div class="key-point"><span>⚖️</span><div><strong>Systems thinking</strong> - Understand dependencies</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>👥 Whole Team Approach <span class="klevel k1">K1</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>Shared responsibility for quality</div></div>
+                <div class="key-point"><span>🤝</span><div>Collaboration between devs and testers</div></div>
+                <div class="key-point"><span>📣</span><div>Regular communication</div></div>
+                <div class="key-point"><span>⚡</span><div>Faster feedback loops</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🔒 Independence of Testing <span class="klevel k2">K2</span></h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="example-box">
+                    <h5>✅ Benefits</h5>
+                    <p>• Different perspective catches different defects<br>
+                    • Objectivity in evaluation<br>
+                    • Broader test coverage</p>
+                </div>
+                <div class="example-box" style="background: rgba(239, 68, 68, 0.1); border-left-color: var(--accent);">
+                    <h5 style="color: var(--accent);">⚠️ Drawbacks</h5>
+                    <p>• Communication barriers<br>
+                    • May miss context<br>
+                    • Blame culture risk</p>
+                </div>
+            </div>
+            <p style="margin-top: 1rem;"><strong>Levels:</strong> No independence → Peer review → Team testing → Independent team → External testing</p>
+        </div>
+    </section>
+
+    <!-- ========== CHAPTER 2: TESTING THROUGHOUT SDLC ========== -->
+    <section id="ch2">
+        <div class="chapter-header">
+            <h2>🔄 Testing Throughout SDLC</h2>
+        </div>
+
+        <div class="card">
+            <h3>🏗️ SDLC Models <span class="klevel k2">K2</span></h3>
+            
+            <h4>1. Waterfall Model</h4>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">📋 Requirements</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📐 Design</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">💻 Implementation</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🧪 Testing</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🚀 Deploy</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🔧 Maintain</div>
+                </div>
+            </div>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>Sequential, one phase at a time</div></div>
+                <div class="key-point"><span>✅</span><div>Each phase completed before next begins</div></div>
+                <div class="key-point"><span>❌</span><div>Testing comes late - defects found late</div></div>
+                <div class="key-point"><span>❌</span><div>Hard to go back to previous phases</div></div>
+                <div class="key-point"><span>📊</span><div>Good for: Stable requirements, small projects</div></div>
+            </div>
+
+            <h4>2. V-Model (Validation & Verification)</h4>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">Reqs</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">High Design</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">Detailed Design</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">Code</div>
+                    <span class="flow-arrow">↩</span>
+                    <div class="flow-item" style="background: var(--warning);">Unit</div>
+                    <span class="flow-arrow">↩</span>
+                    <div class="flow-item" style="background: var(--warning);">Integration</div>
+                    <span class="flow-arrow">↩</span>
+                    <div class="flow-item" style="background: var(--warning);">System</div>
+                    <span class="flow-arrow">↩</span>
+                    <div class="flow-item" style="background: var(--warning);">Acceptance</div>
+                </div>
+            </div>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>Each development phase has corresponding test level</div></div>
+                <div class="key-point"><span>✅</span><div>Testing starts earlier than Waterfall</div></div>
+                <div class="key-point"><span>❌</span><div>Inflexible - linear structure</div></div>
+                <div class="key-point"><span>❌</span><div>No iterative phases</div></div>
+                <div class="key-point"><span>📊</span><div>Good for: Projects where quality is critical (medical, aerospace)</div></div>
+            </div>
+
+            <h4>3. Agile Model (Iterative & Incremental)</h4>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item" style="background: var(--success);">Sprint 1</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item" style="background: var(--success);">Sprint 2</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item" style="background: var(--success);">Sprint 3</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item" style="background: var(--success);">...</div>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                <div class="example-box">
+                    <h5>🔄 In Each Sprint</h5>
+                    <p>Plan → Design → Develop → Test → Review → Deploy</p>
+                </div>
+                <div class="example-box" style="background: rgba(99, 102, 241, 0.1); border-left-color: var(--primary);">
+                    <h5 style="color: var(--primary);">📦 Each Sprint Delivers</h5>
+                    <p>Working increment of software</p>
+                </div>
+            </div>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>Testing integrated throughout - continuous testing</div></div>
+                <div class="key-point"><span>✅</span><div>Early defect detection</div></div>
+                <div class="key-point"><span>✅</span><div>Flexible to changes</div></div>
+                <div class="key-point"><span>✅</span><div>Customer collaboration</div></div>
+                <div class="key-point"><span>📊</span><div>Good for: Changing requirements, complex projects</div></div>
+            </div>
+
+            <h4>4. Spiral Model</h4>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">🎯 Identify</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">⚠️ Analyze</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📐 Design</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🧪 Build & Test</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🔄 Next Spiral</div>
+                </div>
+            </div>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>Risk-driven approach</div></div>
+                <div class="key-point"><span>✅</span><div>Prototyping at each phase</div></div>
+                <div class="key-point"><span>✅</span><div>Testing increases with each iteration</div></div>
+                <div class="key-point"><span>❌</span><div>Complex - requires expertise</div></div>
+                <div class="key-point"><span>❌</span><div>Expensive for small projects</div></div>
+                <div class="key-point"><span>📊</span><div>Good for: High-risk, large, complex projects</div></div>
+            </div>
+
+            <h4>5. Incremental Model</h4>
+            <p>Build the system in small pieces (increments), where each increment delivers some functionality.</p>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item" style="background: var(--accent);">Core Features</div>
+                    <span class="flow-arrow">+</span>
+                    <div class="flow-item" style="background: var(--warning);">Module A</div>
+                    <span class="flow-arrow">+</span>
+                    <div class="flow-item" style="background: var(--success);">Module B</div>
+                    <span class="flow-arrow">=</span>
+                    <div class="flow-item">Complete System</div>
+                </div>
+            </div>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>Deliver working software quickly</div></div>
+                <div class="key-point"><span>✅</span><div>Easy to add new features</div></div>
+                <div class="key-point"><span>⚠️</span><div>Need good initial architecture</div></div>
+            </div>
+
+            <h4>Comparison Summary</h4>
+            <table class="info-table">
+                <tr><th>Model</th><th>Testing Phase</th><th>Flexibility</th><th>Best For</th></tr>
+                <tr><td>Waterfall</td><td>At the end</td><td>Low</td><td>Stable requirements</td></tr>
+                <tr><td>V-Model</td><td>Parallel to development</td><td>Low</td><td>Quality-critical</td></tr>
+                <tr><td>Agile</td><td>Continuous</td><td>High</td><td>Changing requirements</td></tr>
+                <tr><td>Spiral</td><td>Each iteration</td><td>High</td><td>High-risk projects</td></tr>
+                <tr><td>Incremental</td><td>Each increment</td><td>Medium</td><td>Large projects</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>📊 Good Testing Practices in SDLC</h3>
+            <div class="key-points">
+                <div class="key-point"><span>⬆️</span><div>Start testing early (shift left)</div></div>
+                <div class="key-point"><span>🔄</span><div>Integrate testing into each phase</div></div>
+                <div class="key-point"><span>⚠️</span><div>Risk-based prioritization</div></div>
+                <div class="key-point"><span>🤝</span><div>Collaborate with stakeholders</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🧪 Testing as a Driver for Development <span class="klevel k2">K2</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>🔄</span><div><strong>TDD (Test-Driven Development):</strong> Write tests before code</div></div>
+                <div class="key-point"><span>✅</span><div><strong>ATDD (Acceptance TDD):</strong> Tests from acceptance criteria</div></div>
+                <div class="key-point"><span>📝</span><div><strong>BDD (Behavior-Driven Development):</strong> Tests from user stories</div></div>
+            </div>
+            <div class="example-box">
+                <h5>🔄 TDD Cycle</h5>
+                <p>RED (write failing test) → GREEN (write minimal code) → REFACTOR (improve code)</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🚀 DevOps and Testing <span class="klevel k2">K2</span></h3>
+            <p>DevOps integrates development and operations with continuous delivery:</p>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">💻 Develop</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🧪 Test</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📦 Build</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🚀 Deploy</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📊 Monitor</div>
+                </div>
+            </div>
+            <div class="key-points">
+                <div class="key-point"><span>🔄</span><div><strong>CICD:</strong> Continuous Integration & Deployment</div></div>
+                <div class="key-point"><span>🤖</span><div><strong>Automation:</strong> Automated testing in pipeline</div></div>
+                <div class="key-point"><span>📊</span><div><strong>Monitoring:</strong> Production environment feedback</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>⬅️ Shift Left <span class="klevel k2">K2</span></h3>
+            <p>Testing earlier in the lifecycle to find defects sooner:</p>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item" style="background: var(--success);">Reqs</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item" style="background: var(--success);">Design</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">Code</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">Test</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">Deploy</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 0.5rem; color: var(--success);">← Shift Left: Start testing earlier!</p>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Retrospectives <span class="klevel k2">K2</span></h3>
+            <p>Regular meetings to improve test process:</p>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>What went well?</div></div>
+                <div class="key-point"><span>❌</span><div>What didn't go well?</div></div>
+                <div class="key-point"><span>💡</span><div>Improvement actions</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🏗️ Test Levels <span class="klevel k2">K2</span></h3>
+            <table class="info-table">
+                <tr><th>Level</th><th>Focus</th><th>Responsible</th><th>Base</th></tr>
+                <tr><td><strong>Component</strong></td><td>Individual components</td><td>Developers</td><td>Component specs</td></tr>
+                <tr><td><strong>Integration</strong></td><td>Interfaces between components</td><td>Testers</td><td>Architecture</td></tr>
+                <tr><td><strong>System</strong></td><td>Complete integrated system</td><td>Testers</td><td>Requirements</td></tr>
+                <tr><td><strong>Acceptance</strong></td><td>Business requirements</td><td>Customers/Users</td><td>User needs</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🎯 Test Types <span class="klevel k2">K2</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>🟢</span><div><strong>Functional:</strong> What it does (features, behaviors)</div></div>
+                <div class="key-point"><span>🔴</span><div><strong>Non-Functional:</strong> How well it performs (performance, usability, security)</div></div>
+                <div class="key-point"><span>🔵</span><div><strong>Structural:</strong> Internal structure known (white-box)</div></div>
+                <div class="key-point"><span>⚫</span><div><strong>Change-Related:</strong> Confirmation and regression testing</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Confirmation vs Regression Testing <span class="klevel k2">K2</span></h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="example-box">
+                    <h5>✅ Confirmation Testing</h5>
+                    <p>Verify that <strong>fixed defects</strong> are indeed fixed</p>
+                    <p>Run same tests that found the defect</p>
+                </div>
+                <div class="example-box" style="background: rgba(99, 102, 241, 0.1); border-left-color: var(--primary);">
+                    <h5 style="color: var(--primary);">🔄 Regression Testing</h5>
+                    <p>Verify that <strong>fixes didn't break</strong> other functionality</p>
+                    <p>Run tests across the system</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🔧 Maintenance Testing <span class="klevel k2">K2</span></h3>
+            <p>Testing done after system is deployed:</p>
+            <div class="key-points">
+                <div class="key-point"><span>🔄</span><div><strong>Migration:</strong> Moving to new environment/platform</div></div>
+                <div class="key-point"><span>⬆️</span><div><strong>Modification:</strong> Changes to functionality</div></div>
+                <div class="key-point"><span>🐛</span><div><strong>Corrective:</strong> Fixing reported defects</div></div>
+                <div class="key-point"><span>📊</span><div><strong>Preventive:</strong> Improving maintainability</div></div>
+                <div class="key-point"><span>🛡️</span><div><strong>Retirement:</strong> Phase-out planning</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CHAPTER 3: STATIC TESTING ========== -->
+    <section id="ch3">
+        <div class="chapter-header">
+            <h2>👁️ Static Testing</h2>
+        </div>
+
+        <div class="card">
+            <h3>📋 Static Testing Basics <span class="klevel k1">K1</span></h3>
+            <p>Testing without executing the code. Includes reviews and static analysis.</p>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>Can find defects early</div></div>
+                <div class="key-point"><span>🐛</span><div>Finds defects before dynamic testing</div></div>
+                <div class="key-point"><span>💰</span><div>Reduces cost of fixing defects</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📄 Work Products Examined <span class="klevel k1">K1</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>📝</span><div>Requirements specifications</div></div>
+                <div class="key-point"><span>📐</span><div>Design documents</div></div>
+                <div class="key-point"><span>💻</span><div>Source code</div></div>
+                <div class="key-point"><span>📋</span><div>Test documentation</div></div>
+                <div class="key-point"><span>📖</span><div>User manuals</div></div>
+                <div class="key-point"><span>📜</span><div>Contracts</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>⚖️ Static vs Dynamic Testing <span class="klevel k2">K2</span></h3>
+            <table class="info-table">
+                <tr><th>Aspect</th><th>Static Testing</th><th>Dynamic Testing</th></tr>
+                <tr><td>Execution</td><td>No execution</td><td>Code runs</td></tr>
+                <tr><td>Defect Found</td><td>Directly in source</td><td>Through failures</td></tr>
+                <tr><td>When</td><td>Early in lifecycle</td><td>After code exists</td></tr>
+                <tr><td>Activities</td><td>Reviews, static analysis</td><td>Test execution</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🔍 Static Analysis by Tools</h3>
+            <p>Automated analysis of code without execution:</p>
+            <div class="key-points">
+                <div class="key-point"><span>⚠️</span><div>Coding standards violations</div></div>
+                <div class="key-point"><span>🐛</span><div>Potential bugs (null pointers, memory leaks)</div></div>
+                <div class="key-point"><span>📐</span><div>High complexity</div></div>
+                <div class="key-point"><span>🔗</span><div>Dead/unreachable code</div></div>
+                <div class="key-point"><span>🔒</span><div>Security vulnerabilities</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>👥 Review Process <span class="klevel k2">K2</span></h3>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">📌 Plan</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">👁️ Review</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">💬 Discuss</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✏️ Fix</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✅ Close</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📝 Review Types <span class="klevel k2">K2</span></h3>
+            <table class="info-table">
+                <tr><th>Type</th><th>Description</th><th>Who Leads</th></tr>
+                <tr><td><strong>Informal</strong></td><td>Casual peer review, quick feedback</td><td>Anyone</td></tr>
+                <tr><td><strong>Walkthrough</strong></td><td>Author leads, learn & understand</td><td>Author</td></tr>
+                <tr><td><strong>Technical Review</strong></td><td>Technical experts, consensus building</td><td>Moderator</td></tr>
+                <tr><td><strong>Inspection</strong></td><td>Formal, trained team, find defects</td><td>Trained moderator</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>👔 Review Roles <span class="klevel k2">K2</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>📝</span><div><strong>Author:</strong> Creates the work product</div></div>
+                <div class="key-point"><span>👔</span><div><strong>Reviewer:</strong> Examines the work product</div></div>
+                <div class="key-point"><span>🎯</span><div><strong>Moderator:</strong> Facilitates the review</div></div>
+                <div class="key-point"><span>📋</span><div><strong>Scribe/Recorder:</strong> Documents issues</div></div>
+                <div class="key-point"><span>✅</span><div><strong>Manager:</strong> Decides on review outcomes</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>⭐ Success Factors for Reviews <span class="klevel k2">K2</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>🎯</span><div>Clear objectives</div></div>
+                <div class="key-point"><span>👥</span><div>Right participants (technical + business)</div></div>
+                <div class="key-point"><span>📏</span><div>Small, manageable pieces</div></div>
+                <div class="key-point"><span>⏰</span><div> Adequate time</div></div>
+                <div class="key-point"><span>🔄</span><div>Regular process</div></div>
+                <div class="key-point"><span>✅</span><div>Management support</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CHAPTER 4: TEST ANALYSIS AND DESIGN ========== -->
+    <section id="ch4">
+        <div class="chapter-header">
+            <h2>✏️ Test Analysis and Design</h2>
+        </div>
+
+        <div class="card">
+            <h3>📊 Test Techniques Overview</h3>
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">⚫</div>
+                    <h4>Black-Box</h4>
+                    <p>Based on requirements/specs<br>Internal structure unknown</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">🔵</div>
+                    <h4>White-Box</h4>
+                    <p>Based on code structure<br>Internal structure known</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">🧠</div>
+                    <h4>Experience-Based</h4>
+                    <p>Based on tester experience<br>Intuition and knowledge</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BLACK-BOX TECHNIQUES -->
+        <div class="card">
+            <h3>⚫ Black-Box Test Techniques</h3>
+
+            <h4>1. Equivalence Partitioning (EP) <span class="klevel k3">K3</span></h4>
+            <p>Divide input data into groups that behave similarly. Test ONE representative from each partition.</p>
+            <div class="example-box">
+                <h5>Example: Age Input (18-65 valid)</h5>
+                <p><strong>Partitions:</strong><br>
+                • Invalid: < 18 (one test)<br>
+                • Valid: 18-65 (one test)<br>
+                • Invalid: > 65 (one test)</p>
+            </div>
+
+            <h4>2. Boundary Value Analysis (BVA) <span class="klevel k3">K3</span></h4>
+            <p>Test values at boundaries. Most defects found at boundaries!</p>
+            <div class="example-box">
+                <h5>Example: Age 18-65</h5>
+                <p><strong>Test:</strong> 17, 18, 65, 66 (boundary values)</p>
+            </div>
+
+            <h4>3. Decision Table Testing <span class="klevel k3">K3</span></h4>
+            <p>Systematically test combinations of conditions and actions.</p>
+            <div class="example-box">
+                <h5>Format</h5>
+                <p>Columns: Conditions (T/F) × Actions → Test cases</p>
+            </div>
+
+            <h4>4. State Transition Testing <span class="klevel k3">K3</span></h4>
+            <p>Test system behavior as it moves between states.</p>
+            <div class="example-box">
+                <h5>Example: Login System</h5>
+                <p>Logged Out → Logged In → Logged Out</p>
+            </div>
+        </div>
+
+        <!-- WHITE-BOX TECHNIQUES -->
+        <div class="card">
+            <h3>🔵 White-Box Test Techniques</h3>
+
+            <h4>1. Statement Testing & Coverage <span class="klevel k2">K2</span></h4>
+            <p>Execute every statement at least once.</p>
+            <div class="example-box">
+                <h5>Coverage Formula</h5>
+                <p>Statement Coverage = (Executed Statements / Total Statements) × 100</p>
+            </div>
+
+            <h4>2. Branch Testing & Coverage <span class="klevel k2">K2</span></h4>
+            <p>Execute each branch direction (true and false) at least once.</p>
+            <div class="example-box">
+                <h5>Coverage Formula</h5>
+                <p>Branch Coverage = (Executed Branches / Total Branches) × 100</p>
+            </div>
+
+            <h4>3. Value of White-Box Testing</h4>
+            <div class="key-points">
+                <div class="key-point"><span>✅</span><div>Identifies hidden defects</div></div>
+                <div class="key-point"><span>📐</span><div>Measures structural quality</div></div>
+                <div class="key-point"><span>🔍</span><div>Finds dead code</div></div>
+            </div>
+        </div>
+
+        <!-- EXPERIENCE-BASED TECHNIQUES -->
+        <div class="card">
+            <h3>🧠 Experience-Based Test Techniques</h3>
+
+            <h4>1. Error Guessing <span class="klevel k2">K2</span></h4>
+            <p>Predict where defects occur based on experience and common error patterns.</p>
+
+            <h4>2. Exploratory Testing <span class="klevel k2">K2</span></h4>
+            <p>Simultaneous learning, test design, and execution. Ad-hoc but structured.</p>
+
+            <h4>3. Checklist-Based Testing <span class="klevel k2">K2</span></h4>
+            <p>Use checklists from past projects to guide testing.</p>
+        </div>
+
+        <!-- COLLABORATION-BASED -->
+        <div class="card">
+            <h3>🤝 Collaboration-Based Test Approaches</h3>
+
+            <h4>1. Collaborative User Story Writing <span class="klevel k2">K2</span></h4>
+            <p>Testers collaborate with developers and business to write clear user stories.</p>
+
+            <h4>2. Acceptance Criteria <span class="klevel k2">K2</span></h4>
+            <p>Clear, testable conditions that must be met for user story completion.</p>
+            <div class="example-box">
+                <h5>Good Acceptance Criteria</h5>
+                <p>• Specific and measurable<br>
+                • Testable (can verify)<br>
+                • Clearly defines done</p>
+            </div>
+
+            <h4>3. Acceptance Test-Driven Development (ATDD) <span class="klevel k2">K2</span></h4>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">📝 Discuss</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✅ Agree</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✏️ Automate</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">▶️ Execute</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CHAPTER 5: MANAGING TEST ACTIVITIES ========== -->
+    <section id="ch5">
+        <div class="chapter-header">
+            <h2>📊 Managing Test Activities</h2>
+        </div>
+
+        <div class="card">
+            <h3>📋 Test Planning <span class="klevel k2">K2</span></h3>
+            <p>Defining test objectives and selecting approach to achieve objectives within constraints.</p>
+            
+            <h4>Contents of a Test Plan</h4>
+            <div class="key-points">
+                <div class="key-point"><span>🎯</span><div>Test scope and objectives</div></div>
+                <div class="key-point"><span>📌</span><div>Approach and techniques</div></div>
+                <div class="key-point"><span>⏰</span><div>Schedule and milestones</div></div>
+                <div class="key-point"><span>👥</span><div>Roles and responsibilities</div></div>
+                <div class="key-point"><span>⚠️</span><div>Risks and contingencies</div></div>
+                <div class="key-point"><span>✅</span><div>Entry and exit criteria</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🤝 Tester's Contribution to Planning</h3>
+            <div class="key-points">
+                <div class="key-point"><span>📋</span><div>Iteration planning input</div></div>
+                <div class="key-point"><span>📊</span><div>Effort estimation</div></div>
+                <div class="key-point"><span>⚠️</span><div>Risk identification</div></div>
+                <div class="key-point"><span>📐</span><div>Approach recommendations</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🚪 Entry & Exit Criteria <span class="klevel k2">K2</span></h3>
+            <table class="info-table">
+                <tr><th></th><th>Entry Criteria</th><th>Exit Criteria</th></tr>
+                <tr><td><strong>Definition</strong></td><td>Must be met BEFORE testing begins</td><td>Must be met BEFORE testing completes</td></tr>
+                <tr><td><strong>Examples</strong></td><td>• Test environment ready<br>• Test data available<br>• Requirements approved</td><td>• All test cases executed<br>• Defects resolved<br>• Coverage met</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>📐 Estimation Techniques <span class="klevel k2">K2</span></h3>
+            <div class="key-points">
+                <div class="key-point"><span>📊</span><div><strong>Metrics-Based:</strong> Use historical data (e.g., defects/KLOC)</div></div>
+                <div class="key-point"><span>👥</span><div><strong>Expert-Based:</strong> Team expert opinions</div></div>
+                <div class="key-point"><span>🧮</span><div><strong>PERT:</strong> (Optimistic + 4×Most Likely + Pessimistic) / 6</div></div>
+                <div class="key-point"><span>⚡</span><div><strong>Wideband Delphi:</strong> Group consensus approach</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📈 Test Case Prioritization <span class="klevel k2">K2</span></h3>
+            <p>Prioritize tests based on:</p>
+            <div class="key-points">
+                <div class="key-point"><span>⚠️</span><div>Risk level (higher risk = higher priority)</div></div>
+                <div class="key-point"><span>🔄</span><div>Business criticality</div></div>
+                <div class="key-point"><span>💡</span><div>Stakeholder requirements</div></div>
+                <div class="key-point"><span>⏰</span><div>Time constraints</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📊 Test Pyramid <span class="klevel k2">K2</span></h3>
+            <div class="diagram">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                    <div style="background: var(--accent); padding: 0.5rem 2rem; border-radius: 6px; font-size: 0.85rem;">🔺 E2E / UI Tests (Few)</div>
+                    <div style="background: var(--warning); padding: 0.5rem 3rem; border-radius: 6px; font-size: 0.85rem;">📐 Integration Tests (Some)</div>
+                    <div style="background: var(--success); padding: 0.5rem 4rem; border-radius: 6px; font-size: 0.85rem;">💻 Unit Tests (Many)</div>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 0.9rem;">More unit tests = faster, reliable, cheaper</p>
+        </div>
+
+        <div class="card">
+            <h3>📐 Testing Quadrants <span class="klevel k2">K2</span></h3>
+            <table class="info-table">
+                <tr><th>Quadrant</th><th>Type</th><th>Purpose</th><th>Level</th></tr>
+                <tr><td>Q1</td><td>Unit tests</td><td>Technical, support team</td><td>Component</td></tr>
+                <tr><td>Q2</td><td>Integration, functional</td><td>Business scenarios</td><td>System</td></tr>
+                <tr><td>Q3</td><td>Exploratory, usability</td><td>Find issues, UX validation</td><td>System/Acceptance</td></tr>
+                <tr><td>Q4</td><td>Performance, security</td><td>Non-functional validation</td><td>All levels</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>⚠️ Risk Management <span class="klevel k2">K2</span></h3>
+            
+            <h4>Risk Definition & Attributes</h4>
+            <p><strong>Risk = Probability × Impact</strong></p>
+
+            <h4>Project vs Product Risks</h4>
+            <table class="info-table">
+                <tr><th>Project Risks</th><th>Product Risks</th></tr>
+                <tr><td>• Budget constraints<br>• Schedule delays<br>• Resource availability<br>•技能不足</td><td>• Defects in software<br>• Performance issues<br>• Security vulnerabilities<br>• Usability problems</td></tr>
+            </table>
+
+            <h4 style="margin-top: 1rem;">Product Risk Analysis & Control</h4>
+            <div class="risk-matrix">
+                <div class="risk-header">Impact ↓ / Prob →</div>
+                <div class="risk-header">Low</div>
+                <div class="risk-header">Medium</div>
+                <div class="risk-header">High</div>
+                <div class="risk-label">High</div>
+                <div class="risk-medium">Medium</div>
+                <div class="risk-high">High</div>
+                <div class="risk-high">Critical</div>
+                <div class="risk-label">Medium</div>
+                <div class="risk-low">Low</div>
+                <div class="risk-medium">Medium</div>
+                <div class="risk-high">High</div>
+                <div class="risk-label">Low</div>
+                <div class="risk-low">Low</div>
+                <div class="risk-low">Low</div>
+                <div class="risk-medium">Medium</div>
+            </div>
+
+            <h4 style="margin-top: 1.5rem;">Product Risk Response Strategies</h4>
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">🔄</div>
+                    <h4>Risk Transfer</h4>
+                    <p>Shift risk to another party (e.g., buying insurance, outsourcing, warranties, guarantees)</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #a5b4fc;">Example: Use third-party testing service, contractual risk assignment</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">✅</div>
+                    <h4>Risk Acceptance</h4>
+                    <p>Accept the risk when it's within acceptable limits. Decide it's not worth the cost to mitigate.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #a5b4fc;">Example: Low-risk areas with minimal impact may be accepted</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">🛡️</div>
+                    <h4>Risk Mitigation</h4>
+                    <p>Take actions to reduce probability and/or impact of risk. Most common response strategy.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #a5b4fc;">Example: More testing on high-risk features, code reviews, early testing</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">📋</div>
+                    <h4>Contingency Plan</h4>
+                    <p>Prepare actions to be executed if the risk occurs. A backup plan for high-impact risks.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #a5b4fc;">Example: Extra testing budget, alternative suppliers, fallback release date</p>
+                </div>
+            </div>
+
+            <div class="example-box" style="margin-top: 1rem;">
+                <h5>💡 Risk Response Priority</h5>
+                <p><strong>Mitigate</strong> (most common) → Transfer → Avoid → Accept (last resort)</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📊 Test Monitoring & Control <span class="klevel k2">K2</span></h3>
+            
+            <h4>Metrics Used in Testing</h4>
+            <div class="key-points">
+                <div class="key-point"><span>📋</span><div>Test case preparation progress</div></div>
+                <div class="key-point"><span>▶️</span><div>Test execution progress (% executed, passed, failed)</div></div>
+                <div class="key-point"><span>🐛</span><div>Defect metrics (density, discovery rate)</div></div>
+                <div class="key-point"><span>📊</span><div>Coverage metrics</div></div>
+            </div>
+
+            <h4>Test Reports</h4>
+            <table class="info-table">
+                <tr><th>Content</th><th>Audience</th></tr>
+                <tr><td>• Summary of testing<br>• Progress vs plan<br>• Defect summary<br>• Risks and issues<br>• Recommendations</td><td>• Test team (detailed)<br>• Management (summary)<br>• Stakeholders (highlights)</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🔧 Configuration Management <span class="klevel k2">K2</span></h3>
+            <p>Identify, control, and track versions of testware:</p>
+            <div class="key-points">
+                <div class="key-point"><span>📦</span><div>Version control of test assets</div></div>
+                <div class="key-point"><span>🔄</span><div>Change management</div></div>
+                <div class="key-point"><span>📊</span><div>Baseline identification</div></div>
+                <div class="key-point"><span>🔍</span><div>Traceability of changes</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🐛 Defect Management <span class="klevel k2">K2</span></h3>
+            <p>Clear, understandable defect reports include:</p>
+            <div class="key-points">
+                <div class="key-point"><span>📝</span><div>Unique identifier</div></div>
+                <div class="key-point"><span>📋</span><div>Descriptive title/summary</div></div>
+                <div class="key-point"><span>📅</span><div>Date discovered</div></div>
+                <div class="key-point"><span>🔍</span><div>Steps to reproduce</div></div>
+                <div class="key-point"><span>✅</span><div>Expected vs actual results</div></div>
+                <div class="key-point"><span>⚠️</span><div>Severity/Priority</div></div>
+                <div class="key-point"><span>👤</span><div>Reported by</div></div>
+                <div class="key-point"><span>🔄</span><div>Status</div></div>
+            </div>
+
+            <h4 style="margin-top: 1rem;">Defect Workflow</h4>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">🔴 New</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🟡 Open</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🔵 Deferred</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🟢 Fixed</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✅ Closed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CHAPTER 6: TEST TOOLS ========== -->
+    <section id="ch6">
+        <div class="chapter-header">
+            <h2>🔧 Test Tools</h2>
+        </div>
+
+        <div class="card">
+            <h3>⚠️ Tools Help But Don't Replace! <span class="klevel k1">K1</span></h3>
+            <p>Test tools support testing activities but cannot replace skilled testers.</p>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Tool Support Across Test Activities</h3>
+            <div class="diagram">
+                <div class="flow-diagram">
+                    <div class="flow-item">📋 Planning</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📊 Monitoring</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✏️ Analysis</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">📐 Design</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">🔧 Implementation</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">▶️ Execution</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-item">✅ Completion</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📝 Tools by Category</h3>
+            <table class="info-table">
+                <tr><th>Category</th><th>Functions</th><th>Examples</th></tr>
+                <tr><td><strong>Test Management</strong></td><td>Plan, track, manage tests</td><td>Jira, TestRail, Zephyr</td></tr>
+                <tr><td><strong>Defect Management</strong></td><td>Track defects lifecycle</td><td>Bugzilla, Mantis</td></tr>
+                <tr><td><strong>Static Analysis</strong></td><td>Code quality, standards</td><td>SonarQube, ESLint</td></tr>
+                <tr><td><strong>Test Design</strong></td><td>Generate test cases, data</td><td>TestRail, ModelJUnit</td></tr>
+                <tr><td><strong>Test Execution</strong></td><td>Run automated tests</td><td>Selenium, UFT, Cypress</td></tr>
+                <tr><td><strong>Performance</strong></td><td>Load, stress testing</td><td>JMeter, LoadRunner</td></tr>
+                <tr><td><strong>API Testing</strong></td><td>Test web services</td><td>Postman, SoapUI</td></tr>
+                <tr><td><strong>CICD</strong></td><td>Automated pipeline</td><td>Jenkins, GitLab CI</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>✅ Benefits of Test Automation - FRRSR <span class="klevel k2">K2</span></h3>
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">⚡</div>
+                    <h4>F - Faster</h4>
+                    <p>Run tests 24/7 without breaks</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">🔄</div>
+                    <h4>R - Repeatable</h4>
+                    <p>Same results every run</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">♻️</div>
+                    <h4>R - Reusable</h4>
+                    <p>Use across releases</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">💰</div>
+                    <h4>S - Saves Cost</h4>
+                    <p>Long-term savings</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">🎯</div>
+                    <h4>R - Reliable</h4>
+                    <p>Eliminates human error</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>⚠️ Risks of Test Automation - CMFOW <span class="klevel k2">K2</span></h3>
+            <div class="principles-grid">
+                <div class="principle-card" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+                    <div class="principle-icon">💸</div>
+                    <h4 style="color: var(--accent);">C - Cost</h4>
+                    <p>High initial investment</p>
+                </div>
+                <div class="principle-card" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+                    <div class="principle-icon">🔧</div>
+                    <h4 style="color: var(--accent);">M - Maintenance</h4>
+                    <p>Scripts need updates</p>
+                </div>
+                <div class="principle-card" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+                    <div class="principle-icon">🎭</div>
+                    <h4 style="color: var(--accent);">F - False Sense</h4>
+                    <p>Passing ≠ quality</p>
+                </div>
+                <div class="principle-card" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+                    <div class="principle-icon">🤖</div>
+                    <h4 style="color: var(--accent);">O - Over-automation</h4>
+                    <p>Not everything should be automated</p>
+                </div>
+                <div class="principle-card" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+                    <div class="principle-icon">❌</div>
+                    <h4 style="color: var(--accent);">W - Wrong Candidates</h4>
+                    <p>Automating wrong tests wastes effort</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📋 Automation Best Practices</h3>
+            <div class="key-points">
+                <div class="key-point"><span>1️⃣</span><div>Evaluate with pilot project</div></div>
+                <div class="key-point"><span>2️⃣</span><div>Train the team</div></div>
+                <div class="key-point"><span>3️⃣</span><div>Start with stable features</div></div>
+                <div class="key-point"><span>4️⃣</span><div>Maintain scripts</div></div>
+                <div class="key-point"><span>5️⃣</span><div>Integrate with CI/CD</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Good vs Poor Automation Candidates</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="example-box">
+                    <h5>✅ Good</h5>
+                    <p>• Regression tests<br>• Smoke tests<br>• Data-driven tests<br>• Performance tests</p>
+                </div>
+                <div class="example-box" style="background: rgba(239, 68, 68, 0.1); border-left-color: var(--accent);">
+                    <h5 style="color: var(--accent);">❌ Poor</h5>
+                    <p>• One-time tests<br>• Frequently changing<br>• UX testing<br>• Exploratory</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PRACTICE QUIZ CTA ========== -->
+    <section id="practice" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.1)); border-radius: 20px; margin: 2rem auto; max-width: 1200px;">
+        <div class="chapter-header">
+            <h2 style="font-size: 2rem;">🎯 Test Your Knowledge</h2>
+            <p style="color: #a5b4fc; margin-top: 1rem;">Ready to check your understanding? Take the practice quiz with 50+ MCQ questions!</p>
+        </div>
+        <div style="text-align: center; padding-bottom: 2rem;">
+            <a href="istqb-practice.html" class="practice-btn" style="font-size: 1.2rem; padding: 1.2rem 3rem;">🚀 Start Practice Quiz</a>
+        </div>
+    </section>
+
+    <!-- ========== BUSINESS OUTCOMES ========== -->
+    <section id="outcomes">
+        <div class="chapter-header">
+            <h2>🎯 Business Outcomes (FL-BO)</h2>
+        </div>
+
+        <div class="card">
+            <h3>What a Certified Tester Can Do</h3>
+            <table class="info-table">
+                <tr><th>BO</th><th>Outcome</th></tr>
+                <tr><td>FL-BO1</td><td>Understand what testing is and why beneficial</td></tr>
+                <tr><td>FL-BO2</td><td>Understand fundamental testing concepts</td></tr>
+                <tr><td>FL-BO3</td><td>Identify test approach based on context</td></tr>
+                <tr><td>FL-BO4</td><td>Assess and improve documentation quality</td></tr>
+                <tr><td>FL-BO5</td><td>Increase testing effectiveness and efficiency</td></tr>
+                <tr><td>FL-BO6</td><td>Align test process with SDLC</td></tr>
+                <tr><td>FL-BO7</td><td>Understand test management principles</td></tr>
+                <tr><td>FL-BO8</td><td>Write clear defect reports</td></tr>
+                <tr><td>FL-BO9</td><td>Understand factors influencing priorities</td></tr>
+                <tr><td>FL-BO10</td><td>Work as part of cross-functional team</td></tr>
+                <tr><td>FL-BO11</td><td>Know risks and benefits of test automation</td></tr>
+                <tr><td>FL-BO12</td><td>Identify essential skills for testing</td></tr>
+                <tr><td>FL-BO13</td><td>Understand impact of risk on testing</td></tr>
+                <tr><td>FL-BO14</td><td>Report test progress and quality</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>📊 Cognitive Levels (K-Level)</h3>
+            <div class="key-points">
+                <div class="key-point"><span class="klevel k1" style="margin-left: 0;">K1</span><div><strong>Remember:</strong> Recognize, recall terms</div></div>
+                <div class="key-point"><span class="klevel k2" style="margin-left: 0;">K2</span><div><strong>Understand:</strong> Explain, distinguish, compare</div></div>
+                <div class="key-point"><span class="klevel k3" style="margin-left: 0;">K3</span><div><strong>Apply:</strong> Use techniques in practice</div></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>ISTQB® Certified Tester Foundation Level Study Guide v4.0.1</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Based on ISTQB CTFL Syllabus 2024 | Good luck with your exam! 🎯</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

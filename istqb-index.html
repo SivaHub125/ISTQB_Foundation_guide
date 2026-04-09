@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Learning Platform - Complete Study & Practice System</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f5f3ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #0f0f23;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover { background: var(--primary); color: white; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark) 0%, #312e81 50%, var(--bg) 100%);
+            padding: 3rem 2rem;
+            margin-top: 70px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #a5b4fc;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Chapter Cards Grid */
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .chapter-card {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.5);
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+        }
+
+        .chapter-card h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chapter-card .number {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-card p {
+            color: #a5b4fc;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        .card-stat {
+            background: rgba(99, 102, 241, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .btn-small {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-small:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .resource-card h4 {
+            color: var(--success);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-card p {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.08));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .progress-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            animation: fillProgress 1s ease-out forwards;
+            transition: width 0.3s;
+        }
+
+        @keyframes fillProgress {
+            from { width: 0%; }
+            to { width: var(--progress); }
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-box {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--dark), var(--bg));
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        footer p { color: #a5b4fc; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .cta-buttons { flex-direction: column; }
+            .btn { width: 100%; text-align: center; }
+            section { padding: 3rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#chapters">Study Cards</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="istqb-study-guide.html">Study Guide</a></li>
+            <li><a href="istqb-practice.html" style="background: linear-gradient(135deg, var(--success), #059669); color: white; font-weight: 600; padding: 0.5rem 1rem;">🎯 Practice Quiz</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="badge">ISTQB® Certified Tester Foundation Level</div>
+        <h1>Complete Learning Platform</h1>
+        <p>Master software testing with interactive study cards, comprehensive guides, and unlimited practice questions</p>
+        <p style="font-size: 1rem; margin-top: 1rem; color: #cbd5e1;">212 Flashcards • 6 Chapters • 50+ Practice Variations • Complete Glossary</p>
+        
+        <div class="cta-buttons">
+            <a href="#chapters" class="btn btn-primary">📚 Start Study Cards</a>
+            <a href="istqb-practice.html" class="btn btn-success">🎯 Take Practice Quiz</a>
+            <a href="istqb-study-guide.html" class="btn btn-secondary">📖 Read Study Guide</a>
+        </div>
+    </div>
+
+    <!-- Study Cards Section -->
+    <section id="chapters">
+        <h2>📚 Study Cards by Chapter</h2>
+        <p style="text-align: center; color: #a5b4fc; margin-bottom: 2rem;">Click-to-reveal Anki-style flashcards with progress tracking</p>
+        
+        <div class="chapters-grid">
+            <!-- Chapter 1 -->
+            <div class="chapter-card">
+                <div class="number">1</div>
+                <h3>Fundamentals of Testing</h3>
+                <p>Core testing concepts, principles, and terminology</p>
+                <div class="card-stats">
+                    <div class="card-stat">35 Cards</div>
+                    <div class="card-stat">K1-K3</div>
+                </div>
+                <a href="istqb-cards-ch1.html" class="btn-small">Study Now →</a>
+            </div>
+
+            <!-- Chapter 2 -->
+            <div class="chapter-card">
+                <div class="number">2</div>
+                <h3>Testing in SDLC</h3>
+                <p>Test levels, types, and integration with development</p>
+                <div class="card-stats">
+                    <div class="card-stat">40 Cards</div>
+                    <div class="card-stat">K1-K3</div>
+                </div>
+                <a href="istqb-cards-ch2.html" class="btn-small">Study Now →</a>
+            </div>
+
+            <!-- Chapter 3 -->
+            <div class="chapter-card">
+                <div class="number">3</div>
+                <h3>Static Testing</h3>
+                <p>Reviews, analysis, and testing without execution</p>
+                <div class="card-stats">
+                    <div class="card-stat">28 Cards</div>
+                    <div class="card-stat">K1-K3</div>
+                </div>
+                <a href="istqb-cards-ch3.html" class="btn-small">Study Now →</a>
+            </div>
+
+            <!-- Chapter 4 -->
+            <div class="chapter-card">
+                <div class="number">4</div>
+                <h3>Test Design Techniques</h3>
+                <p>Black-box and white-box test design methods</p>
+                <div class="card-stats">
+                    <div class="card-stat">42 Cards</div>
+                    <div class="card-stat">K1-K3</div>
+                </div>
+                <a href="istqb-cards-ch4.html" class="btn-small">Study Now →</a>
+            </div>
+
+            <!-- Chapter 5 -->
+            <div class="chapter-card">
+                <div class="number">5</div>
+                <h3>Test Management</h3>
+                <p>Planning, organization, and communication</p>
+                <div class="card-stats">
+                    <div class="card-stat">35 Cards</div>
+                    <div class="card-stat">K1-K3</div>
+                </div>
+                <a href="istqb-cards-ch5.html" class="btn-small">Study Now →</a>
+            </div>
+
+            <!-- Chapter 6 -->
+            <div class="chapter-card">
+                <div class="number">6</div>
+                <h3>Testing Tools</h3>
+                <p>Tool classification, benefits, and considerations</p>
+                <div class="card-stats">
+                    <div class="card-stat">32 Cards</div>
+                    <div class="card-stat">K1-K3</div>
+                </div>
+                <a href="istqb-cards-ch6.html" class="btn-small">Study Now →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section style="background: rgba(99, 102, 241, 0.05); padding: 3rem 2rem;">
+        <div class="progress-section">
+            <h3>📊 Your Learning Progress</h3>
+            <p style="color: #a5b4fc; margin-bottom: 1rem;">Track your study progress across all chapters</p>
+            
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-value" id="cardsStudied">0</div>
+                    <div class="stat-label">Cards Studied</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="chaptersStarted">0</div>
+                    <div class="stat-label">Chapters Started</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="cardsUnderstood">0</div>
+                    <div class="stat-label">Understood</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="percentComplete">0%</div>
+                    <div class="stat-label">Complete</div>
+                </div>
+            </div>
+
+            <div class="progress-bar" style="--progress: 0%;">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <p style="color: #a5b4fc; font-size: 0.9rem; margin-top: 0.5rem;">Progress is saved to your browser automatically</p>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <h2>📖 Learning Resources</h2>
+        <p style="text-align: center; color: #a5b4fc; margin-bottom: 2rem;">Additional study materials and references</p>
+
+        <div class="resources-grid">
+            <a href="istqb-resources.html" style="text-decoration: none;">
+                <div class="resource-card">
+                    <div class="resource-icon">📚</div>
+                    <h4>Glossary</h4>
+                    <p>50+ testing terms and definitions at your fingertips</p>
+                </div>
+            </a>
+
+            <a href="istqb-resources.html#formulas" style="text-decoration: none;">
+                <div class="resource-card">
+                    <div class="resource-icon">📐</div>
+                    <h4>Formulas & Checklists</h4>
+                    <p>PERT, risk calculation, entry/exit criteria</p>
+                </div>
+            </a>
+
+            <a href="istqb-resources.html#tips" style="text-decoration: none;">
+                <div class="resource-card">
+                    <div class="resource-icon">💡</div>
+                    <h4>Exam Tips</h4>
+                    <p>Strategies for success on exam day</p>
+                </div>
+            </a>
+
+            <a href="istqb-study-guide.html" style="text-decoration: none;">
+                <div class="resource-card">
+                    <div class="resource-icon">📖</div>
+                    <h4>Complete Study Guide</h4>
+                    <p>Full syllabus with detailed explanations</p>
+                </div>
+            </a>
+
+            <a href="istqb-practice.html" style="text-decoration: none;">
+                <div class="resource-card">
+                    <div class="resource-icon">🎯</div>
+                    <h4>Practice Questions</h4>
+                    <p>Unlimited procedurally generated questions</p>
+                </div>
+            </a>
+
+            <a href="#chapters" style="text-decoration: none;">
+                <div class="resource-card">
+                    <div class="resource-icon">🎴</div>
+                    <h4>Study Cards</h4>
+                    <p>212 Anki-style flashcards for active recall</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));">
+        <h2>🚀 Getting Started</h2>
+        
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div style="padding: 1.5rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">1️⃣</div>
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Start with Fundamentals</h3>
+                    <p style="color: #a5b4fc;">Begin with Chapter 1 to build core testing knowledge</p>
+                </div>
+
+                <div style="padding: 1.5rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">2️⃣</div>
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Study with Cards</h3>
+                    <p style="color: #a5b4fc;">Use click-to-reveal flashcards for active recall learning</p>
+                </div>
+
+                <div style="padding: 1.5rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">3️⃣</div>
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Reinforce with Practice</h3>
+                    <p style="color: #a5b4fc;">Take practice quizzes to test your understanding</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <p style="color: #a5b4fc; margin-bottom: 1rem;">📌 All your progress is automatically saved to your browser</p>
+                <a href="#chapters" class="btn btn-primary">Begin Now →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>ISTQB® Learning Platform | Foundation Level Certification</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Based on ISTQB CTFL Syllabus 2024 | All materials for educational purposes</p>
+    </footer>
+
+    <script>
+        // Load progress from localStorage
+        function loadProgress() {
+            const progress = JSON.parse(localStorage.getItem('istqb-progress') || '{}');
+            const stats = {
+                cardsStudied: 0,
+                chaptersStarted: new Set(),
+                cardsUnderstood: 0
+            };
+
+            for (let chapter in progress) {
+                if (progress[chapter].cards && progress[chapter].cards.length > 0) {
+                    stats.chaptersStarted.add(chapter);
+                    for (let card of progress[chapter].cards) {
+                        if (card.studied) stats.cardsStudied++;
+                        if (card.understood) stats.cardsUnderstood++;
+                    }
+                }
+            }
+
+            const total = 212;
+            const percentComplete = Math.round((stats.cardsStudied / total) * 100);
+
+            document.getElementById('cardsStudied').textContent = stats.cardsStudied;
+            document.getElementById('chaptersStarted').textContent = stats.chaptersStarted.size;
+            document.getElementById('cardsUnderstood').textContent = stats.cardsUnderstood;
+            document.getElementById('percentComplete').textContent = percentComplete + '%';
+            
+            document.getElementById('progressBar').style.setProperty('--progress', percentComplete + '%');
+        }
+
+        loadProgress();
+    </script>
+</body>
+</html>

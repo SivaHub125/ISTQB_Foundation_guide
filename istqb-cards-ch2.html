@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Ch2 - Testing in SDLC | Study Cards</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f5f3ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #0f0f23;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover, nav a.active { background: var(--primary); color: white; }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 2rem 2rem;
+        }
+
+        /* Header */
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-header p {
+            color: #a5b4fc;
+            margin-bottom: 1rem;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-group label {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn {
+            padding: 0.4rem 0.8rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Card Display */
+        .card-container {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-number {
+            color: var(--warning);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-front {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-question {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .klevel {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .k1 { background: rgba(16, 185, 129, 0.3); color: var(--success); }
+        .k2 { background: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+        .k3 { background: rgba(245, 158, 11, 0.3); color: var(--warning); }
+
+        .reveal-hint {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .card-back {
+            display: none;
+        }
+
+        .card-back.active {
+            display: block;
+        }
+
+        .card-back.active ~ .card-front {
+            display: none;
+        }
+
+        .card-answer {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-back h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .card-back p {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-back ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-back li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Interactive Diagram */
+        .interactive-diagram {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .test-levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .test-level-btn {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .test-level-btn:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.2));
+            transform: translateY(-2px);
+        }
+
+        .test-level-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .level-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-details {
+            display: none;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .level-details.active {
+            display: block;
+        }
+
+        .level-details h4 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .level-detail-item {
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .level-detail-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            color: var(--warning);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: #a5b4fc;
+            margin-top: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        /* Card Actions */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-reveal {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-reveal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-review {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-review:hover {
+            background: rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-review.marked {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-understood {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-understood:hover {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-understood.marked {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Progress */
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+        }
+
+        .progress-text {
+            color: #a5b4fc;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        .stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #a5b4fc;
+        }
+
+        .stat-item {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 80px 1rem 1rem; }
+            .chapter-header h1 { font-size: 1.5rem; }
+            .card-container { padding: 1.5rem; min-height: 300px; }
+            .card-question { font-size: 1.3rem; }
+            .card-actions { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; }
+            .test-levels-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="istqb-index.html">Hub</a></li>
+            <li><a href="istqb-cards-ch1.html">Ch1: Fundamentals</a></li>
+            <li><a href="istqb-cards-ch2.html" class="active">Ch2: SDLC</a></li>
+            <li><a href="istqb-cards-ch3.html">Ch3: Static Testing</a></li>
+            <li><a href="istqb-cards-ch4.html">Ch4: Test Design</a></li>
+            <li><a href="istqb-cards-ch5.html">Ch5: Management</a></li>
+            <li><a href="istqb-cards-ch6.html">Ch6: Tools</a></li>
+            <li><a href="istqb-resources.html">Resources</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="chapter-header">
+            <h1>📚 Testing in SDLC</h1>
+            <p>Test levels, types, and integration with development</p>
+        </div>
+
+        <div class="progress-info">
+            <span class="progress-text">Chapter Progress</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <span class="stat-item"><span id="reviewed">0</span>/40</span>
+                <span class="stat-item" id="understood-stat" style="display:none;"><span id="understood">0</span> ✓</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="filter-group">
+                <label>Filter by K-Level:</label>
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="K1">K1 (Remember)</button>
+                <button class="filter-btn" data-filter="K2">K2 (Understand)</button>
+                <button class="filter-btn" data-filter="K3">K3 (Apply)</button>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" onclick="previousCard()">← Previous</button>
+            <span style="color: #a5b4fc; font-weight: 600;"><span id="cardNum">1</span> of <span id="totalCards">40</span></span>
+            <button class="nav-btn" id="nextBtn" onclick="nextCard()">Next →</button>
+        </div>
+
+        <div class="card-container" id="cardContainer" onclick="revealCard()">
+            <div class="card-number" id="cardNumber">Card 1 of 40</div>
+            <div class="card-front" id="cardFront">
+                <div class="card-question" id="question">What is a test level?</div>
+                <span class="klevel" id="klevel">K1</span>
+                <div class="reveal-hint">👆 Click to reveal answer</div>
+            </div>
+            <div class="card-back" id="cardBack">
+                <h3>Answer</h3>
+                <div class="card-answer" id="answer"></div>
+            </div>
+            <div class="card-actions">
+                <button class="action-btn btn-reveal" onclick="revealCard(event)">
+                    <span id="revealBtnText">Reveal Answer</span>
+                </button>
+                <button class="action-btn btn-review" id="markReviewBtn" onclick="toggleReview(event)">
+                    📌 Mark for Review
+                </button>
+                <button class="action-btn btn-understood" id="markUnderstoodBtn" onclick="toggleUnderstood(event)">
+                    ✓ Mark Understood
+                </button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="istqb-index.html" style="color: #a5b4fc; text-decoration: none; font-size: 0.9rem;">← Back to Hub</a>
+        </div>
+    </div>
+
+    <!-- Interactive Test Levels Diagram (shown when card 1 is revealed) -->
+    <div class="interactive-diagram" id="testLevelsDiagram" style="display: none; max-width: 900px; margin: 2rem auto;">
+        <h3 style="color: var(--primary); margin-bottom: 1rem; text-align: center;">Interactive: Test Levels in SDLC</h3>
+        <p style="color: #a5b4fc; text-align: center; margin-bottom: 1.5rem;">Click each level to see detailed information</p>
+        
+        <div class="test-levels-grid">
+            <button class="test-level-btn" onclick="toggleTestLevel('component')">
+                <div class="level-icon">🔧</div>
+                <div>Component Testing</div>
+            </button>
+            <button class="test-level-btn" onclick="toggleTestLevel('integration')">
+                <div class="level-icon">🔗</div>
+                <div>Integration Testing</div>
+            </button>
+            <button class="test-level-btn" onclick="toggleTestLevel('system')">
+                <div class="level-icon">🖥️</div>
+                <div>System Testing</div>
+            </button>
+            <button class="test-level-btn" onclick="toggleTestLevel('acceptance')">
+                <div class="level-icon">✅</div>
+                <div>Acceptance Testing</div>
+            </button>
+        </div>
+
+        <div id="component-details" class="level-details">
+            <h4>🔧 Component Testing (Unit Testing)</h4>
+            <div class="level-detail-item">
+                <div class="detail-label">Focus</div>
+                <div class="detail-value">Individual software components, modules, or functions in isolation</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Scope</div>
+                <div class="detail-value">Lowest level of testing, smallest testable unit</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Responsibility</div>
+                <div class="detail-value">Developers (white-box testing)</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Typical Coverage</div>
+                <div class="detail-value">Statement, branch, and path coverage</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Base</div>
+                <div class="detail-value">Detailed design or code</div>
+            </div>
+        </div>
+
+        <div id="integration-details" class="level-details">
+            <h4>🔗 Integration Testing</h4>
+            <div class="level-detail-item">
+                <div class="detail-label">Focus</div>
+                <div class="detail-value">Interactions between components and communication between integrated units</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Scope</div>
+                <div class="detail-value">Multiple components combined, test data flow between modules</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Responsibility</div>
+                <div class="detail-value">Developers and/or testers (can be white or black-box)</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Typical Types</div>
+                <div class="detail-value">Component integration testing, System integration testing</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Base</div>
+                <div class="detail-value">Architecture design, integration plan</div>
+            </div>
+        </div>
+
+        <div id="system-details" class="level-details">
+            <h4>🖥️ System Testing</h4>
+            <div class="level-detail-item">
+                <div class="detail-label">Focus</div>
+                <div class="detail-value">Entire integrated system against specified requirements</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Scope</div>
+                <div class="detail-value">End-to-end functionality, non-functional testing (performance, security)</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Responsibility</div>
+                <div class="detail-value">Independent test team (black-box testing)</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Test Types</div>
+                <div class="detail-value">Functional, non-functional, regression testing</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Base</div>
+                <div class="detail-value">System specification, requirements</div>
+            </div>
+        </div>
+
+        <div id="acceptance-details" class="level-details">
+            <h4>✅ Acceptance Testing</h4>
+            <div class="level-detail-item">
+                <div class="detail-label">Focus</div>
+                <div class="detail-value">System compliance with user needs and business requirements</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Scope</div>
+                <div class="detail-value">Real-world user scenarios, end-to-end processes</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Responsibility</div>
+                <div class="detail-value">Users, business analysts, customer representatives</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Types</div>
+                <div class="detail-value">User Acceptance Testing (UAT), Operational Acceptance Testing (OAT)</div>
+            </div>
+            <div class="level-detail-item">
+                <div class="detail-label">Base</div>
+                <div class="detail-value">User requirements, business processes, acceptance criteria</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CARDS = [
+            {
+                q: "What is a test level?",
+                a: "A test level is a specific stage of testing in the software development lifecycle where testing is performed at a particular granularity. The four main test levels are: Component (unit), Integration, System, and Acceptance testing.",
+                level: "K1",
+                interactive: true
+            },
+            {
+                q: "What is Component Testing (Unit Testing)?",
+                a: "Component testing (or unit testing) is testing individual software components in isolation from other components. It focuses on the smallest testable unit and is typically performed by developers using white-box techniques to verify correct functionality at the unit level.",
+                level: "K1"
+            },
+            {
+                q: "What is Integration Testing?",
+                a: "Integration testing tests the interactions and communication between integrated components or systems. It verifies that components work correctly together, that data is passed correctly between components, and that interfaces function as expected.",
+                level: "K1"
+            },
+            {
+                q: "What is System Testing?",
+                a: "System testing tests the complete, integrated system against specified functional and non-functional requirements. It is performed by independent testers using black-box techniques on the entire system to verify end-to-end functionality.",
+                level: "K1"
+            },
+            {
+                q: "What is Acceptance Testing?",
+                a: "Acceptance testing verifies that the system meets user needs, business requirements, and acceptance criteria. It is typically performed by users, customers, or business representatives to determine if the system is ready for deployment.",
+                level: "K1"
+            },
+            {
+                q: "Distinguish between white-box and black-box testing",
+                a: "White-box testing uses internal code knowledge to design tests (used by developers in component testing). Black-box testing treats the system as a black box and tests based on inputs and outputs without code knowledge (used by testers in system testing).",
+                level: "K2"
+            },
+            {
+                q: "What is regression testing?",
+                a: "Regression testing re-executes previously successful tests after code changes to verify that existing functionality still works and that changes have not introduced new defects. It's crucial after bug fixes or enhancements.",
+                level: "K2"
+            },
+            {
+                q: "What is smoke testing?",
+                a: "Smoke testing is a non-exhaustive test of the most critical functionality to quickly determine if a build is stable enough for more detailed testing. It answers: 'Does the software have obvious defects that would prevent further testing?'",
+                level: "K2"
+            },
+            {
+                q: "What is sanity testing?",
+                a: "Sanity testing checks a specific functionality or defect fix in isolation to ensure it functions as intended before proceeding with full regression testing. It's a targeted test after a bug fix.",
+                level: "K2"
+            },
+            {
+                q: "Define Confirmation Testing (Re-testing)",
+                a: "Confirmation testing re-executes the test cases that previously failed to verify that the defects have been fixed. It's performed after developers fix defects reported by testing.",
+                level: "K2"
+            },
+            {
+                q: "What are the types of functional testing?",
+                a: "Functional testing verifies that software functions according to specifications. Types include: smoke testing, sanity testing, regression testing, and confirmation testing. It tests what the system does.",
+                level: "K2"
+            },
+            {
+                q: "What are examples of non-functional testing?",
+                a: "Non-functional testing tests attributes not related to specific functionality: performance testing, load testing, stress testing, usability testing, security testing, compatibility testing, and portability testing.",
+                level: "K1"
+            },
+            {
+                q: "What is performance testing?",
+                a: "Performance testing measures system responsiveness and stability under various conditions. It determines if the system meets performance requirements like response time, throughput, and resource usage.",
+                level: "K2"
+            },
+            {
+                q: "What is load testing?",
+                a: "Load testing simulates expected user load to verify that the system performs acceptably under normal and peak load conditions. It helps identify performance bottlenecks and maximum capacity.",
+                level: "K2"
+            },
+            {
+                q: "What is stress testing?",
+                a: "Stress testing pushes the system beyond its maximum capacity to observe how it handles extreme conditions. It determines the breaking point and how gracefully the system degrades under stress.",
+                level: "K2"
+            },
+            {
+                q: "What is usability testing?",
+                a: "Usability testing evaluates whether the software is easy to use, intuitive, and meets user expectations for user interface and user experience. It often involves user participation and observations.",
+                level: "K2"
+            },
+            {
+                q: "What is security testing?",
+                a: "Security testing verifies that the system protects against unauthorized access, data breaches, and other security threats. It includes penetration testing, vulnerability scanning, and authentication/authorization testing.",
+                level: "K2"
+            },
+            {
+                q: "What is compatibility testing?",
+                a: "Compatibility testing verifies that the software functions correctly on different platforms, browsers, operating systems, hardware configurations, and software environments.",
+                level: "K2"
+            },
+            {
+                q: "What is the relationship between test levels and test types?",
+                a: "Test levels define when testing occurs (component, integration, system, acceptance). Test types define what is tested (functional, non-functional). The same test type can be applied at different levels.",
+                level: "K2"
+            },
+            {
+                q: "What is the SDLC and its relationship to testing?",
+                a: "The Software Development Lifecycle (SDLC) is the process of developing software. Testing integrates throughout the SDLC phases: requirements, design, implementation, testing, and deployment. Early testing is more cost-effective.",
+                level: "K1"
+            },
+            {
+                q: "What is the Waterfall model?",
+                a: "The Waterfall model is a sequential SDLC approach where each phase completes before the next begins: requirements → design → implementation → testing → deployment. Testing happens late in the cycle.",
+                level: "K1"
+            },
+            {
+                q: "What is Agile testing?",
+                a: "Agile testing integrates testing throughout each sprint/iteration. Testers work continuously with developers, testing features as they're built. Testing is not a separate phase but an ongoing activity.",
+                level: "K1"
+            },
+            {
+                q: "What is DevOps and its impact on testing?",
+                a: "DevOps integrates development and operations with continuous integration/deployment. It requires extensive automation, continuous testing throughout the pipeline, and rapid feedback cycles.",
+                level: "K2"
+            },
+            {
+                q: "What is Continuous Integration (CI)?",
+                a: "CI is the practice of merging code changes frequently (multiple times daily) and automatically running tests. It provides rapid feedback and prevents integration issues.",
+                level: "K2"
+            },
+            {
+                q: "What is Continuous Deployment (CD)?",
+                a: "CD is the practice of automatically deploying tested code changes to production. It requires robust testing, automation, and monitoring to ensure quality and minimize risk.",
+                level: "K2"
+            },
+            {
+                q: "What test levels exist in V-model testing?",
+                a: "The V-model shows that each development phase on the left (requirements, design, implementation) corresponds to a testing phase on the right (acceptance, system, integration, component testing).",
+                level: "K2"
+            },
+            {
+                q: "What is an entry criterion in testing?",
+                a: "Entry criteria specify the conditions that must be met before testing can begin. Examples: test environment ready, test data prepared, code freeze, all prior test phases completed.",
+                level: "K2"
+            },
+            {
+                q: "What is an exit criterion in testing?",
+                a: "Exit criteria specify the conditions that must be met for testing to be considered complete. Examples: planned test cases executed, coverage targets met, critical defects fixed, sign-off received.",
+                level: "K2"
+            },
+            {
+                q: "What is the difference between test strategy and test plan?",
+                a: "Test strategy is high-level, defining overall testing approach and scope. Test plan is detailed, defining specific test activities, resources, schedule, and deliverables for a project.",
+                level: "K2"
+            },
+            {
+                q: "What is Test Driven Development (TDD)?",
+                a: "TDD is a development approach where developers write tests before writing code. The process is: write failing test → write code to pass test → refactor. This ensures code is testable and requirements are clear.",
+                level: "K3"
+            },
+            {
+                q: "What is Behavior Driven Development (BDD)?",
+                a: "BDD extends TDD by using business language to describe test scenarios. It focuses on behavior of the system from the user's perspective. Tests are written in Given-When-Then format.",
+                level: "K3"
+            },
+            {
+                q: "What is the purpose of acceptance criteria?",
+                a: "Acceptance criteria define the specific conditions that the software must meet to be considered acceptable. They are derived from user requirements and serve as the basis for acceptance testing.",
+                level: "K2"
+            },
+            {
+                q: "What is User Acceptance Testing (UAT)?",
+                a: "UAT is testing by actual or representative users to verify that the system meets user requirements and is ready for deployment. It's a form of acceptance testing that validates against real-world usage.",
+                level: "K1"
+            },
+            {
+                q: "What is Operational Acceptance Testing (OAT)?",
+                a: "OAT verifies that operational aspects work correctly: installation procedures, backup/recovery, system administration tasks, and production environment configuration.",
+                level: "K2"
+            },
+            {
+                q: "What is the role of test automation in different test levels?",
+                a: "Component and integration testing are often automated. System and acceptance testing can be automated for regression, but may require manual testing for new scenarios. Automation improves efficiency and consistency.",
+                level: "K2"
+            },
+            {
+                q: "How does risk assessment affect test planning?",
+                a: "Risk assessment identifies high-risk areas that require more testing. Testing effort is allocated based on risk - high-risk components get more test resources and thorough testing.",
+                level: "K3"
+            },
+            {
+                q: "What is the relationship between test coverage and test levels?",
+                a: "Different test levels have different coverage goals. Component testing aims for high code coverage. System testing focuses on requirement coverage. Each level contributes to overall coverage.",
+                level: "K2"
+            },
+            {
+                q: "How should testing be adapted based on the development model?",
+                a: "Waterfall requires sequential testing phases. Agile requires continuous testing in sprints. DevOps requires automated continuous testing. Each model determines when and how testing occurs.",
+                level: "K3"
+            },
+            {
+                q: "What are the challenges of testing in microservices architecture?",
+                a: "Challenges include: distributed system complexity, service dependencies, data consistency, testing contracts between services, and CI/CD pipeline integration requiring extensive automation.",
+                level: "K3"
+            }
+        ];
+
+        let currentIndex = 0;
+        let filteredCards = [...CARDS];
+        let cardProgress = {};
+        const CHAPTER = 'ch2';
+
+        // Initialize card progress
+        function initProgress() {
+            const saved = localStorage.getItem(`istqb-progress-${CHAPTER}`);
+            if (saved) {
+                cardProgress = JSON.parse(saved);
+            } else {
+                CARDS.forEach((_, i) => {
+                    cardProgress[i] = { studied: false, reviewed: false, understood: false };
+                });
+            }
+            updateProgressDisplay();
+        }
+
+        // Load and display current card
+        function loadCard() {
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            
+            document.getElementById('question').textContent = card.q;
+            document.getElementById('answer').textContent = card.a;
+            document.getElementById('klevel').textContent = card.level;
+            document.getElementById('klevel').className = `klevel ${card.level}`;
+            document.getElementById('cardNum').textContent = currentIndex + 1;
+            document.getElementById('totalCards').textContent = filteredCards.length;
+            document.getElementById('cardNumber').textContent = `Card ${currentIndex + 1} of ${filteredCards.length}`;
+
+            // Show/hide interactive diagram
+            if (card.interactive) {
+                setTimeout(() => {
+                    document.getElementById('testLevelsDiagram').style.display = 'none';
+                }, 100);
+            }
+
+            // Reset card back
+            const cardBack = document.getElementById('cardBack');
+            const cardFront = document.getElementById('cardFront');
+            cardBack.classList.remove('active');
+            cardFront.classList.remove('hidden');
+            document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+
+            // Update button states
+            const progress = cardProgress[originalIndex] || {};
+            document.getElementById('markReviewBtn').classList.toggle('marked', progress.reviewed);
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked', progress.understood);
+
+            // Update navigation
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === filteredCards.length - 1;
+
+            updateProgressDisplay();
+        }
+
+        // Reveal answer
+        function revealCard(e) {
+            if (e) e.stopPropagation();
+            const cardBack = document.getElementById('cardBack');
+            const cardFront = document.getElementById('cardFront');
+            
+            if (cardBack.classList.contains('active')) {
+                cardBack.classList.remove('active');
+                cardFront.classList.remove('hidden');
+                document.getElementById('revealBtnText').textContent = 'Reveal Answer';
+                document.getElementById('testLevelsDiagram').style.display = 'none';
+            } else {
+                cardBack.classList.add('active');
+                cardFront.classList.add('hidden');
+                document.getElementById('revealBtnText').textContent = 'Hide Answer';
+                
+                // Show interactive diagram if available
+                if (filteredCards[currentIndex].interactive) {
+                    setTimeout(() => {
+                        document.getElementById('testLevelsDiagram').style.display = 'block';
+                    }, 100);
+                }
+                
+                markStudied();
+            }
+        }
+
+        // Toggle test level details
+        function toggleTestLevel(level) {
+            const details = document.getElementById(level + '-details');
+            document.querySelectorAll('.level-details').forEach(d => {
+                if (d !== details) d.classList.remove('active');
+            });
+            document.querySelectorAll('.test-level-btn').forEach(btn => btn.classList.remove('active'));
+            
+            details.classList.toggle('active');
+            event.target.closest('.test-level-btn').classList.toggle('active');
+        }
+
+        // Mark as studied
+        function markStudied() {
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].studied = true;
+            saveProgress();
+        }
+
+        // Toggle mark for review
+        function toggleReview(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].reviewed = !cardProgress[originalIndex].reviewed;
+            document.getElementById('markReviewBtn').classList.toggle('marked');
+            saveProgress();
+        }
+
+        // Toggle mark understood
+        function toggleUnderstood(e) {
+            e.stopPropagation();
+            const card = filteredCards[currentIndex];
+            const originalIndex = CARDS.indexOf(card);
+            if (!cardProgress[originalIndex]) cardProgress[originalIndex] = {};
+            cardProgress[originalIndex].understood = !cardProgress[originalIndex].understood;
+            document.getElementById('markUnderstoodBtn').classList.toggle('marked');
+            saveProgress();
+            updateProgressDisplay();
+        }
+
+        // Navigation
+        function nextCard() {
+            if (currentIndex < filteredCards.length - 1) {
+                currentIndex++;
+                loadCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard();
+            }
+        }
+
+        // Save progress
+        function saveProgress() {
+            localStorage.setItem(`istqb-progress-${CHAPTER}`, JSON.stringify(cardProgress));
+            let allProgress = JSON.parse(localStorage.getItem('istqb-progress') || '{}');
+            allProgress[CHAPTER] = { cards: Object.values(cardProgress) };
+            localStorage.setItem('istqb-progress', JSON.stringify(allProgress));
+        }
+
+        // Update progress display
+        function updateProgressDisplay() {
+            const reviewed = Object.values(cardProgress).filter(p => p.studied).length;
+            const understood = Object.values(cardProgress).filter(p => p.understood).length;
+            document.getElementById('reviewed').textContent = reviewed;
+            document.getElementById('understood').textContent = understood;
+            const percent = Math.round((reviewed / CARDS.length) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+
+            if (understood > 0) {
+                document.getElementById('understood-stat').style.display = 'inline-block';
+            }
+        }
+
+        // Filter by K-level
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                const filter = e.target.dataset.filter;
+                if (filter === 'all') {
+                    filteredCards = [...CARDS];
+                } else {
+                    filteredCards = CARDS.filter(c => c.level === filter);
+                }
+                
+                currentIndex = 0;
+                loadCard();
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ') {
+                e.preventDefault();
+                revealCard();
+            }
+        });
+
+        // Initialize
+        initProgress();
+        loadCard();
+    </script>
+</body>
+</html>

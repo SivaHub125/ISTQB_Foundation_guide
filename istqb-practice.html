@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Practice Questions - MCQ Quiz</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f5f3ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --bg: #0f0f23;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .nav-brand {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover { background: var(--primary); color: white; }
+
+        .btn-back {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white !important;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--dark) 0%, #312e81 50%, var(--bg) 100%);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #a5b4fc;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .chapter-filter {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .chapter-filter button {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            background: transparent;
+            color: #a5b4fc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .chapter-filter button:hover,
+        .chapter-filter button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-correct { color: var(--success); }
+        .stat-wrong { color: var(--error); }
+        .stat-total { color: var(--warning); }
+
+        .question-card {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .question-number {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .question-chapter {
+            background: rgba(139, 92, 246, 0.3);
+            color: #c4b5fd;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .question-klevel {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .k1 { background: rgba(16, 185, 129, 0.3); color: var(--success); }
+        .k2 { background: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+        .k3 { background: rgba(245, 158, 11, 0.3); color: var(--warning); }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #f1f5f9;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .option:hover:not(.disabled) {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .option.wrong {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .option.disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .option-letter {
+            background: rgba(99, 102, 241, 0.2);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .option.correct .option-letter { background: var(--success); color: white; }
+        .option.wrong .option-letter { background: var(--error); color: white; }
+
+        .explanation {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .explanation.show { display: block; }
+
+        .explanation strong { color: var(--success); }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        .results {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        .results h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--success), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .score-fail {
+            background: linear-gradient(135deg, var(--error), var(--warning));
+            -webkit-background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .controls { flex-direction: column; }
+            .stats { width: 100%; justify-content: space-around; }
+            .container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">📚 ISTQB Practice</div>
+        <div class="nav-links">
+            <a href="istqb-study-guide.html" class="btn-back">← Back to Study Guide</a>
+        </div>
+    </nav>
+
+    <div class="header">
+        <h1>🎯 Practice Questions</h1>
+        <p>Test your knowledge with MCQ questions from all chapters</p>
+    </div>
+
+    <div class="container">
+        <div class="controls">
+            <div class="chapter-filter">
+                <button data-chapter="all" class="active">All</button>
+                <button data-chapter="ch1">Ch 1: Fundamentals</button>
+                <button data-chapter="ch2">Ch 2: SDLC</button>
+                <button data-chapter="ch3">Ch 3: Static</button>
+                <button data-chapter="ch4">Ch 4: Design</button>
+                <button data-chapter="ch5">Ch 5: Management</button>
+                <button data-chapter="ch6">Ch 6: Tools</button>
+            </div>
+            <div class="stats">
+                <span class="stat-correct">✓ <span id="correct-count">0</span></span>
+                <span class="stat-wrong">✗ <span id="wrong-count">0</span></span>
+                <span class="stat-total">Total: <span id="total-count">0</span></span>
+            </div>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="shuffleQuestions()">🔀 Shuffle Questions</button>
+            <button class="btn btn-primary" onclick="showResults()">📊 Show Results</button>
+        </div>
+
+        <div id="results" class="results hidden">
+            <h2>Your Score</h2>
+            <div id="score-display" class="score">0%</div>
+            <p id="score-message" style="margin-top: 1rem; color: #a5b4fc;"></p>
+            <div class="btn-group" style="margin-top: 1.5rem;">
+                <button class="btn btn-primary" onclick="resetQuiz()">🔄 Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== QUESTION GENERATION ENGINE ==========
+        // Concepts and question templates to generate unique questions
+        const questionTemplates = {
+            ch1: {
+                concepts: [
+                    {
+                        concept: "Purpose of Testing",
+                        questions: [
+                            { q: "What is the primary purpose of software testing?", opts: ["To prove that software is completely bug-free", "To assess software quality and reduce the risk of failure", "To debug all code before release", "To document all known defects"], c: 1, exp: "Testing assesses software quality and helps reduce the risk of software failure by discovering defects and evaluating quality." },
+                            { q: "Which of the following is a main objective of testing?", opts: ["Proving absence of defects", "Discovering defects and evaluating quality", "Writing code", "Managing project budget"], c: 1, exp: "Testing aims to discover defects and evaluate software quality." },
+                            { q: "Testing helps to reduce what aspect of software?", opts: ["Development cost only", "Risk of software failure", "Code lines", "Team size"], c: 1, exp: "One key objective of testing is to reduce the risk of software failure." }
+                        ]
+                    },
+                    {
+                        concept: "Verification vs Validation",
+                        questions: [
+                            { q: "Which of the following is a KEY difference between verification and validation?", opts: ["Verification is done by testers, validation by developers", "Verification checks 'are we building the product right?', validation checks 'are we building the right product?'", "They are exactly the same", "Verification is dynamic, validation is static"], c: 1, exp: "Verification answers 'Are we building the product right?' (meeting specs), while Validation answers 'Are we building the right product?' (meeting user needs)." },
+                            { q: "Validation checks if we are building the _____ product?", opts: ["fastest", "right", "cheapest", "biggest"], c: 1, exp: "Validation checks 'Are we building the right product?' addressing actual user needs." },
+                            { q: "Verification focuses on 'Are we building the product _____'?", opts: ["fast", "right", "cheap", "documented"], c: 1, exp: "Verification checks 'Are we building the product right?' against requirements." }
+                        ]
+                    },
+                    {
+                        concept: "Defects and Failures",
+                        questions: [
+                            { q: "An error in code that produces unexpected behavior is called a:", opts: ["Root Cause", "Failure", "Defect", "Impact"], c: 2, exp: "A defect is a flaw in code that causes incorrect behavior. An error is the human mistake, and a failure is the observable incorrect behavior." },
+                            { q: "What is the relationship between error, defect, and failure?", opts: ["They are unrelated", "Error → Defect → Failure", "Failure → Defect → Error", "Defects only occur without errors"], c: 1, exp: "Human Error leads to a Defect in code, which may cause a system Failure." },
+                            { q: "Which term describes the observable incorrect system behavior?", opts: ["Error", "Defect", "Failure", "Bug report"], c: 2, exp: "A Failure is the observable incorrect behavior of the system." }
+                        ]
+                    },
+                    {
+                        concept: "Testing Principles",
+                        questions: [
+                            { q: "Which testing principle states that repeated tests become less effective over time?", opts: ["Presence, not absence", "Exhaustive testing is impossible", "Pesticide Paradox", "Defect clustering"], c: 2, exp: "The Pesticide Paradox (Principle 5) states that if the same tests are repeated, they eventually stop finding new defects." },
+                            { q: "The principle stating that most defects are found in few modules is called:", opts: ["Pesticide Paradox", "Defect Clustering", "Context Dependent", "Early Testing"], c: 1, exp: "Defect Clustering (Principle 4) - Pareto principle: most defects are typically found in a few modules." },
+                            { q: "Which principle suggests testing should start as early as possible in the lifecycle?", opts: ["Context Dependent", "Absence-of-Defects Fallacy", "Early Testing Saves Money", "Exhaustive Testing"], c: 2, exp: "Principle 3 states that finding defects early in the lifecycle saves time and money." }
+                        ]
+                    },
+                    {
+                        concept: "Test Activities",
+                        questions: [
+                            { q: "What is the correct order of the test activities?", opts: ["Execution → Planning → Analysis → Design → Monitoring", "Planning → Analysis → Design → Implementation → Execution", "Analysis → Planning → Design → Execution → Monitoring", "Design → Planning → Analysis → Execution → Completion"], c: 1, exp: "Test activities follow the order: Planning → Monitoring → Analysis → Design → Implementation → Execution → Completion." },
+                            { q: "In which test activity do we determine 'what to test'?", opts: ["Design", "Planning", "Analysis", "Execution"], c: 2, exp: "During Test Analysis, we identify testable features and determine 'what to test'." },
+                            { q: "Test Design focuses on answering:", opts: ["What to test?", "Who to test?", "How to test?", "When to test?"], c: 2, exp: "Test Design is about 'How to test?' - creating detailed test cases." }
+                        ]
+                    },
+                    {
+                        concept: "Testing vs QA",
+                        questions: [
+                            { q: "Testing and Quality Assurance (QA) differ because:", opts: ["Testing is process-oriented, QA is product-oriented", "Testing is product-oriented, QA is process-oriented", "They are the same thing", "QA finds defects, testing prevents them"], c: 1, exp: "Testing is product-oriented (finding defects), while QA is process-oriented (preventing defects through good processes)." },
+                            { q: "Quality Assurance is primarily focused on:", opts: ["Finding defects", "Improving processes", "Running test cases", "Deploying code"], c: 1, exp: "QA is process-oriented and focuses on preventing defects through good processes." },
+                            { q: "Testing is which type of approach?", opts: ["Process-oriented", "Product-oriented", "Budget-oriented", "Schedule-oriented"], c: 1, exp: "Testing is product-oriented, focusing on discovering and evaluating defects in the actual product." }
+                        ]
+                    },
+                    {
+                        concept: "Independence in Testing",
+                        questions: [
+                            { q: "Which of the following is TRUE about independence in testing?", opts: ["Independent testing always produces better results", "Some level of independence is always bad", "Independence ranges from no independence to completely external testing", "Testers should never work with developers"], c: 2, exp: "Independence ranges from no independence (developers test own code) to external testing. Different levels have different benefits." },
+                            { q: "Complete independence in testing means:", opts: ["No developers involved", "Testing by external team", "Testers work alone", "No communication with devs"], c: 1, exp: "Complete independence means an external testing team, fully separate from development." },
+                            { q: "What is a benefit of having independent testers?", opts: ["Faster delivery", "Different perspective catches different defects", "Lower costs", "Less communication"], c: 1, exp: "Independent testers provide a different perspective and catch defects that developers might miss." }
+                        ]
+                    }
+                ]
+            },
+            ch2: {
+                concepts: [
+                    {
+                        concept: "SDLC Models",
+                        questions: [
+                            { q: "In which SDLC model does testing occur parallel to development?", opts: ["Waterfall", "Agile", "V-Model", "Spiral"], c: 2, exp: "The V-Model pairs development phases with corresponding test phases, so testing occurs parallel to development." },
+                            { q: "The Waterfall model is characterized by:", opts: ["Iterative development", "Sequential phases with testing at the end", "Parallel development and testing", "Continuous deployment"], c: 1, exp: "Waterfall is sequential - each phase completes before the next begins, with testing at the end." },
+                            { q: "Agile development practices which of the following?", opts: ["Testing only after all development", "Continuous testing throughout sprints", "Annual testing cycles", "No formal testing"], c: 1, exp: "Agile integrates testing throughout each sprint, enabling continuous testing and early defect detection." }
+                        ]
+                    },
+                    {
+                        concept: "Shift Left",
+                        questions: [
+                            { q: "What does 'Shift Left' mean in testing?", opts: ["Testing should happen at the end of the project", "Testing earlier in the lifecycle", "Moving tests to production", "Reducing the number of tests"], c: 1, exp: "Shift Left means starting testing activities earlier in the SDLC to find defects sooner when they're cheaper to fix." },
+                            { q: "Shift Left testing aims to:", opts: ["Delay defect detection", "Find defects earlier and cheaper", "Reduce test team size", "Minimize documentation"], c: 1, exp: "Shift Left aims to find defects as early as possible when they're less expensive to fix." },
+                            { q: "Testing requirements early in the project exemplifies:", opts: ["Waterfall model", "Late binding", "Shift Left approach", "Regression testing"], c: 2, exp: "Testing requirements during the analysis phase is an example of Shift Left - starting testing early." }
+                        ]
+                    },
+                    {
+                        concept: "Test Levels",
+                        questions: [
+                            { q: "Which test level focuses on interfaces between components?", opts: ["Component testing", "Integration testing", "System testing", "Acceptance testing"], c: 1, exp: "Integration testing focuses on the interfaces and interactions between integrated components." },
+                            { q: "Component testing is primarily the responsibility of:", opts: ["Testers", "Developers", "Business analysts", "Customers"], c: 1, exp: "Component (unit) testing is typically performed by developers on individual components." },
+                            { q: "System testing validates the:", opts: ["Individual components", "Component interfaces", "Complete integrated system against requirements", "Customer acceptance"], c: 2, exp: "System testing verifies the complete integrated system against the requirements." }
+                        ]
+                    },
+                    {
+                        concept: "Test Types",
+                        questions: [
+                            { q: "Which test type evaluates 'how well' the system performs?", opts: ["Functional testing", "Non-functional testing", "Structural testing", "Change-related testing"], c: 1, exp: "Non-functional testing evaluates how well the system performs (performance, usability, security, reliability)." },
+                            { q: "Regression testing is performed to ensure:", opts: ["New functionality works", "Fixed defects don't recur", "Existing functionality still works after changes", "Performance meets requirements"], c: 2, exp: "Regression testing verifies that new changes haven't broken existing functionality." },
+                            { q: "Which testing type confirms that fixes for defects actually work?", opts: ["Regression testing", "Confirmation testing", "Smoke testing", "Acceptance testing"], c: 1, exp: "Confirmation testing (re-testing) verifies that previously identified defects have been fixed." }
+                        ]
+                    },
+                    {
+                        concept: "TDD and Development Practices",
+                        questions: [
+                            { q: "In TDD (Test-Driven Development), what is the correct sequence?", opts: ["Code → Test → Refactor", "Refactor → Test → Code", "RED (failing test) → GREEN (passing code) → REFACTOR", "Test → Code → Deploy"], c: 2, exp: "TDD follows: RED (write failing test first) → GREEN (write minimal code to pass) → REFACTOR (improve code)." },
+                            { q: "The first step in TDD is to:", opts: ["Write the code", "Write a failing test", "Refactor code", "Deploy to production"], c: 1, exp: "TDD starts with writing a test that fails (RED phase), then writing code to make it pass." },
+                            { q: "What does the GREEN phase in TDD involve?", opts: ["Writing tests", "Writing minimal code to pass the test", "Cleaning up the code", "Deploying code"], c: 1, exp: "The GREEN phase involves writing minimal code to make the failing test pass." }
+                        ]
+                    },
+                    {
+                        concept: "CI/CD and DevOps",
+                        questions: [
+                            { q: "Which Agile practice involves automatic testing in the delivery pipeline?", opts: ["Code review", "Retrospective", "DevOps with CI/CD", "Waterfall planning"], c: 2, exp: "DevOps with CI/CD (Continuous Integration/Continuous Deployment) automates testing in the delivery pipeline." },
+                            { q: "Continuous Integration means:", opts: ["Testing only on weekends", "Merging code changes frequently with automated tests", "Integrating once per year", "Manual testing only"], c: 1, exp: "CI involves frequently merging code changes and running automated tests to detect integration issues early." },
+                            { q: "Automated testing in a CI/CD pipeline helps to:", opts: ["Slow down releases", "Catch defects early in the delivery process", "Eliminate the need for testers", "Reduce code quality"], c: 1, exp: "Automated testing in CI/CD pipelines enables early detection of defects and faster, safer releases." }
+                        ]
+                    }
+                ]
+            },
+            ch3: {
+                concepts: [
+                    {
+                        concept: "Static Testing Basics",
+                        questions: [
+                            { q: "Static testing involves:", opts: ["Executing the code", "Running test cases", "Reviews and static analysis without execution", "Testing in production"], c: 2, exp: "Static testing examines work products without executing code, including reviews and static analysis by tools." },
+                            { q: "Which of the following is a static testing activity?", opts: ["Running automated tests", "Code review", "Performance testing", "Load testing"], c: 1, exp: "Code review is a static testing activity done without executing the code." },
+                            { q: "Static analysis tools can detect:", opts: ["Only syntax errors", "Runtime errors only", "Coding standard violations, potential bugs, security issues", "Only memory leaks"], c: 2, exp: "Static analysis tools can find coding standards violations, potential bugs (null pointers), complexity issues, and security vulnerabilities." }
+                        ]
+                    },
+                    {
+                        concept: "Review Types",
+                        questions: [
+                            { q: "Which review type is the MOST formal with trained participants?", opts: ["Informal review", "Walkthrough", "Technical review", "Inspection"], c: 3, exp: "Inspection is the most formal review type, with trained participants, a moderator, and defined process." },
+                            { q: "In a walkthrough, who typically leads the review?", opts: ["The author", "An external reviewer", "Management", "The QA team"], c: 0, exp: "In a walkthrough, the author leads the review to help others understand the work product." },
+                            { q: "An informal review is characterized by:", opts: ["Formal process", "Casual peer review", "Always documented", "Requires training"], c: 1, exp: "Informal reviews are casual peer reviews with quick feedback and minimal formality." }
+                        ]
+                    },
+                    {
+                        concept: "Review Roles",
+                        questions: [
+                            { q: "In a review, who is responsible for facilitating the process?", opts: ["Author", "Reviewer", "Moderator", "Manager"], c: 2, exp: "The Moderator facilitates the review process, ensures rules are followed, and leads the review meeting." },
+                            { q: "The person who writes the code or document being reviewed is the:", opts: ["Moderator", "Reviewer", "Author", "Manager"], c: 2, exp: "The Author is the person who created the work product being reviewed." },
+                            { q: "Who documents the issues found during a review?", opts: ["Author", "Moderator", "Scribe/Recorder", "Reviewer"], c: 2, exp: "The Scribe or Recorder documents the issues and findings from the review." }
+                        ]
+                    },
+                    {
+                        concept: "Work Products",
+                        questions: [
+                            { q: "Which work product can be examined by static testing?", opts: ["Only source code", "Only executable files", "Requirements, designs, code, contracts", "Only test reports"], c: 2, exp: "Static testing can examine any work product: requirements, designs, code, test documentation, contracts, user manuals." },
+                            { q: "Can test documentation be examined through static testing?", opts: ["No, only code", "Yes, test docs are work products", "Only after execution", "Never"], c: 1, exp: "Yes, static testing can examine test documentation, plans, and procedures." },
+                            { q: "Static testing can review:", opts: ["Executable binaries", "Design specifications", "Running applications", "Memory dumps"], c: 1, exp: "Static testing can review design specifications and other documentation without execution." }
+                        ]
+                    },
+                    {
+                        concept: "Review Success Factors",
+                        questions: [
+                            { q: "Success factors for reviews include:", opts: ["Large review teams", "Rushed reviews", "Clear objectives, right participants, small pieces", "No management involvement"], c: 2, exp: "Success factors: clear objectives, right participants (technical + business), small manageable pieces, adequate time, regular process." },
+                            { q: "To ensure review effectiveness, documents should be:", opts: ["Very large", "Small and manageable", "Reviewed quickly", "Not prepared"], c: 1, exp: "Reviewing small, manageable pieces of work is more effective than reviewing large documents." },
+                            { q: "The right participants in a review should include:", opts: ["Only developers", "Technical experts and business stakeholders", "Only managers", "Only QA people"], c: 1, exp: "Reviews should include both technical experts and business stakeholders for comprehensive evaluation." }
+                        ]
+                    }
+                ]
+            },
+            ch4: {
+                concepts: [
+                    {
+                        concept: "Equivalence Partitioning",
+                        questions: [
+                            { q: "Equivalence Partitioning divides input data into:", opts: ["Random groups", "Groups that behave similarly", "Only valid values", "Only invalid values"], c: 1, exp: "Equivalence Partitioning divides input data into groups/partitions that behave similarly, testing one representative from each." },
+                            { q: "In equivalence partitioning, how many test cases are needed for 3 partitions?", opts: ["3", "6", "1", "9"], c: 0, exp: "Equivalence Partitioning requires minimum one test case per partition, so 3 partitions = 3 test cases." },
+                            { q: "Equivalence partitions should:", opts: ["Overlap", "Be distinct and non-overlapping", "Be as large as possible", "Include all values"], c: 1, exp: "Equivalence partitions should be distinct and non-overlapping, with one representative from each." }
+                        ]
+                    },
+                    {
+                        concept: "Boundary Value Analysis",
+                        questions: [
+                            { q: "For input range 18-65 (valid), boundary value analysis tests:", opts: ["18, 35, 65", "17, 18, 65, 66", "10, 20, 60, 70", "18, 19, 64, 65"], c: 1, exp: "BVA tests at boundaries: just below (17), at lower boundary (18), at upper boundary (65), just above (66)." },
+                            { q: "Why are boundary values important in testing?", opts: ["They're in the middle", "Most defects are found at boundaries", "They're random", "They're easy to test"], c: 1, exp: "Most defects occur at boundaries where code logic changes, making boundary testing critical." },
+                            { q: "For age validation (18-65), which test case would catch a boundary defect?", opts: ["Age 40", "Age 18", "Age 50", "Age 30"], c: 1, exp: "Testing boundary values like 18 and 65 will catch off-by-one errors and other boundary defects." }
+                        ]
+                    },
+                    {
+                        concept: "Decision Table Testing",
+                        questions: [
+                            { q: "Decision table testing is useful when:", opts: ["Testing system performance", "Testing combinations of conditions lead to actions", "Testing user interface", "Testing security"], c: 1, exp: "Decision table testing systematically tests combinations of conditions and their corresponding actions." },
+                            { q: "When should decision tables be used in testing?", opts: ["Always", "When there are multiple condition combinations", "Never", "Only for performance"], c: 1, exp: "Decision tables are useful when different combinations of conditions lead to different actions." },
+                            { q: "A decision table helps ensure:", opts: ["Fast execution", "All condition combinations are tested", "No documentation", "Manual testing only"], c: 1, exp: "Decision tables ensure systematic testing of all significant combinations of conditions and actions." }
+                        ]
+                    },
+                    {
+                        concept: "State Transition Testing",
+                        questions: [
+                            { q: "State transition testing is appropriate when:", opts: ["Testing mathematical calculations", "System behavior depends on current state", "Testing database queries", "Testing API responses"], c: 1, exp: "State transition testing is used when system behavior varies depending on its current state (e.g., login states)." },
+                            { q: "Which system would benefit most from state transition testing?", opts: ["Calculator", "Login system with different user states", "File viewer", "Text editor"], c: 1, exp: "Systems with distinct states (logged in, logged out, admin, user, etc.) benefit from state transition testing." },
+                            { q: "In state transition testing, a transition is:", opts: ["A bug", "Moving from one state to another based on events", "A requirement", "A test case"], c: 1, exp: "A transition is a change from one state to another that occurs when a specific event happens." }
+                        ]
+                    },
+                    {
+                        concept: "Code Coverage",
+                        questions: [
+                            { q: "Branch coverage is typically HIGHER than statement coverage because:", opts: ["It's easier to achieve", "Every branch tests both true and false conditions", "It tests fewer paths", "It doesn't require execution"], c: 1, exp: "Branch coverage requires testing each branch direction (true and false), which generally achieves higher coverage than statement coverage." },
+                            { q: "Statement coverage is achieved when:", opts: ["All conditions are tested", "Every statement in the code is executed", "All functions are called", "All errors are found"], c: 1, exp: "Statement coverage means every executable statement in the code has been executed at least once." },
+                            { q: "Which coverage metric is most thorough?", opts: ["Statement coverage", "Branch coverage", "Path coverage", "Line coverage"], c: 2, exp: "Path coverage is the most thorough, testing all possible execution paths through the code." }
+                        ]
+                    },
+                    {
+                        concept: "Black-Box vs White-Box",
+                        questions: [
+                            { q: "Black-box testing techniques are based on:", opts: ["Internal code structure", "Requirements and specifications", "Tester's intuition only", "Previous test data"], c: 1, exp: "Black-box techniques are based on requirements and specifications, without knowledge of internal structure." },
+                            { q: "White-box testing requires knowledge of:", opts: ["User requirements", "Internal code structure", "Business processes", "Customer needs"], c: 1, exp: "White-box testing requires understanding the internal code structure and logic." },
+                            { q: "An advantage of black-box testing is:", opts: ["It requires code access", "It can be done without code knowledge", "It replaces white-box testing", "It's always faster"], c: 1, exp: "Black-box testing can be performed by testers without programming knowledge or code access." }
+                        ]
+                    },
+                    {
+                        concept: "Experience-Based Testing",
+                        questions: [
+                            { q: "Which is an experience-based testing technique?", opts: ["Equivalence Partitioning", "Boundary Value Analysis", "Error Guessing", "Decision Tables"], c: 2, exp: "Error Guessing is an experience-based technique where testers predict defects based on experience and common error patterns." },
+                            { q: "Error guessing relies on:", opts: ["Formal specifications", "Tester experience and intuition", "Code coverage metrics", "Requirements documents"], c: 1, exp: "Error Guessing is based on the tester's experience with common errors and defect patterns." },
+                            { q: "Experience-based testing is most effective when:", opts: ["You have no specifications", "Combined with other techniques", "Used alone", "Never"], c: 1, exp: "Experience-based testing is most powerful when combined with systematic techniques like equivalence partitioning." }
+                        ]
+                    }
+                ]
+            },
+            ch5: {
+                concepts: [
+                    {
+                        concept: "Entry and Exit Criteria",
+                        questions: [
+                            { q: "Entry criteria must be met:", opts: ["After testing begins", "Before testing begins", "During test execution", "At the end of testing"], c: 1, exp: "Entry criteria define conditions that must be met before testing can begin." },
+                            { q: "Exit criteria in testing define:", opts: ["When testing can start", "When testing is complete", "Who can test", "What to test"], c: 1, exp: "Exit criteria define when testing is complete and the test level is finished." },
+                            { q: "Which is an example of entry criteria?", opts: ["Test completed", "Build ready and documented", "Defects found", "Report submitted"], c: 1, exp: "Entry criteria might include 'build is stable and documented' before test execution begins." }
+                        ]
+                    },
+                    {
+                        concept: "Risk Management",
+                        questions: [
+                            { q: "Risk = Probability × Impact describes:", opts: ["Only project risks", "Only product risks", "Both project and product risks", "Only financial risks"], c: 2, exp: "Risk is calculated as probability times impact and applies to both project risks (budget, schedule) and product risks (defects)." },
+                            { q: "Product risk includes:", opts: ["Schedule delays", "Defects in software", "Team conflicts", "Vendor issues"], c: 1, exp: "Product risk refers to risks in the software itself - potential defects and quality issues." },
+                            { q: "Which risk response strategy involves shifting risk to another party?", opts: ["Risk Acceptance", "Risk Mitigation", "Risk Transfer", "Risk Avoidance"], c: 2, exp: "Risk Transfer shifts risk to another party through insurance, outsourcing, warranties, or contractual agreements." }
+                        ]
+                    },
+                    {
+                        concept: "Test Pyramid",
+                        questions: [
+                            { q: "The test pyramid suggests:", opts: ["More E2E tests", "More UI tests", "More unit tests", "Equal tests at all levels"], c: 2, exp: "The test pyramid recommends many unit tests at the base, fewer integration tests, and few E2E/UI tests at the top." },
+                            { q: "At the base of the test pyramid we have:", opts: ["End-to-end tests", "Manual tests", "Unit tests", "GUI tests"], c: 2, exp: "The pyramid base has many fast unit tests, the middle has integration tests, and the top has few E2E tests." },
+                            { q: "E2E tests should be:", opts: ["The majority", "A small portion at the top", "Never used", "Only for developers"], c: 1, exp: "E2E tests are expensive and slow, so should be limited to key user journeys at the pyramid top." }
+                        ]
+                    },
+                    {
+                        concept: "Configuration Management",
+                        questions: [
+                            { q: "Configuration Management ensures:", opts: ["Only code version control", "Only test data management", "Identification, control, and tracking of testware versions", "Only defect tracking"], c: 2, exp: "Configuration Management identifies, controls, and tracks versions of all testware including test plans, cases, scripts, and data." },
+                            { q: "Testware includes:", opts: ["Only test cases", "Test plans, cases, scripts, data, and environment", "Only test environment", "Only defects"], c: 1, exp: "Testware encompasses all artifacts created for testing: plans, cases, scripts, data, and environment." },
+                            { q: "Version control of test scripts helps with:", opts: ["Running tests faster", "Tracking changes and enabling traceability", "Finding defects", "Hiring testers"], c: 1, exp: "Versioning test scripts allows tracking of changes and impact analysis when requirements change." }
+                        ]
+                    },
+                    {
+                        concept: "Test Estimation",
+                        questions: [
+                            { q: "PERT estimation formula is:", opts: ["(Min + Max) / 2", "(O + 4M + P) / 6", "Min × Max / 2", "O + M + P"], c: 1, exp: "PERT = (Optimistic + 4×Most Likely + Pessimistic) / 6, providing a weighted average estimate." },
+                            { q: "What does the 'M' represent in PERT estimation?", opts: ["Minimum", "Most Likely", "Maximum", "Moderate"], c: 1, exp: "In PERT, M represents the Most Likely estimate, weighted 4 times more than optimistic or pessimistic." },
+                            { q: "PERT estimation accounts for:", opts: ["Only best case", "Only worst case", "Uncertainty with three estimates", "No uncertainty"], c: 2, exp: "PERT uses three estimates (optimistic, most likely, pessimistic) to account for uncertainty." }
+                        ]
+                    },
+                    {
+                        concept: "Defect Management",
+                        questions: [
+                            { q: "Which defect workflow status means 'defect is fixed, awaiting verification'?", opts: ["New", "Open", "Deferred", "Fixed"], c: 3, exp: "'Fixed' status indicates the defect has been corrected and is awaiting confirmation testing to verify the fix." },
+                            { q: "A 'New' defect status means:", opts: ["Just discovered", "Already fixed", "Rejected", "Needs analysis"], c: 0, exp: "'New' is the initial status when a defect is first reported." },
+                            { q: "Defect lifecycle includes transitions like:", opts: ["New → Open → Fixed → Closed", "Only New → Closed", "Closed → New", "Fixed → New"], c: 0, exp: "A typical defect lifecycle is: New → Open/Assigned → Fixed → Verification → Closed." }
+                        ]
+                    }
+                ]
+            },
+            ch6: {
+                concepts: [
+                    {
+                        concept: "Testing Tools",
+                        questions: [
+                            { q: "Test tools can:", opts: ["Completely replace skilled testers", "Support but not replace testing activities", "Automatically write all test cases", "Guarantee quality"], c: 1, exp: "Test tools support testing activities but cannot replace skilled testers who provide judgment and context." },
+                            { q: "Which of the following is a benefit of test tools?", opts: ["Reduce need for testers", "Support repetitive tasks", "Guarantee defect-free software", "Replace all manual testing"], c: 1, exp: "Test tools help with repetitive and time-consuming testing activities, allowing testers to focus on critical areas." },
+                            { q: "Test automation tools work best for:", opts: ["One-time tests", "Frequently changing requirements", "Regression tests", "Exploratory testing"], c: 2, exp: "Regression tests are ideal for automation since they're run repeatedly and don't change frequently." }
+                        ]
+                    },
+                    {
+                        concept: "Test Automation Benefits",
+                        questions: [
+                            { q: "FRRSR represents benefits of test automation. What does the first 'R' stand for?", opts: ["Reliable", "Repeatable", "Reusable", "Recoverable"], c: 1, exp: "FRRSR: Faster, Repeatable, Reusable, Saves Cost, Reliable - benefits of test automation." },
+                            { q: "Which is a benefit of automated testing?", opts: ["Replaces manual testing", "Tests run repeatably with same results", "Reduces need for documentation", "Eliminates test planning"], c: 1, exp: "Automated tests provide repeatable execution, ensuring consistent results across multiple runs." },
+                            { q: "Reusable test cases in automation mean:", opts: ["Can't be changed", "Can be used for multiple builds/versions", "Are never executed", "Cannot be documented"], c: 1, exp: "Reusable test automation means scripts can be applied to different versions or builds with minimal modification." }
+                        ]
+                    },
+                    {
+                        concept: "Test Automation Risks",
+                        questions: [
+                            { q: "CMFOW represents risks of test automation. What does 'F' stand for?", opts: ["Failure", "False Sense of Security", "Funding", "Flexibility"], c: 1, exp: "CMFOW: Cost, Maintenance, False Sense of Security, Over-automation, Wrong Candidates - risks of test automation." },
+                            { q: "False sense of security in test automation occurs when:", opts: ["Tests always pass", "You believe automation finds all defects", "Tools are expensive", "Developers automate tests"], c: 1, exp: "False sense of security means believing automated tests guarantee quality when they may miss important scenarios." },
+                            { q: "Over-automation risk means:", opts: ["Too many tools", "Automating tests that shouldn't be", "High team productivity", "Good test coverage"], c: 1, exp: "Over-automation means automating tests that are better done manually (exploratory, one-time scenarios)." }
+                        ]
+                    },
+                    {
+                        concept: "Test Automation Suitability",
+                        questions: [
+                            { q: "Which is a GOOD candidate for automation?", opts: ["One-time tests", "Frequently changing features", "Exploratory testing", "Regression tests"], c: 3, exp: "Regression tests are excellent automation candidates because they need repeated execution and verify existing functionality." },
+                            { q: "When should you NOT automate tests?", opts: ["Always automate", "For one-time tests", "For new features being designed", "For stable regression suites"], c: 1, exp: "One-time tests are poor automation candidates - manual testing is more cost-effective." },
+                            { q: "Tests involving user interface exploration are best done:", opts: ["Fully automated", "Manually and selectively automated", "Never tested", "Only in production"], c: 1, exp: "UI exploratory testing is best done manually; only key UI flows should be automated." }
+                        ]
+                    },
+                    {
+                        concept: "Tool Categories",
+                        questions: [
+                            { q: "Selenium is an example of which tool category?", opts: ["Test Management", "Static Analysis", "Test Execution", "Performance Testing"], c: 2, exp: "Selenium is a test execution tool for automated browser testing of web applications." },
+                            { q: "SonarQube is a tool for:", opts: ["Test execution", "Static analysis", "Performance testing", "Test management"], c: 1, exp: "SonarQube is a static analysis tool for code quality and finding bugs without execution." },
+                            { q: "Test management tools are used for:", opts: ["Writing test code", "Tracking test cases, plans, and defects", "Executing tests", "Analyzing code"], c: 1, exp: "Test management tools help organize, track, and report on test cases, plans, and their execution." }
+                        ]
+                    },
+                    {
+                        concept: "Test Automation Implementation",
+                        questions: [
+                            { q: "When implementing test automation, which approach is recommended?", opts: ["Automate everything immediately", "Start with a pilot project", "Only use free tools", "Avoid CI/CD integration"], c: 1, exp: "Best practice: start with a pilot project to evaluate the tool before full implementation." },
+                            { q: "Before full automation rollout, you should:", opts: ["Test everything at once", "Run a pilot project", "Skip evaluation", "Ignore metrics"], c: 1, exp: "A pilot project helps identify issues, build team skills, and validate the approach before scaling." },
+                            { q: "Successful automation implementation requires:", opts: ["No planning", "Good tool selection and process design", "Avoiding documentation", "Minimal training"], c: 1, exp: "Success requires careful tool selection, clear objectives, team training, and process integration." }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // ========== QUESTION GENERATION FUNCTION ==========
+        function generateQuestionsForChapter(chapter) {
+            const concepts = questionTemplates[chapter].concepts;
+            const generated = [];
+            
+            concepts.forEach(conceptData => {
+                // Randomly select 1-2 questions from each concept
+                const count = Math.random() > 0.5 ? 1 : 2;
+                const selected = conceptData.questions.sort(() => Math.random() - 0.5).slice(0, count);
+                generated.push(...selected);
+            });
+            
+            return generated.map(q => ({
+                chapter: chapter,
+                chapterName: questionTemplates[chapter].name || chapter.replace('ch', 'Ch '),
+                klevel: Math.random() > 0.6 ? 'k1' : (Math.random() > 0.5 ? 'k2' : 'k3'),
+                question: q.q,
+                options: q.opts,
+                correct: q.c,
+                explanation: q.exp
+            }));
+        }
+
+        function generateAllQuestions() {
+            let allQuestions = [];
+            Object.keys(questionTemplates).forEach(chapter => {
+                const chapterQuestions = generateQuestionsForChapter(chapter);
+                allQuestions = allQuestions.concat(chapterQuestions);
+            });
+            return allQuestions.sort(() => Math.random() - 0.5);
+        }
+
+        const questions = generateAllQuestions();
+        
+        // Regenerate questions on every page load to ensure randomness
+        function regenerateQuestions() {
+            return generateAllQuestions();
+        }
+
+        let currentQuestions = regenerateQuestions();
+        let correctCount = 0;
+        let wrongCount = 0;
+        let answeredCount = 0;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            
+            currentQuestions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `q-${index}`;
+                
+                const letters = ['A', 'B', 'C', 'D'];
+                let optionsHtml = q.options.map((opt, i) => `
+                    <div class="option" data-index="${i}" onclick="selectOption(${index}, ${i})">
+                        <span class="option-letter">${letters[i]}</span>
+                        <span>${opt}</span>
+                    </div>
+                `).join('');
+                
+                card.innerHTML = `
+                    <div class="question-header">
+                        <span class="question-number">Q${index + 1}</span>
+                        <span class="question-chapter">${q.chapterName}</span>
+                        <span class="question-klevel ${q.klevel}">${q.klevel.toUpperCase()}</span>
+                    </div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="explanation" id="exp-${index}">
+                        <strong>✓ Correct Answer: ${letters[q.correct]}</strong><br><br>
+                        ${q.explanation}
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            document.getElementById('total-count').textContent = currentQuestions.length;
+            answeredCount = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            updateStats();
+        }
+
+        function selectOption(qIndex, optIndex) {
+            const card = document.getElementById(`q-${qIndex}`);
+            const options = card.querySelectorAll('.option');
+            const explanation = document.getElementById(`exp-${qIndex}`);
+            
+            if (card.querySelector('.option.correct') || card.querySelector('.option.wrong')) {
+                return;
+            }
+            
+            const q = currentQuestions[qIndex];
+            
+            options.forEach(opt => opt.classList.add('disabled'));
+            
+            if (optIndex === q.correct) {
+                options[optIndex].classList.add('correct');
+                correctCount++;
+            } else {
+                options[optIndex].classList.add('wrong');
+                options[q.correct].classList.add('correct');
+                wrongCount++;
+            }
+            
+            explanation.classList.add('show');
+            answeredCount++;
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('wrong-count').textContent = wrongCount;
+        }
+
+        function showResults() {
+            const resultsDiv = document.getElementById('results');
+            const scoreDisplay = document.getElementById('score-display');
+            const scoreMessage = document.getElementById('score-message');
+            
+            const percentage = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+            
+            scoreDisplay.textContent = `${percentage}% (${correctCount}/${answeredCount})`;
+            
+            if (percentage >= 75) {
+                scoreDisplay.classList.remove('score-fail');
+                scoreMessage.textContent = "🎉 Excellent! You're well prepared for the exam!";
+            } else if (percentage >= 60) {
+                scoreDisplay.classList.remove('score-fail');
+                scoreMessage.textContent = "👍 Good effort! Review the topics you missed.";
+            } else if (percentage >= 40) {
+                scoreDisplay.classList.add('score-fail');
+                scoreMessage.textContent = "📚 Keep studying! Focus on the chapters you need to improve.";
+            } else {
+                scoreDisplay.classList.add('score-fail');
+                scoreMessage.textContent = "💪 Don't give up! Review the study guide thoroughly.";
+            }
+            
+            resultsDiv.classList.remove('hidden');
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            document.getElementById('results').classList.add('hidden');
+            shuffleQuestions();
+        }
+
+        function shuffleQuestions() {
+            document.getElementById('results').classList.add('hidden');
+            // Generate completely NEW questions instead of just shuffling old ones
+            currentQuestions = regenerateQuestions();
+            renderQuestions();
+            document.getElementById('questions-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterByChapter(chapter) {
+            document.querySelectorAll('.chapter-filter button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.chapter === chapter);
+            });
+            
+            // Generate fresh questions and filter by chapter
+            const allFresh = regenerateQuestions();
+            
+            if (chapter === 'all') {
+                currentQuestions = allFresh;
+            } else {
+                currentQuestions = allFresh.filter(q => q.chapter === chapter);
+            }
+            
+            document.getElementById('results').classList.add('hidden');
+            renderQuestions();
+        }
+
+        document.querySelectorAll('.chapter-filter button').forEach(btn => {
+            btn.addEventListener('click', () => filterByChapter(btn.dataset.chapter));
+        });
+
+        renderQuestions();
+    </script>
+</body>
+</html>

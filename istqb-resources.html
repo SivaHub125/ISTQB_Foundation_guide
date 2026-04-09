@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTQB Resources - Glossary, Formulas & Exam Tips</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #0f0f23;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover, nav a.active { background: var(--primary); color: white; }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 100px 2rem 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin: 2.5rem 0 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .search-box {
+            display: flex;
+            margin: 2rem 0;
+            gap: 0.5rem;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-box input::placeholder {
+            color: #a5b4fc;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .glossary-item {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s;
+        }
+
+        .glossary-item:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .glossary-term {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .glossary-definition {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .formula-box {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .formula-title {
+            color: var(--success);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .formula-content {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            color: #a5b4fc;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .formula-explanation {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tip-box {
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.02));
+            border-left: 4px solid var(--warning);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .tip-title {
+            color: var(--warning);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-content {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .checklist {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .checklist li {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .checklist li:before {
+            content: "✓ ";
+            color: var(--success);
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .section-nav {
+            position: sticky;
+            right: 2rem;
+            top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-width: 200px;
+        }
+
+        .section-nav a {
+            display: block;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .section-nav a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .key-concepts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 1.25rem;
+            border-radius: 12px;
+        }
+
+        .concept-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-title {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-desc {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            main { padding: 80px 1rem 1rem; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.3rem; }
+            .section-nav { position: static; max-width: 100%; flex-direction: row; margin: 1rem -1rem; }
+            .glossary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="istqb-index.html">Hub</a></li>
+            <li><a href="istqb-study-guide.html">Study Guide</a></li>
+            <li><a href="istqb-practice.html">Practice Quiz</a></li>
+            <li><a href="istqb-resources.html" class="active">Resources</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>📖 ISTQB Learning Resources</h1>
+        <p style="text-align: center; color: #a5b4fc; margin-bottom: 2rem;">Quick reference guides, glossary, formulas, and exam preparation tips</p>
+
+        <!-- GLOSSARY SECTION -->
+        <h2 id="glossary">📚 Comprehensive Glossary (50+ Terms)</h2>
+        
+        <div class="search-box">
+            <input type="text" id="glossarySearch" placeholder="Search glossary terms...">
+        </div>
+
+        <div class="glossary-grid" id="glossaryGrid">
+            <div class="glossary-item">
+                <div class="glossary-term">Acceptance Testing</div>
+                <div class="glossary-definition">Testing to determine if the system meets user needs and acceptance criteria. Performed by users or their representatives.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Case</div>
+                <div class="glossary-definition">A set of input values, execution preconditions, expected results, and execution postconditions to test specific functionality.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Defect</div>
+                <div class="glossary-definition">A flaw or fault in a work product that may cause the software to fail or deviate from specified requirements.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Failure</div>
+                <div class="glossary-definition">The inability of software to perform a required function or deviation from specified behavior.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Error</div>
+                <div class="glossary-definition">A human mistake or action that introduces a defect into the software.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Root Cause</div>
+                <div class="glossary-definition">The fundamental reason why an error was made; identified through root cause analysis.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Coverage</div>
+                <div class="glossary-definition">A measure of the extent to which the test object has been exercised by tests, expressed as a percentage.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Regression Testing</div>
+                <div class="glossary-definition">Testing of previously tested functionality to ensure that changes have not introduced new defects.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Smoke Testing</div>
+                <div class="glossary-definition">A non-exhaustive test to ensure that critical functionality works, determining if a build is stable enough for testing.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Sanity Testing</div>
+                <div class="glossary-definition">Testing a specific function or defect fix in isolation to verify it works as intended.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Equivalence Partitioning</div>
+                <div class="glossary-definition">A test technique that divides input data into partitions where all values behave similarly.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Boundary Value Analysis</div>
+                <div class="glossary-definition">A test technique focusing on testing at the boundaries of input domains where defects often occur.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Decision Table</div>
+                <div class="glossary-definition">A table showing combinations of conditions and corresponding actions for testing business logic.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">State Transition Diagram</div>
+                <div class="glossary-definition">A diagram showing states of a system and transitions between them, used for test design.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Use Case</div>
+                <div class="glossary-definition">A description of interactions between actors and a system to achieve specific goals, used for test design.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Condition</div>
+                <div class="glossary-definition">An aspect of a work product that can be verified by one or more test cases.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Verification</div>
+                <div class="glossary-definition">"Are we building the product right?" - Checking conformance to specifications and requirements.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Validation</div>
+                <div class="glossary-definition">"Are we building the right product?" - Checking conformance to user needs and intended use.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Static Testing</div>
+                <div class="glossary-definition">Testing without executing the software, including reviews, inspections, and static analysis.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Dynamic Testing</div>
+                <div class="glossary-definition">Testing that involves executing the software to observe behavior and identify failures.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Review</div>
+                <div class="glossary-definition">A technique where one or more people examine a work product to find defects and provide feedback.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Inspection</div>
+                <div class="glossary-definition">A formal, documented peer review process with defined roles, process, and metrics.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Walkthrough</div>
+                <div class="glossary-definition">An informal static technique where the author leads a structured review of the work product.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Technical Review</div>
+                <div class="glossary-definition">A formal evaluation by peers to assess correctness and compliance with standards.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Static Analysis</div>
+                <div class="glossary-definition">Automated analysis of code without execution to identify defects and quality issues.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">White-Box Testing</div>
+                <div class="glossary-definition">Testing using internal code knowledge to design tests, achieving high code coverage.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Black-Box Testing</div>
+                <div class="glossary-definition">Testing without code knowledge, based on inputs and outputs, tests the specification.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Level</div>
+                <div class="glossary-definition">A specific stage of testing in the SDLC (component, integration, system, acceptance).</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Type</div>
+                <div class="glossary-definition">The focus of testing (functional, non-functional, regression, confirmation, etc.).</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Component Testing</div>
+                <div class="glossary-definition">Testing individual software components in isolation, typically by developers (unit testing).</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Integration Testing</div>
+                <div class="glossary-definition">Testing interactions between integrated components to verify correct communication.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">System Testing</div>
+                <div class="glossary-definition">Testing the complete integrated system against functional and non-functional requirements.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Risk-Based Testing</div>
+                <div class="glossary-definition">Prioritizing testing based on identified risks, focusing effort on high-risk areas.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Automation</div>
+                <div class="glossary-definition">Using tools to execute tests automatically, improving efficiency and consistency.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">CI/CD</div>
+                <div class="glossary-definition">Continuous Integration and Continuous Deployment; automated build, test, and deployment pipeline.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Environment</div>
+                <div class="glossary-definition">A system environment in which tests are executed, separate from production.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Data</div>
+                <div class="glossary-definition">Input data used for executing test cases, typically created to cover various scenarios.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Metric</div>
+                <div class="glossary-definition">A quantitative measure used to monitor and track testing progress and effectiveness.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Defect Tracking</div>
+                <div class="glossary-definition">The process of recording, monitoring, and managing defects from discovery to resolution.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Entry Criteria</div>
+                <div class="glossary-definition">Conditions that must be met before testing can begin (e.g., test environment ready).</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Exit Criteria</div>
+                <div class="glossary-definition">Conditions that must be met for testing to be considered complete (e.g., planned tests executed).</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Plan</div>
+                <div class="glossary-definition">A detailed document defining test activities, resources, schedule, and deliverables.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Test Strategy</div>
+                <div class="glossary-definition">High-level approach defining overall testing philosophy and scope.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Performance Testing</div>
+                <div class="glossary-definition">Testing to measure system responsiveness, stability, and scalability under various loads.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Security Testing</div>
+                <div class="glossary-definition">Testing to identify vulnerabilities and verify protection against unauthorized access.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Usability Testing</div>
+                <div class="glossary-definition">Testing to evaluate ease of use and user experience of the software.</div>
+            </div>
+        </div>
+
+        <!-- FORMULAS & CHECKLISTS -->
+        <h2 id="formulas">📐 Formulas & Checklists</h2>
+
+        <div class="formula-box">
+            <div class="formula-title">⏱️ PERT (Program Evaluation and Review Technique)</div>
+            <div class="formula-content">Expected Time = (Optimistic + 4 × Most Likely + Pessimistic) / 6</div>
+            <div class="formula-explanation">Used for project scheduling and risk estimation. Weights the most likely estimate more heavily. Useful for test estimation with uncertainty.</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-title">🎯 Risk Assessment Formula</div>
+            <div class="formula-content">Risk Level = Probability × Impact</div>
+            <div class="formula-explanation">Combines likelihood of risk occurring with severity of impact. Helps prioritize testing efforts on high-risk areas.</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-title">📊 Test Coverage Formula</div>
+            <div class="formula-content">Coverage (%) = (Items Tested / Total Items) × 100</div>
+            <div class="formula-explanation">Measures percentage of code, requirements, or paths covered by testing. Common targets: 80% code coverage, 90% requirement coverage.</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-title">🐛 Defect Density Formula</div>
+            <div class="formula-content">Defect Density = Number of Defects / Size of Work Product</div>
+            <div class="formula-explanation">Indicates quality of a work product. Helps identify problem areas and predict remaining defects.</div>
+        </div>
+
+        <h2 style="margin-top: 2rem;">✅ Test Planning Checklist</h2>
+        <ul class="checklist">
+            <li>Define test objectives and scope</li>
+            <li>Identify test levels and types needed</li>
+            <li>Determine test approach and strategy</li>
+            <li>Estimate resources and effort</li>
+            <li>Establish test schedule and milestones</li>
+            <li>Define entry and exit criteria</li>
+            <li>Identify risks and mitigation plans</li>
+            <li>Plan test environment setup</li>
+            <li>Define test data requirements</li>
+            <li>Plan resource allocation</li>
+            <li>Establish communication plan</li>
+            <li>Define test deliverables</li>
+        </ul>
+
+        <h2 style="margin-top: 2rem;">✅ Test Case Design Checklist</h2>
+        <ul class="checklist">
+            <li>Identify test conditions from requirements</li>
+            <li>Apply appropriate test techniques</li>
+            <li>Cover positive scenarios (happy path)</li>
+            <li>Cover negative scenarios (error cases)</li>
+            <li>Test boundary values</li>
+            <li>Test data combinations</li>
+            <li>Include preconditions and setup</li>
+            <li>Define clear expected results</li>
+            <li>Include postconditions and cleanup</li>
+            <li>Review test cases for clarity</li>
+            <li>Ensure traceability to requirements</li>
+            <li>Avoid duplicate test cases</li>
+        </ul>
+
+        <!-- EXAM PREPARATION -->
+        <h2 id="tips">💡 Exam Preparation & Tips</h2>
+
+        <div class="concept-card" style="grid-column: 1 / -1;">
+            <div class="concept-icon">📋</div>
+            <div class="concept-title">ISTQB CTFL Exam Details</div>
+            <div class="concept-desc">
+                <strong>Duration:</strong> 60 minutes | <strong>Questions:</strong> 40 multiple choice | <strong>Pass Score:</strong> 65% (26/40) | <strong>Languages:</strong> Multiple
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="tip-title">🎯 Exam Strategy</div>
+            <div class="tip-content">
+                <strong>Time Management:</strong> 90 seconds per question (~1.5 min). Don't spend too long on difficult questions; mark and return.<br>
+                <strong>Reading Carefully:</strong> Read questions completely; look for "NOT", "EXCEPT", "BEST".<br>
+                <strong>Question Distribution:</strong> Ch1 (10%), Ch2 (15%), Ch3 (10%), Ch4 (20%), Ch5 (20%), Ch6 (5%), SDLC (20%)
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="tip-title">📚 Study Strategy</div>
+            <div class="tip-content">
+                <strong>Start Early:</strong> Begin 4-6 weeks before exam.<br>
+                <strong>Learn Concepts:</strong> Understand testing principles, not just memorize.<br>
+                <strong>Practice Questions:</strong> Take unlimited practice quizzes to identify weak areas.<br>
+                <strong>Review Weak Areas:</strong> Focus on K2 and K3 concepts that require application.<br>
+                <strong>Terminology:</strong> Master ISTQB glossary; exam uses precise terminology.
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="tip-title">🧠 Tricky Concepts to Master</div>
+            <div class="tip-content">
+                <strong>Test vs QA:</strong> Testing finds defects; QA prevents defects through processes.<br>
+                <strong>Verification vs Validation:</strong> Verification = against specs; Validation = against user needs.<br>
+                <strong>Error vs Defect vs Failure:</strong> Error (human mistake) → Defect (flaw in code) → Failure (incorrect behavior).<br>
+                <strong>Static vs Dynamic:</strong> Static = no execution (reviews); Dynamic = with execution.<br>
+                <strong>Test Levels:</strong> Component (developers), Integration (mixed), System (testers), Acceptance (users).
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="tip-title">✍️ Sample Exam Question & Strategy</div>
+            <div class="tip-content">
+                <strong>Question:</strong> "Which of the following is a main objective of testing?"<br>
+                <strong>Options:</strong> A) Fix all defects, B) Reduce risk, C) Guarantee quality, D) Prove software works<br>
+                <strong>Strategy:</strong> Look for realistic answer. A is wrong (testing doesn't fix). C is too absolute (can't guarantee). D is wrong (testing shows presence, not absence). B is correct (risk reduction is a goal).<br>
+                <strong>Key Principle:</strong> Testing shows defects are present; cannot prove absence of defects.
+            </div>
+        </div>
+
+        <h2 style="margin-top: 2rem;">💪 Success Tips</h2>
+        <ul class="checklist">
+            <li>Understand "why" not just "what"</li>
+            <li>Learn by doing (practice tests)</li>
+            <li>Master K2 and K3 concepts (understand + apply)</li>
+            <li>Focus on test techniques and their applications</li>
+            <li>Understand testing within SDLC context</li>
+            <li>Study with other learners for discussion</li>
+            <li>Take full-length practice exams</li>
+            <li>Review explanations for incorrect answers</li>
+            <li>Manage exam anxiety through preparation</li>
+            <li>Arrive early on exam day, relax and focus</li>
+        </ul>
+
+        <h2 style="margin-top: 2rem;">🔗 Quick Reference Summary</h2>
+        <div class="key-concepts">
+            <div class="concept-card">
+                <div class="concept-icon">7️⃣</div>
+                <div class="concept-title">7 Testing Principles</div>
+                <div class="concept-desc">Presence not absence, Exhaustive impossible, Early saves money, Defect clustering, Pesticide paradox, Context dependent, Absence fallacy</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">4️⃣</div>
+                <div class="concept-title">4 Test Levels</div>
+                <div class="concept-desc">Component → Integration → System → Acceptance</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">5️⃣</div>
+                <div class="concept-title">5 Test Activities</div>
+                <div class="concept-desc">Planning, Analysis, Design, Execution, Completion</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">🎯</div>
+                <div class="concept-title">Test Design Techniques</div>
+                <div class="concept-desc">EP, BVA, Decision Tables, State Machines, Use Cases</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>ISTQB Foundation Level Learning Resources | All materials based on ISTQB CTFL Syllabus 2024</p>
+        <p style="margin-top: 0.5rem;">For official certification, visit <strong>istqb.org</strong></p>
+    </footer>
+
+    <script>
+        // Glossary search functionality
+        document.getElementById('glossarySearch').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.glossary-item');
+            
+            items.forEach(item => {
+                const term = item.querySelector('.glossary-term').textContent.toLowerCase();
+                const definition = item.querySelector('.glossary-definition').textContent.toLowerCase();
+                
+                if (term.includes(searchTerm) || definition.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Smooth scrolling for section navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
